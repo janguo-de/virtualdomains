@@ -108,7 +108,8 @@ class VirtualdomainsViewVirtualdomain extends JView
 
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'virtualdomain.xml';
 		$params = new JParameter( $virtualdomain->params, $file );
-
+		$params->addElementPath( JPATH_COMPONENT.DS.'models'.DS.'elements');
+		
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('virtualdomain',		$virtualdomain);
 		$this->assignRef('params',		$params);

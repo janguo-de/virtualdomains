@@ -1,12 +1,12 @@
-<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD component 1.0//EN" "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD plugin 1.0//EN" "http://www.joomla.org/xml/dtd/1.5/plugin-install.dtd">
 <install version="1.5" type="plugin" group="system">
 	<name>System - virtualdomains</name>
+	<creationDate>September 2008</creationDate>	
 	<author>Michael Liebler</author>
-	<creationdate>September 2008</creationdate>
+	<authorEmail>michael-liebler@janguo.de</authorEmail>
+	<authorUrl>www.janguo.de</authorUrl>
 	<copyright>Copyright (C) 2008 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authoremail>michael-liebler@janguo.de</authoremail>
-	<authorurl>www.janguo.de</authorurl>
 	<version>1.5</version>
 	<description>Run virtual domains with different contents from a single Joomla! instance</description>
 	<files>
