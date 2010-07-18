@@ -20,7 +20,9 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.menu');
 jimport('joomla.plugin.plugin');
-
+/*
+ * test
+ */
 class plgSystemVirtualdomains extends JPlugin {
 
 	var $_db = null;
