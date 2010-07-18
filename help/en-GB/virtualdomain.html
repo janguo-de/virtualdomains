@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Jimtawl Hilfe</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+body{
+	font-family: Verdana,Arial,sans-serif;
+	font-size:0.8em;
+	line-height:1.1;
+	background-color:#EEE8D5;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1> Virtual Domains Help</h1>
+<h2>Introduction</h2>
+<p>The idea of Virtual Domains, it is,  to have two or more sites with different design and partially different content and functionality, but without the necessarity to manage consistent content multiple.</p>
+<p>This can be achieved with Joomla in combination with Virtual Domains, by defining for each website/domain a special template and specifying what menu should be the starting point for the site.</p>
+<h2>Example</h2>
+<p>1. Domain<em><strong> main.domain.tld</strong></em> starts with the menu item &quot;<strong>Home</strong>&quot; and the template<strong> ja_purity</strong> is assigned. (Say <strong>Home</strong> is part of the menu &quot;<strong>firstmenu</strong>&quot;).<br />
+</p>
+<p>2. Domain <em><strong>second.domain.tld</strong></em> starts with the menu item &quot;News&quot; and the template 'Beez' is assigned. (Say &quot;<strong>News</strong>&quot; menu item is the blog view of the category &quot;<strong>News</strong>&quot; and part of the menu &quot;<strong>secondmenu</strong>&quot;) .<br />
+</p>
+<p>3.  Both domains should show the menu &quot;<strong>Company</strong>&quot;. (Let's say <strong>Company </strong>contains various links to learn more about our company).<br />
+</p>
+<h2>Practice</h2>
+<ol>
+  <li>Add the required menu items.<br />
+  </li>
+  <li> In the template <strong>ja_purity</strong> define in the file <em>&quot;templateDetails.xml</em>&quot; at the section &quot;<em><strong>positions</strong></em>&quot; a position &quot;<strong>first&quot;</strong>, in the template '<strong>Beez</strong>'  define a position '<strong>second</strong>' and in both templates a position '<strong>company</strong>'. Make sure that the positions are called by the index.php of the templates and are located at the right place (eg: <em>&lt;jdoc:include type=&quot;modules&quot; name=&quot;first&quot; /&gt;</em>)<br />
+  </li>
+  <li>Under Extensions&gt; Modules assign 
+    <ul>
+      <li>to the menu '<strong>firstmenu</strong>' the position <strong>'first</strong>'</li>
+      <li>to the menu '<strong>secondmenu</strong>' the position '<strong>second</strong>' </li>
+      <li>to the menu '<strong>Company</strong>' the position <strong>'company</strong>'<br />
+      </li>
+    </ul>
+  </li>
+  <li>In the plugin virtualdomains define<em><strong> main.domain.tld </strong></em>as the default domain.</li>
+  <li>In the Virtual Domains Manager add the <em><strong>second.domain.tld </strong></em>as item, assign the the template '<strong>Beez</strong>' and the menu item &quot;<strong>News</strong>&quot; as point of start.</li>
+</ol>
+<p>Now each site has a different design, and a separate menu with different content but also a common menu with the same content.</p>
+</body>
+</html>

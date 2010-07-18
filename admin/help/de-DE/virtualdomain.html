@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>Jimtawl Hilfe</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+body{
+	font-family: Verdana,Arial,sans-serif;
+	font-size:0.8em;
+	line-height:1.1;
+	background-color:#EEE8D5;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1> Virtual Domains Hilfe </h1>
+<h2>Einführung</h2>
+<p>Die Idee von Virtual Domains ist es, zwei oder mehr Websites mit unterschiedlichem Design zu haben, deren Inhalt und Funktionalität sich teilweise unterscheidet, ohne jedoch gleichbleibende Inhalte mehrfach verwalten zu müssen.</p>
+<p>Dies lässt sich mit Joomla in Kombination mit Virtual Domains bewerkstelligen, indem man jeder Website/Domain ein eigenes Template zuweist und definiert, welcher Menupunkt als Startpunkt dienen soll.</p>
+<h2>Beispiel</h2>
+<p>1. Domain<em><strong> main.domain.tld</strong></em> startet mit dem Menupunkt &quot;<strong>Startseite</strong>&quot; und erhält das Template <strong>ja_purity</strong>. (Sagen wir &quot;<strong>Startseite</strong>&quot; sei Teil des Menus <strong>&quot;firstmenu</strong>&quot;).</p>
+<p>2. Domain <em><strong>second.domain.tld</strong></em> startet mit dem Menupunkt &quot;<strong>News</strong>&quot; und erhält das Template <strong>beez</strong>. (Sagen wir &quot;<strong>News</strong>&quot; sei Menupunkt, der die Blogansicht der Kategorie &quot;<em><strong>Aktuelles/News</strong></em>&quot; anzeigt und sei Teil des Menus &quot;<strong>secondmenu</strong>&quot;). </p>
+<p>3. Beide Domains sollen das Menu &quot;<strong>Company</strong>&quot; anzeigen. (Sagen wir, <strong>Company</strong> enthält verschiedene Links auf Wissenswertes über unsere Firma).</p>
+<h2>Vorgehen</h2>
+<ol>
+  <li>Legen Sie die oben geforderten Menupunkte an. </li>
+  <li>Definieren Sie im Template '<strong>ja_purity</strong>' in der Datei &quot;<em>templateDetails.xml</em>&quot; in der Sektion &quot;<em><strong>positions</strong></em>&quot; eine Position <strong>'first</strong>', im Template '<strong>beez</strong>' eine Position '<strong>second</strong>' und in beiden Templates eine Position '<strong>company</strong>' und stellen Sie sicher, das in der index.php der Templates die Positionen an der richtigen Stelle aufgerufen werden (z.B: <em>&lt;jdoc:include type=&quot;modules&quot; name=&quot;first&quot; /&gt;</em> )</li>
+  <li>Weisen Sie unter <em><strong>Erweiterungen-&gt;Module</strong></em>
+    <ul>
+      <li>das Menu '<strong>firstmenu</strong>' der Position '<strong>first</strong>' </li>
+      <li>das Menu '<strong>secondmenu</strong>' der Position '<strong>second</strong>' </li>
+      <li>das Menu '<strong>Company</strong>' der Position <strong>'company</strong>'<br />
+      zu.</li>
+    </ul>
+  </li>
+  <li>Tragen Sie im Plugin virtualdomains die Domain <em><strong>main.domain.tld</strong></em> als Standarddomain ein.</li>
+  <li>Legen Sie in der Komponente  <em><strong>second.domain.tld</strong></em> an, weisen sie ihr das Template '<strong>beez</strong>' und den Menupunkt  &quot;<strong>News</strong>&quot; als Startmenupunkt zu.</li>
+</ol>
+<p>Die beiden Websites haben nun unterschiedliche Designs, je ein eigenständiges Menu mit unterschiedlichen Inhalten und ein gemeinsames Menu mit gleichen Inhalten</p>
+</body>
+</html>

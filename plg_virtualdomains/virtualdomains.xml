@@ -1,0 +1,22 @@
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD component 1.0//EN" "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install version="1.5" type="plugin" group="system">
+	<name>System - virtualdomains</name>
+	<author>Michael Liebler</author>
+	<creationdate>September 2008</creationdate>
+	<copyright>Copyright (C) 2008 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authoremail>michael-liebler@janguo.de</authoremail>
+	<authorurl>www.janguo.de</authorurl>
+	<version>1.5</version>
+	<description>Run virtual domains with different contents from a single Joomla! instance</description>
+	<files>
+		<filename plugin="virtualdomains">virtualdomains.php</filename>
+	</files>
+	<params>
+		<param name="std_domain" type="text" default="www.mydomain.tld" label="Standard Domain" description="The Standard Domain" />
+		<param name="noreroute" type="radio" default="" label="Change only template" description="Use Virtual Domains as template switcher only">
+			<option value="">No, point to a menu item</option>
+			<option value="1">Yes, only template</option>
+		</param>	
+	</params>
+</install>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model>
+	<params>			
+			<param name="example" type="text" default="any value" label="Example Param" description="You can define special params, to use them in your components.\n Edit virtualdomain.xml in  administrator/components/com_virtualdomains/models/" />
+	</params>
+	
+</model>

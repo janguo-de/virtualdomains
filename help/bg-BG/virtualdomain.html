@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Jimtawl Hilfe</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<style type="text/css">
+<!--
+body{
+	font-family: Verdana,Arial,sans-serif;
+	font-size:0.8em;
+	line-height:1.1;
+	background-color:#EEE8D5;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1> Помощ за Virtual Domains</h1>
+<h2>Въведение</h2>
+<p>Идеята на Virtual Domains е да имате два или повече сайта с различен дизайн и частично различно съдържание и функционалност, но без необходимостта да управлявате едно и също съдържание няколко пъти.</p>
+<p>Това може да бъде постигнато с Joomla в комбинация с Virtual Domains като определите за всеки от уебсайтовете/домейните определен шаблон и посочите коя връзка от менюто да бъде начална страница на сайта.</p>
+<h2>Пример</h2>
+<p>1. Домейнът<em><strong> main.domain.tld</strong></em> започва с връзка от меню &quot;<strong>Начало</strong>&quot; и с назначен шаблон &quot;<strong>ja_purity</strong>&quot;. (Връзката &quot;<B>Начало</B>&quot; е част от менюто &quot;<strong>firstmenu</strong>&quot;).<br />
+</p>
+<p>2. Домейнът<em><strong> second.domain.tld</strong></em> започва с връзка от меню &quot;<B>Новини</B>&quot; и с назначен шаблон &quot;Beez&quot;. (Връзката &quot;<B>Новини</B>&quot; е блог страница на категорията &quot;<B>Новини</B>&quot; и е част от менюто &quot;<strong>secondmenu</strong>&quot;).<br />
+</p>
+<p>3.  И двата домейна трябва да показват менюто &quot;<strong>Company</strong>&quot;. (Менюто &quot;<B>Company</B>&quot; съдържа различни връзки за вашата фирма).<br />
+</p>
+<h2>Приложение</h2>
+<ol>
+  <li>Добавете необходимите връзки в менютата.<br />
+  </li>
+  <li> В шаблона &quot;<strong>ja_purity</strong>&quot;, във файла <em>&quot;templateDetails.xml</em>&quot;, в секция &quot;<em><strong>positions</strong></em>&quot; добавете позциция &quot;<strong>first&quot;</strong>, в шаблона &quot;<strong>Beez</strong>&quot; добавете позиция &quot;<strong>second</strong>&quot;, а в двата шаблона - позиция &quot;<strong>company</strong>&quot;. Уверете се, че позициите се извикват от index.php файловете в двата шаблона и са поставени на правилните места (напр. <em>&lt;jdoc:include type=&quot;modules&quot; name=&quot;first&quot; /&gt;</em>)<br />
+  </li>
+  <li>В Приложения / Модули поставете 
+    <ul>
+      <li>меню &quot;<strong>firstmenu</strong>&quot; на позиция &quot;<strong>first</strong>&quot;</li>
+      <li>меню &quot;<strong>secondmenu</strong>&quot; на позиция &quot;<strong>second</strong>&quot; </li>
+      <li>меню &quot;<strong><strong><B>Company</B></strong></strong>&quot; на позиция &quot;<strong><strong><B>company</B></strong></strong>&quot;<br />
+      </li>
+    </ul>
+  </li>
+  <li>В добавката Virtual Domains посочете <em><strong>main.domain.tld</strong></em> като основен домейн.</li>
+  <li>В управление на  Virtual Domains добавете <em><strong>second.domain.tld</strong></em> като нов запис, задайте шаблона &quot;<B>Bee<B>z</B></B>&quot; и връзката от менюто &quot;<B>Новини</B>&quot; като начална страница.</li>
+</ol>
+<p>Сега всеки сайт има различен дизайн и отделни менюто с различно съдържание, но също така и едно общо меню с едно и също съдържание.</p>
+</body>
+</html>
