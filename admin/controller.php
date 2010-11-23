@@ -1,205 +1,148 @@
 <?php
 /**
- * @version		$Id: controller.php 10381 2008-06-01 03:35:53Z mliebler $
- * @package		Joomla
- * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * @version		$Id:controller.php 1 2010-10-23Z  $
+ * @author	   	
+ * @package    Virtualdomains
+ * @subpackage Controllers
+ * @copyright  	Copyright (C) 2010, . All rights reserved.
+ * @license 
  */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
- * Virtual Domains  Controller
+ * Virtualdomains Standard Controller
  *
- * @package		Joomla
- * @subpackage	Virtual Domains
- * @since 1.5
+ * @package Virtualdomains   
+ * @subpackage Controllers
  */
-class VirtualDomainsController extends JController
+class VirtualdomainsController extends JController
 {
-	function __construct($config = array())
-	{
-		parent::__construct($config);
 
-		// Register Extra tasks
-		$this->registerTask( 'add',  'display' );
-		$this->registerTask( 'edit', 'display' );
+	protected $_viewname = 'item';
+	protected $_mainmodel = 'item';
+	protected $_itemname = 'Item';    
+
+	/**
+	 * Constructor
+	 */
+		 
+	public function __construct($config = array ()) 
+	{
+		
+		parent :: __construct($config);
+		
+		if (isset($config['viewname'])) $this->_viewname = $config['viewname'];
+		if (isset($config['mainmodel'])) $this->_mainmodel = $config['mainmodel'];
+		if (isset($config['itemname'])) $this->_itemname = $config['itemname']; 		
+		JRequest :: setVar('view', $this->_viewname);
+
 	}
-
-	function display( )
+	
+	/*
+	 * Overloaded Method display
+	 */
+	function display() 
 	{
+
 		switch($this->getTask())
 		{
 			case 'add'     :
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view'  , 'virtualdomain');
+				JRequest::setVar( 'view', $this->_viewname);
 				JRequest::setVar( 'edit', false );
 
-				// Checkout the virtualdomain
-				$model = $this->getModel('virtualdomain');
-				$model->checkout();
 			} break;
 			case 'edit'    :
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view'  , 'virtualdomain');
+				JRequest::setVar( 'view', $this->_viewname);
 				JRequest::setVar( 'edit', true );
 
-				// Checkout the virtualdomain
-				$model = $this->getModel('virtualdomain');
-				$model->checkout();
 			} break;
 		}
-
-		parent::display();
+		parent :: display();
 	}
 
-	function save()
+ 	/**
+	 *stores the item and returnss to previous page 
+	 *
+	 */
+
+	function apply() 
+	{
+		$this-> save();
+	}
+
+	/**
+	 * stores the item
+	 */
+	function save() 
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest :: checkToken() or jexit('Invalid Token');
+		
+		$db = & JFactory::getDBO();  
 
-		$post	= JRequest::get('post');
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$post['id'] = (int) $cid[0];
-
-		$model = $this->getModel('virtualdomain');
-
+		$post = JRequest :: getVar('jform', array(), 'post', 'array');
+		$cid = JRequest :: getVar('cid', array (
+			0
+		), 'post', 'array');
+		$post['id'] = (int) $cid[0];	
+		
+		$model = $this->getModel($this->_mainmodel);
 		if ($model->store($post)) {
-			$msg = JText::_( 'Virtual Domain Saved' );
+			$msg = JText :: _($this->_itemname .' Saved');
 		} else {
-			$msg = JText::_( 'Error Saving Virtual Domain' );
+			$msg = $model->getError(); 
 		}
+        
+		switch ($this->getTask())
+		{
+			case 'apply':
+				$link = 'index.php?option=com_virtualdomains&view='.$this->_viewname.'&task=edit&cid[]='.$model->getId() ;
+				break;
 
-		// Check the table in so it can be edited.... we are done with it anyway
-		$model->checkin();
-		$link = 'index.php?option=com_virtualdomains';
+			case 'save':
+			default:
+				$link = 'index.php?option=com_virtualdomains&view='.$this->_viewname;
+				break;
+		}
+        
+
 		$this->setRedirect($link, $msg);
 	}
 
-	function remove()
+	/**
+	 * remove an item
+	 */		
+	function remove() 
 	{
+		
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest :: checkToken() or jexit('Invalid Token');
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
+		$db = & JFactory::getDBO();  
+		$cid = JRequest :: getVar('cid', array (), 'post', 'array');
+		JArrayHelper :: toInteger($cid);
+		$msg = JText::_($this->_itemname.' deleted');
+		if (count($cid) < 1) {
+			JError :: raiseError(500, JText :: _('Select a '.$this->_itemname.' to delete'));
 		}
-
-		$model = $this->getModel('virtualdomain');
-		if(!$model->delete($cid)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect( 'index.php?option=com_virtualdomains' );
+    	$model = $this->getModel($this->_mainmodel);			
+		if (!$model->delete($cid)) {
+				$msg = $model->getError(); 
+		}		
+		$link = 'index.php?option=com_virtualdomains&view='.$this->_viewname;
+		$this->setRedirect($link, $msg);
 	}
 
-
-	function publish()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to publish' ) );
-		}
-
-		$model = $this->getModel('virtualdomain');
-		if(!$model->publish($cid, 1)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect( 'index.php?option=com_virtualdomains' );
-	}
-
-
-	function unpublish()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to unpublish' ) );
-		}
-
-		$model = $this->getModel('virtualdomain');
-		if(!$model->publish($cid, 0)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect( 'index.php?option=com_virtualdomains' );
-	}
-
-	function cancel()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		// Checkin the virtualdomain
-		$model = $this->getModel('virtualdomain');
-		$model->checkin();
-
-		$this->setRedirect( 'index.php?option=com_virtualdomains' );
-	}
-
-
-	function orderup()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$model = $this->getModel('virtualdomain');
-		$model->move(-1);
-
-		$this->setRedirect( 'index.php?option=com_virtualdomains');
-	}
-
-	function orderdown()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$model = $this->getModel('virtualdomain');
-		$model->move(1);
-
-		$this->setRedirect( 'index.php?option=com_virtualdomains');
-	}
-
-	function saveorder()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
-
-		$model = $this->getModel('virtualdomain');
-		$model->saveorder($cid, $order);
-
-		$msg = 'New ordering saved';
-		$this->setRedirect( 'index.php?option=com_virtualdomains', $msg );
-	}
-}
+}// class
+  
+?>

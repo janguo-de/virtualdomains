@@ -1,59 +1,60 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD component 1.0//EN" "http://www.janguo.de/xml/package-install.dtd">
-<install type="component" version="1.5.0">
+<install type="component" method="upgrade" version="1.5.0">
 	<name>Virtual Domains</name>
-	<creationDate>August 2009</creationDate>	
+	<creationDate>2010-09-25</creationDate>
 	<author>Michael Liebler</author>
-	<authorEmail>michael-liebler@janguo.de</authorEmail>	
-	<authorUrl>www.janguo.de</authorUrl>	
-	<copyright>Copyright (C) 2008 -2009 Open Source Matters. All rights reserved.</copyright>
+	<authorEmail>michael-liebler@janguo.de</authorEmail>
+	<authorUrl>http://www.janguo.de</authorUrl>
+	<copyright>Copyright (C) 2010  Open Source Matters. All rights reserved.</copyright>	
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>0.2.0</version>
-	<description>Hello World</description>
+	<version>1.0 Sulu</version>
+	<description>Multi Domain Support for Joomla</description>
 	<installfile>install.package.php</installfile>
 	<uninstallfile>uninstall.package.php</uninstallfile>
 	<install>
 		<sql>
-			<file driver="mysql" charset="utf8">install.sql</file>
+			<file driver="mysql" charset="utf8">sql/install.mysql.sql</file>
 		</sql>
 	</install>
-	<!-- Uninstall Database Section -->
 	<uninstall>
 		<sql>
-			<file driver="mysql" charset="utf8">uninstall.sql</file>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.sql</file>
 		</sql>
-	</uninstall>			
+	</uninstall>
+	<files>
+	</files>	
 	<administration>
-		<menu>Virtual Domains</menu>
-		<submenu>
-			<menu link="option=com_virtualdomains">Manager</menu>			
-			<menu link="option=com_virtualdomains&amp;view=about">About</menu>
-		</submenu>		
-		<languages folder="admin/language">
-			<language tag="en-GB">en-GB.com_virtualdomains.ini</language>
-			<language tag="de-DE">de-DE.com_virtualdomains.ini</language>	
-			<language tag="bg-BG">bg-BG.com_virtualdomains.ini</language>
-		</languages>
+		<menu link="index.php?option=com_virtualdomains">Virtualdomains</menu>
+			<submenu>
+		  <menu link="option=com_virtualdomains&amp;view=virtualdomain">Virtualdomains</menu>
+		  <menu link="option=com_virtualdomains&amp;view=params">Params</menu>
+		  <menu link="option=com_virtualdomains&amp;view=about">About</menu>
+			</submenu>
 		<files folder="admin">
 			<filename>config.xml</filename>
-			<filename>install.sql</filename>
-			<filename>uninstall.sql</filename>			
 			<filename>admin.virtualdomains.php</filename>
 			<filename>controller.php</filename>
-			<filename>install.package.php</filename>
-			<filename>uninstall.package.php</filename>
+			<filename>index.html</filename>
+			<folder>assets</folder>
+			<folder>joomla</folder>						
+			<folder>controllers</folder>
+			<folder>helpers</folder>
 			<folder>models</folder>
-			<folder>views</folder>
+			<folder>sql</folder>			
 			<folder>tables</folder>
-			<folder>help</folder>			
-		</files>
+			<folder>views</folder>									
+		</files>	
+        <languages folder="admin">
+        	<language tag="en-GB">language/en-GB.com_virtualdomains.ini</language>
+            <language tag="de-DE">language/de-DE.com_virtualdomains.ini</language>            
+		</languages>		
 	</administration>
     <plugins>
         <plugin plugin="virtualdomains" group="system" title="System - Virtualdomains" order="1">
             <files folder="plg_virtualdomains">
-                <filename>virtualdomains.php</filename>
-                <filename>virtualdomains.xml</filename>
+                <file>virtualdomains.php</file>
+                <file>virtualdomains.xml</file>
             </files>
         </plugin>
-    </plugins>	
-	<params />	
+    </plugins>                 	
 </install>

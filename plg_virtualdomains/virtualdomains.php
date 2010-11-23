@@ -25,7 +25,9 @@ jimport('joomla.plugin.plugin');
  */
 class plgSystemVirtualdomains extends JPlugin {
 
-	var $_db = null;
+	private $_db = null;
+	private $_request = array();
+	private $_hostparams = array();
 
 	/**
 	 * Constructor
@@ -34,17 +36,22 @@ class plgSystemVirtualdomains extends JPlugin {
 	 * @param 	array   $config  An array that holds the plugin configuration
 	 * @since	1.0
 	 */
-	function plgSystemVirtualdomains(& $subject, $config) {
+	public function plgSystemVirtualdomains(& $subject, $config) 
+	{
 		$this->_db = JFactory :: getDBO();
 		parent :: __construct($subject, $config);
 	}
 
-	function onAfterInitialise() {
-		global $mainframe;
-
+	/**
+	 *  onAfterInitialise
+	 */				
+	public function onAfterInitialise() 
+	{
+		
+		$app = & JFactory::getApplication();
 		$db = & JFactory :: getDBO();
 
-		if ($mainframe->isAdmin()) {
+		if ($app ->isAdmin()) {
 			return; // Dont run in backend
 		}
 
@@ -60,20 +67,47 @@ class plgSystemVirtualdomains extends JPlugin {
 		$db->setQuery($query);
 		$row = $db->loadObject();
 		
+		// Set Meta Data
+		$this->_hostparams = $this->_getParams($row->params);
+		
+		$config = & JFactory::getConfig();
+		if (is_object($this->_hostparams)) {
+		if (trim($this->_hostparams->get('metadesc'))) {
+			$config->setValue('config.MetaDesc', $this->_hostparams->get('metadesc'));
+		}
+		 if (trim($this->_hostparams->get('keywords'))) {
+		 	$config->setValue('config.MetaKeys', $this->_hostparams->get('keywords'));
+		 } 
+		 if (trim($this->_hostparams->get('metatitle'))) {
+		 	$config->setValue('config.sitename', $this->_hostparams->get('metatitle'));
+		 }
+		 
+		}
 		//return, if no result
 		if (!$row)
 			return;
 		
 		//set the template
 		if ($row->template)
-			$mainframe->setTemplate($row->template);
+			$app->setTemplate($row->template);
 		
 		//Set the route, if necessary 
-		if(!$this->params->get('noreroute'))
-			$this->_reRoute($row, $uri);
+		if (!$this->_reRoute($row, $uri)) { 
+			$this->setActions();
+		}  
 	}
 
-	function _reRoute($row, & $uri) {
+	/**
+	 * 
+	 *  Routes to VD-Hosts home, if necessery
+	 */			
+	
+	private function _reRoute($row, & $uri) 
+	{
+		
+		if ($this->params->get('noreroute')) { 
+			return false;
+		}
 		$db = & JFactory :: getDBO();
 	
 		//get the domains frontpage menu item 
@@ -84,30 +118,45 @@ class plgSystemVirtualdomains extends JPlugin {
 		$menulink = $db->loadResult();
 		if (!$menulink) {
 			//item is lost
-			return;
+			return false;
 		}
+		
 		//check the Item ID, that joomla will return, if we are on frontpage   
 		$query = "SELECT id " .
 		"\n FROM #__menu " .
 		"\n WHERE home = 1 ";
 		$db->setQuery($query);
-		$home = $db->loadResult();
-
+		$orighome = $db->loadResult();
+		
+		$this->_switchMenu($orighome, $row->menuid);		
+		
 		$router = JSite :: getRouter();
 
 		$query_link = $router->parse(clone ($uri));
-		//do nothing, if we are not on frontpage
-	             
-		if (isset ($query_link['Itemid']) and ($query_link['Itemid'] <> $home))
-			return;
+		
+		//do nothing, if we are not on frontpage	             
+		if (isset ($query_link['Itemid']) and ($query_link['Itemid'] <> $orighome)) {
+			return false;
+		}
+		
+		$this->setRequest('Itemid', $row->menuid);
+			
+		$this->setJoomfishLang();
 
 		//rewrite the uri
-		$link = $menulink . "&Itemid=" . $row->menuid;
-
-		//set some global variables
-		$uri->setQuery($link);
+		$link = $menulink . "&Itemid=" . $row->menuid;	
 		
+		//Parse the new Url
 		$parse = parse_url($this->_getBase() . $link);
+
+		//Build the new Query 
+		$request = array();
+		parse_str($parse['query'], $request);
+		$this->_request = array_merge($request, $this->_request);
+		$parse['query'] = JURI::buildQuery($this->_request);
+
+		//Not shure, whether this make sense...
+		//$uri->setQuery($parse['query'] );
 		
 		//rewrite some server environment vars to fool joomla 
 		$_SERVER['QUERY_STRING'] = $parse['query']; 
@@ -115,16 +164,97 @@ class plgSystemVirtualdomains extends JPlugin {
 		$_SERVER['PHP_SELF'] = $this->_getBase() . $parse['path'];
 		$_SERVER['SCRIPT_NAME'] = $this->_getBase() . $parse['path'];		
 		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['DOCUMENT_ROOT']. DS. preg_replace('#[/\\\\]+#', DS, $parse['path']);		
-	
-		$output = array ();
-
-		parse_str($parse['query'] . '&Itemid=' . $home, $output);
-
-		JRequest :: set($output, 'get', false);
-		JRequest :: set($output, 'post', false);
+		
+		//set userdefined actions
+		$this->setActions(1);
+		 
+		JRequest :: set($this->_request, 'get', false);
+		JRequest :: set($this->_request, 'post', false);
+		return true;
 	}
 
-	function _getBase() {
+	/**
+	 * 
+	 *  Method to get the VD-Hosts params
+	 */		
+	
+	private function _getParams($dparams) 
+	{
+			
+	
+		if (isset($dparams)) {					
+			$params = json_decode($dparams);
+			if (!is_object($params)) {
+				$params = json_decode($params);
+			}		
+			$params = JArrayHelper::fromObject($params );
+			$dparams = new JObject();
+			$dparams ->setProperties($params );
+			return $dparams;
+		}
+	}
+
+	/**
+	 * 
+	 *  Method to set userdefined params to $REQUEST or $GLOBALS
+	 */			
+	private function setActions($home=0) 
+	{
+			$db = &JFactory::getDBO();
+			$db ->setQuery('Select * From #__virtualdomain_params Where 1');
+			$result = $db->loadObjectList();		
+			
+			$params = $this->_hostparams->getProperties();
+			if (count($params )) { 
+				for ($i=0;$i<count($result);$i++) {
+					foreach ($params as $key=>$value) {
+						
+						if (!$home && $result[$i]->home) continue;
+						
+						if ($result[$i]->name == $key) {									
+							$value  = urlencode($value);
+							$result[$i]->name = urlencode($result[$i]->name);
+							switch($result[$i]->action) {
+								case 'globals':
+									$GLOBALS[$result[$i]->name] = $value;
+									break;
+								case 'request':
+									 if ($home) {
+									 	$this->setRequest($result[$i]->name, $value);
+									 } else {
+									 	JRequest::setVar($result[$i]->name, $value);
+									 }
+									break;										
+							}							
+						}
+					}
+				} 
+			} 			
+		
+	}
+	
+	/**
+	 * 
+	 *  Method to switch the menu to the VD-hosts home
+	 */		
+	private function _switchMenu($orighome,$newhome) 
+	{
+				
+		$menu = & JSite::getMenu();				
+		$item = & $menu->getItem($newhome);
+		$nohome = & $menu->getItem($orighome);
+		$nohome->home = null;
+		$item->home = 1;
+		$menu->setDefault($newhome);
+		$menu->setActive($newhome);
+	}
+
+	/**
+	 * 
+	 * Method to add or set a var to the request
+	 */		
+	private function _getBase() 
+	{
 		$path = '';
 		if (strpos(php_sapi_name(), 'cgi') !== false && !empty ($_SERVER['REQUEST_URI'])) {
 			//Apache CGI
@@ -141,5 +271,31 @@ class plgSystemVirtualdomains extends JPlugin {
 		$path .= '/';
 		return $path;
 	}
+	
+	/**
+	 * 
+	 * Sets the lang Variable, if not set by Joomfish
+	 */
+	
+	private function setJoomfishLang() 
+	{
+		if (!$this->_hostparams->get('language')) {
+			return;
+		}
+		$jfcookie = JRequest::getVar('jfcookie', null, "COOKIE");		
+		if (isset($jfcookie["lang"]) && $jfcookie["lang"] != "") {
+			return;
+		}		
+		$this->setRequest('lang', $this->_hostparams->get('language'));
+	}
 
+	/**
+	 * 
+	 * Method to add or set a var to the request
+	 */	
+	private function setRequest($var,$value) 
+	{
+		$this->_request[$var] = $value;
+	}
+	
 }

@@ -1,6 +1,7 @@
 <?php
 defined('_JEXEC') or die( 'Restricted access' );
 	JToolBarHelper::title(   JText::_( 'About' ), 'generic.png' );
+	JToolBarHelper::help( 'virtualdomain', 1 ); 
 ?>
 <fieldset class="adminform">
 <legend>About</legend>

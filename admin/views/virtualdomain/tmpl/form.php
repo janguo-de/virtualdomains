@@ -1,117 +1,113 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-
-<?php JHTML::_('behavior.tooltip'); ?>
-
 <?php
-	// Set toolbar items for the page
-	$edit		= JRequest::getVar('edit',true);
-	$text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
-	JToolBarHelper::title(   JText::_( 'Virtual Domains' ).': <small><small>[ ' . $text.' ]</small></small>' );
-	JToolBarHelper::save();
-	if (!$edit)  {
-		JToolBarHelper::cancel();
-	} else {
-		// for existing items the button is renamed `close`
-		JToolBarHelper::cancel( 'cancel', 'Close' );
-	}
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
+
+// Set toolbar items for the page
+$edit		= JRequest::getVar('edit', true);
+$text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
+JToolBarHelper::title(   JText::_( 'Virtualdomain' ).': <small><small>[ ' . $text.' ]</small></small>' );
+JToolBarHelper::apply();
+JToolBarHelper::save();
+if (!$edit) {
+	JToolBarHelper::cancel();
+} else {
+	// for existing items the button is renamed `close`
+	JToolBarHelper::cancel( 'cancel', 'Close' );
+}
+
 ?>
 
 <script language="javascript" type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.adminForm;
-		var pattern = /htt[p|ps]:/g;
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
 
-		// do field validation
-		if (form.domain.value == ""){
-			alert( "<?php echo JText::_( 'Item must have a domain', true ); ?>" );
-		} else if (pattern.test(form.domain.value) == true){
-			alert( "<?php echo JText::_( 'Domain don\'t start width http:', true ); ?>" );
-		} else if (form.template.value == ""){
-			alert( "<?php echo JText::_( 'You must have a Template.', true ); ?>" );
-		} else {
-			submitform( pressbutton );
-		}
+
+	
+function submitbutton(task)
+{
+    var form = document.adminForm;
+    if (task == 'cancel' || document.formvalidator.isValid(form)) {
+		submitform(task);
 	}
+}
 </script>
-<style type="text/css">
-	table.paramlist td.paramlist_key {
-		width: 92px;
-		text-align: left;
-		height: 30px;
-	}
-</style>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
-<div class="col width-50">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
+	 	<form method="post" action="index.php" id="adminForm" name="adminForm">
+	 	<div class="col width-70 fltlft">
+		  <fieldset class="adminform">
+			<legend><?php echo JText::_( 'Details' ); ?></legend>
+							
+				<?php echo $this->form->getLabel('domain'); ?>
+				
+				<?php echo $this->form->getInput('domain');  ?>
+					
+				<?php echo $this->form->getLabel('menuid'); ?>
+				
+				<?php echo $this->form->getInput('menuid');  ?>
+					
+				<?php echo $this->form->getLabel('template'); ?>
+				
+				<?php echo $this->form->getInput('template');  ?>										
+							
+				<?php echo $this->form->getLabel('published'); ?>
+				
+				<?php echo $this->form->getInput('published');  ?>
+			
+						
+          </fieldset>                      
+        </div>
+        <div class="col width-30 fltrt">
+			        
+     		
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Advanced Parameters' ); ?></legend>
+				<table>				
+				<?php 
+					$fieldSets = $this->form->getFieldsets('params');
+					
+					foreach($fieldSets  as $name =>$fieldset):  
+					
+					?>				
+				<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+					<?php if ($field->hidden):  ?>
+						<?php echo $field->input;  ?>
+					<?php else:  ?>
+					<tr>
+						<td class="paramlist_key" width="40%">
+							<?php echo $field->label;  ?>
+						</td>
+						<td class="paramlist_value">
+							<?php echo $field->input;  ?>
+						</td>
+					</tr>
+				<?php endif;  ?>
+				<?php endforeach;  ?>
+			<?php endforeach;  ?>
+			</table>			
+			</fieldset>									
+		
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Custom Parameters' ); ?></legend>
+				<table>				
+				<?php 
+					foreach($this->paramFields  as $field):  ?>
+					<tr>
+						<td class="paramlist_key" width="40%">
+							<label id="jform_params_<?php echo $field->name; ?>-lbl" for="jform_params_<?php echo $field->name; ?>"><?php echo $field->name; ?></label>							
+						</td>
+						<td class="paramlist_value">
+							<input type="text" name="jform[params][<?php echo $field->name; ?>]" id="jform_<?php echo $field->name; ?>" value="<?php echo $field->value ?>" class="inputbox" size="20"/>
+						</td>
+					</tr>
+				<?php endforeach;  ?>
 
-		<table class="admintable">
-		<tr>
-			<td width="100" align="right" class="key">
-				<label for="domain" class="hasTip" title="Enter your virtual domain (e.g.: www.mydomain.de). ">
-					Domain <?php echo JText::_( 'Name' ); ?>:
-				</label>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="domain" id="domain" size="32" maxlength="250" value="<?php echo $this->virtualdomain->domain;?>" />
-			</td>
-		</tr>
-		<tr>
-			<td width="100" align="right" class="key">
-				<label for="alias" class="hasTip" title="Select the template, you have set up for your virtual domain .">
-					<?php echo JText::_( 'Template' ); ?>:
-				</label>
-			</td>
-			<td>
-				<?php echo $this->lists['template']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="right" class="key">
-				<?php echo JText::_( 'Published' ); ?>:
-			</td>
-			<td>
-				<?php echo $this->lists['published']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="right" class="key">
-				<label for="menuid" class="hasTip" title="Select the menu, that acts as homepage/starting point for your virtual domain .">
-					<?php echo JText::_( 'Menu' ); ?>:
-				</label>
-			</td>
-			<td>
-				<?php echo $this->lists['menu']; ?>
-			</td>
-		</tr>
+			</table>			
+			</fieldset>									
 
-	</table>
-	</fieldset>
-</div>
-<div class="col width-50">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
-
-		<table class="admintable">
-		<tr>
-			<td colspan="2">
-				<?php echo $this->params->render();?>
-			</td>
-		</tr>
-		</table>
-	</fieldset>
-</div>
-
-
-<div class="clr"></div>
-
-	<input type="hidden" name="option" value="com_virtualdomains" />
-	<input type="hidden" name="cid[]" value="<?php echo $this->virtualdomain->id; ?>" />
-	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
-</form>
+        </div>                   
+		<input type="hidden" name="option" value="com_virtualdomains" />
+	    <input type="hidden" name="cid[]" value="<?php echo $this->item->id ?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="view" value="virtualdomain" />
+		<?php echo JHTML::_( 'form.token' ); ?>
+	</form>

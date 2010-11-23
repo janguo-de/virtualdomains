@@ -1,76 +1,76 @@
 <?php
 /**
- * @version 	$Id: virtualdomains.php 10381 2009-14-08 12:35:53Z mliebler $
- * @package		Virtualdomains
- * @subpackage	Virtualdomains
- * @author     	Michael Liebler {@link http://www.janguo.de}
- * @copyright	Copyright (C) 2008 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Virtualdomains is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
+ * * @version		$Id:virtualdomain.php  1 2010-09-24 23:14:34Z  $
+ * @package		Virtualdomain
+ * @subpackage 	Tables
+ * @copyright	Copyright (C) 2010, . All rights reserved.
+ * @license #
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-
+/**
+ * Jimtawl TableVirtualdomain class
+ * 
+ * @package		Virtualdomain
+ * @subpackage	Tables
+ */
 
 class TableVirtualdomain extends JTable
 {
-	/** @var int */
-	var $id					= null;
 
-	/** @var string */
-	var $domain				= null;
+	public $id = null;
 
-	/** @var int */
-	var $menuid				= null;
-	
-	/** @var string */
-	var $template			= '';
+	/** @var  domain  **/
+	public $domain = null;
 
-	/** @var int */
-	var $published 			= null;
+	/** @var  published  **/
+	public $published = null;
 
-	/** @var boolean */
-	var $checked_out 		= 0;
+	/** @var  checked_out  **/
+	public $checked_out = null;
 
-	/** @var time*/
-	var $checked_out_time 	= 0;
+	/** @var  checked_out_time  **/
+	public $checked_out_time = "0000-00-00 00:00:00";
 
-	/** @var int */
-	var $ordering 			= null;
-		
-	/** @var string */
-	var $params				= '';
+	/** @var  params  **/
+	public $params = null;
 
-	/** Constructor **/
+	/** @var  ordering  **/
+	public $ordering = null;
 
-	function __construct( &$_db )
-	{
-		parent::__construct( '#__virtualdomain', 'id', $_db );
+	/** @var  menuid  **/
+	public $menuid = null;
 
-	}
+	/** @var  template  **/
+	public $template = null;
+
+
 	/**
-	* Overloaded bind function
-	*
-	* @acces public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	*/
-	function bind($array, $ignore = '')
+	 * Constructor
+	 *
+	 * @param object Database connector object
+	 * @since 1.0
+	 */
+	public function __construct(& $db)
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
-		{
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
+		parent::__construct('#__virtualdomain', 'id', $db);
+	}
 
+	/**
+	 * Overloaded bind function
+	 *
+	 * @acces public
+	 * @param array $hash named array
+	 * @return null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see JTable:bind
+	 * @since 1.5
+	 */
+	public function bind($array, $ignore = '')
+	{		
+		
+		$array['params'] = json_encode($array['params']);
 		return parent::bind($array, $ignore);
 	}
 
@@ -79,29 +79,23 @@ class TableVirtualdomain extends JTable
 	 *
 	 * @access public
 	 * @return boolean True on success
+	 * @since 1.0
 	 */
-	function check()
+	public function check()
 	{
+		if ($this->id === 0) {
+			//get next ordering
 
-
-		/** check for valid name */
-		if (trim($this->domain) == '') {
-			$this->setError(JText::_('Your Virtual Domain must contain a domain').'.');
-			return false;
+			$this->ordering = $this->getNextOrder();
 		}
 
-		/** check for existing name */
-		$query = 'SELECT id FROM #__virtualdomain WHERE domain = '.$this->_db->Quote($this->domain);
-		$this->_db->setQuery($query);
+	/** check for valid name */
 
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id)) {
-			$this->setError(JText::sprintf('WARNNAMETRYAGAIN', JText::_('Virtual Domain Link')));
+		if (trim($this->domain) == '') {
+			$this->setError(JText::_('Your Domain must have a name.'));
 			return false;
 		}
 
 		return true;
 	}
 }
-?>
-

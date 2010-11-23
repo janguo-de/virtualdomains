@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields>
+
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"/>							
+															
+		<field
+			id="domain"
+			name="domain"
+			type="text"
+			required="true"
+			validate="host"
+			label="Host_Name"
+			description="hostname_Desc"
+			class="inputbox"
+			size="40"/>						
+													
+		<field
+			id="published"
+			name="published"
+			type="list"
+			class="inputbox"
+			default="1"
+			size="1"
+			label="JField_Published_Label"
+			description="JField_Published_Desc">
+			<option
+				value="1">
+				JOption_Published</option>
+			<option
+				value="0">
+				JOption_UnPublished</option>
+			<option
+				value="-1">
+				JOption_Archived</option>
+			<option
+				value="-2">
+				JOption_Trashed</option>
+		</field>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"/>						  
+							
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"/>						  
+
+		<field
+			name="ordering"
+			type="hidden"
+			filter="unset"/>						  
+								
+		<field
+			id="menuid"
+			name="menuid"
+			type="menu"
+			required="false"
+			label="Menuid"
+			description="menuid_Desc"
+			class="inputbox"
+			size="15"/>						
+								
+		<field
+			id="template"
+			name="template"
+			type="templates"
+			required="false"
+			label="Template"
+			description="template_Desc"
+			class="inputbox"
+			size="10"/>						
+								
+	</fields>	
+		
+	<fields name="params">
+		<fieldset
+			name="basic">
+			<field
+				name="language"
+				type="languages"
+				class="inputbox"
+				size="1"
+				default=""
+				client="Site"
+				label="Language"
+				description="Language_Desc">
+				<option
+				value="">
+				Select Language</option>
+				
+			</field>											
+			<field
+				name="metadesc"
+				type="textarea"
+				class="textarea"
+				rows="5"
+				cols="20"
+				default=""
+				label="Meta Description"
+				description="Params_Metadesc_Desc">
+			</field>						
+
+			<field
+				name="keywords"
+				type="textarea"
+				class="textarea"
+				rows="5"
+				cols="20"
+				default=""
+				label="Keywords"
+				description="Params_Keywords_Desc">
+			</field>		
+		</fieldset>
+	</fields>
+		
+</form>	
