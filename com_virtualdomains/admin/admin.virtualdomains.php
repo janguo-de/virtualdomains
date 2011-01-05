@@ -31,6 +31,7 @@ $controller = JRequest::getWord('view', 'virtualdomain');
 
 //add submenu for 1.6
 if ($jv->RELEASE > 1.5) {
+	require_once( JPATH_COMPONENT.DS.'helpers'.DS.'virtualdomains.php' );
 	VirtualdomainsHelper::addSubmenu($controller);	
 }
 

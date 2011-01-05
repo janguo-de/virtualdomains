@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="package_vd_build" default="build">
+	<target name="clean">
+		<echo msg="Cleaning directories" />
+		<delete dir="packages" includeemptydirs="true" />
+		<delete file="pkg_virtualdomains.zip" />
+	</target>
+
+	<target name="build">
+		<echo msg="Building package" />
+		<mkdir dir="packages" />
+		<copy file="build_1.6/com_virtualdomains.xml" tofile="com_virtualdomains/com_virtualdomains.xml" overwrite="true"/>
+		<zip destfile="packages/com_virtualdomains.zip" basedir="com_virtualdomains" />
+		<zip destfile="packages/plg_virtualdomains.zip" basedir="plg_virtualdomains" />
+		<copy file="build_1.6/pgk_virtualdomains.xml" tofile="pgk_virtualdomains.xml" overwrite="true"/>						
+		<zip destfile="pkg_virtualdomains.zip">
+			<fileset dir=".">
+				<include name="packages/**" />
+				<include name="pgk_virtualdomains.xml" />
+			</fileset>
+		</zip>
+		<delete file="pgk_virtualdomains.xml" />
+	</target>
+	
+	<target name="build-15">
+		<echo msg="Building package 1.5." />
+		<copy file="build_1.5/com_virtualdomains.xml" tofile="com_virtualdomains/com_virtualdomains.xml" overwrite="true"/>
+		<copy file="install.package.php" tofile="com_virtualdomains/install.package.php" overwrite="true"/>
+		<mkdir dir="com_virtualdomains/plg_virtualdomains" />
+		<copy todir="com_virtualdomains/plg_virtualdomains"  overwrite="true">
+		  <fileset dir="plg_virtualdomains">
+		    <include name="**/*.*" />
+		  </fileset>
+		</copy>
+		<copy file="uninstall.package.php" tofile="com_virtualdomains/uninstall.package.php" overwrite="true"/>
+		<zip destfile="virtualdomains.zip" basedir="com_virtualdomains" />		
+		<delete file="com_virtualdomains/install.package.php" />
+		<delete file="com_virtualdomains/uninstall.package.php" />
+		<delete dir="com_virtualdomains/plg_virtualdomains" includeemptydirs="true" />
+	</target>	
+</project>

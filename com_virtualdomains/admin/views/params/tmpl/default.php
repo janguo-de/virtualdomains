@@ -3,8 +3,6 @@
 defined('_JEXEC') or die('Restricted access');
 
   JToolBarHelper::title( JText::_( 'Params' ), 'generic.png' );
-  JToolBarHelper::publishList();
-  JToolBarHelper::unpublishList();
   JToolBarHelper::deleteList();
   JToolBarHelper::editListX();
   JToolBarHelper::addNewX();
@@ -37,7 +35,8 @@ defined('_JEXEC') or die('Restricted access');
 
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'Name', 'a.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-				</th>								<th class="title">
+				</th>								
+				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'Id', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 				</th>				
 			</tr>
@@ -65,8 +64,7 @@ defined('_JEXEC') or die('Restricted access');
     
  	$link = JRoute::_( 'index.php?option=com_virtualdomains&view=params&task=edit&cid[]='. $row->id );
  	$row->id = $row->id; 	
- 	$checked = JHTML::_('grid.id', $i, $row->id); 	
-  	$published = JHTML::_('grid.published', $row, $i ); 	
+ 	$checked = JHTML::_('grid.id', $i, $row->id); 
  	
   ?>
 	<tr class="<?php echo "row$k"; ?>">

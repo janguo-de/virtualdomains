@@ -1,0 +1,60 @@
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD component 1.0//EN" "http://www.janguo.de/xml/package-install.dtd">
+<install type="component" method="upgrade" version="1.5.0">
+	<name>Virtual Domains</name>
+	<creationDate>2010-09-25</creationDate>
+	<author>Michael Liebler</author>
+	<authorEmail>michael-liebler@janguo.de</authorEmail>
+	<authorUrl>http://www.janguo.de</authorUrl>
+	<copyright>Copyright (C) 2010  Open Source Matters. All rights reserved.</copyright>	
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.0 Sulu</version>
+	<description>Multi Domain Support for Joomla</description>
+	<installfile>install.package.php</installfile>
+	<uninstallfile>uninstall.package.php</uninstallfile>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.sql</file>
+		</sql>
+	</uninstall>
+	<files>
+	</files>	
+	<administration>
+		<menu link="index.php?option=com_virtualdomains">Virtualdomains</menu>
+			<submenu>
+		  <menu link="option=com_virtualdomains&amp;view=virtualdomain">Virtualdomains</menu>
+		  <menu link="option=com_virtualdomains&amp;view=params">Params</menu>
+		  <menu link="option=com_virtualdomains&amp;view=about">About</menu>
+			</submenu>
+		<files folder="admin">
+			<filename>config.xml</filename>
+			<filename>admin.virtualdomains.php</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<folder>assets</folder>
+			<folder>joomla</folder>						
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>sql</folder>			
+			<folder>tables</folder>
+			<folder>views</folder>									
+		</files>	
+        <languages folder="admin">
+        	<language tag="en-GB">language/en-GB.com_virtualdomains.ini</language>
+            <language tag="de-DE">language/de-DE.com_virtualdomains.ini</language>            
+		</languages>		
+	</administration>
+    <plugins>
+        <plugin plugin="virtualdomains" group="system" title="System - Virtualdomains" order="1">
+            <files folder="plg_virtualdomains">
+                <file>virtualdomains.php</file>
+                <file>virtualdomains.xml</file>
+            </files>
+        </plugin>
+    </plugins>                 	
+</install>

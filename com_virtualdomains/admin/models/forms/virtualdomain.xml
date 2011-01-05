@@ -85,7 +85,7 @@
 			name="basic">
 			<field
 				name="language"
-				type="languages"
+				type="language"
 				class="inputbox"
 				size="1"
 				default=""

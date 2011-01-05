@@ -27,6 +27,31 @@ $query = "UPDATE #__components set link='' WHERE `option` = 'com_virtualdomains'
 $db->setQuery($query);
 $db->query();
 
+//check if table virtualdomain already exists 
+
+$is_update = in_array($db->getPrefix().'virtualdomain', $db->getTableList());
+
+//prepare the new json parameters 
+if ($is_update ) {
+
+	$found_params = array();
+	$query = "SELECT COUNT( * ) FROM #__virtualdomain WHERE SUBSTRING( `params` , 1, 1 ) = '{'";
+	$db->setQuery($query);
+	$newParams=$db->loadResult();
+	if (!$newParams) {
+		$query = "SELECT * FROM #__virtualdomain";
+		$db->setQuery($query);
+		$rows=$db->loadObjectList();
+		for ($i=0;$i<count($rows);$i++) {
+			$obj = new JParameter($rows[$i]->params);
+			$params = json_encode($obj->toArray());
+			$found_params = array_merge($found_params, $obj->toArray());
+			$query = "UPDATE #__virtualdomain SET `params`=".$db->Quote($params)." WHERE id = ".(int) $rows[$i]->id;
+			$db->setQuery($query);
+			$db->query();
+		} 
+	}	
+}
 
 /***********************************************************************************************
 * ---------------------------------------------------------------------------------------------
@@ -171,6 +196,24 @@ $rows = 0;
 ?>
 
 <h2>Virtual Domains Installation</h2>
+<?php
+	if (isset($found_params) && count($found_params)) { 
+		?>
+		<span style="color:red;font-size:1.4em">Attention! Found custom parameters in virtualdomains table.<br /> 
+		Please go to <a href="index.php?option=com_virtualdomains&view=params">Virtualdomains-&gt;Params</a> and add the following parameters manually:</span>
+		<ul>
+		<?php
+		foreach ($found_params as $key => $value) {
+			echo '<li>'.$key.'</li>';
+		}
+		?>
+		</ul>
+		<span style="color:red">
+			You can ignore this notice, if you don't use the parameters above.
+		</span>
+		<?php
+	}
+?>		
 <table class="adminlist">
 	<thead>
 		<tr>

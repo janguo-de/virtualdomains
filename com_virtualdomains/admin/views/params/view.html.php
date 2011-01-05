@@ -41,6 +41,10 @@ class VirtualdomainsViewParams  extends JView {
 		$lists['search'] = $search;
 		$items = $this->get('Data');
 		
+		//user ordering
+		$lists['order_Dir'] =$filter_order_Dir;
+		$lists['order'] =$filter_order;
+				
 		//pagination
 		$pagination = & $this->get( 'Pagination' );
 		

@@ -86,10 +86,17 @@ class plgSystemVirtualdomains extends JPlugin {
 		//return, if no result
 		if (!$row)
 			return;
-		
+					
 		//set the template
-		if ($row->template)
-			$app->setTemplate($row->template);
+		if ($row->template) {
+			$jv = new JVersion();
+			//let 1.6 set the template by itself - otherwise the templates params won't be set  
+			if ($jv->RELEASE > 1.5) {
+				JRequest::setVar('template', $row->template);
+			} else {
+				$app->setTemplate($row->template);	
+			}
+		}
 		
 		//Set the route, if necessary 
 		if (!$this->_reRoute($row, $uri)) { 
