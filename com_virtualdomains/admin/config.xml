@@ -19,4 +19,23 @@
 			description="PARAMSDESCCOSTOM"
 		/>
 	</fieldset>	  
+	<fieldset
+		name="PREVIEW OPTIONS"
+		label="PREVIEW OPTIONS"
+		description="PREVIEW OPTIONS">
+	<field
+			name="framewidth" 
+			type="text"
+			default="600"
+			label="FRAMEWIDTH"
+			description="FRAMEWIDTH"
+		/>
+	<field
+			name="frameheight" 
+			type="text"
+			default="400"
+			label="FRAMEHEIGHT"
+			description="FRAMEHEIGHT"
+		/>				
+	</fieldset>		
 </config>
