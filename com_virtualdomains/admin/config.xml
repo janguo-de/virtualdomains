@@ -7,5 +7,16 @@
     <param name="framewidth" label="FRAMEWIDTH" type="text" default="600" />
     <param name="frameheight" label="FRAMEHEIGHT" type="text" default="400" />
   </params>
-  
+	<fieldset
+		addfieldpath="/administrator/components/com_virtualdomains/models/fields"
+		name="parameters"
+		label="COSTUMPARAMS"
+		description="COSTUMPARAMS INTRO">
+		<field
+			name="costomParameterKey" 
+			type="customparameters"
+			label="PARAMSLABELCOSTOM"
+			description="PARAMSDESCCOSTOM"
+		/>
+	</fieldset>	  
 </config>
