@@ -46,6 +46,7 @@ JHTML::_('behavior.modal', 'a.modal');
       </tfoot>
       <tbody>
         <?php 
+$cParam=$this->cParams;
 
 $k = 0;
 if ( count( $this->items ) > 0 ):
@@ -79,7 +80,7 @@ if ( count( $this->items ) > 0 ):
             'asc' ) ); ?></span></td>
           <td style="text-align:center"><?php echo $published ?></td>
           <?php $preViewModalHandlerLink= "http://". $this->escape( $row->domain );?>
-          <td style="text-align:center"><a class="modal" title="<?php JText::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x:  1200, y:800}}"><?php echo JText::_('Preview')?></a></td>
+          <td style="text-align:center"><a class="modal" title="<?php JText::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x: <?php echo $cParam->get('framewidth',400) ?>, y:<?php echo $cParam->get('frameheight',400) ?>}}"><?php echo JText::_('Preview')?></a></td>
           <td><?php echo $row->id ?></td>
         </tr>
         <?php $k = 1 - $k;
