@@ -39,18 +39,17 @@ class JFormFieldCustomparameters extends JFormField
         $k = $cParams->get( 'costomParameterKey' );
 
         $paramsHtml = "<div style='clear:both'  id=\"existing_params\">";
-        if ( $k )
-        {
-            if ( !is_array( $k ) )
-            {
-                $paramsHtml .= '<fieldset class="text"><input class="keyname" name="jform[costomParameterKey][]" value="' . $k . '" type="text">
-                <a href="javascript:void(null);" title="' . JText::_( 'REMOVE' ) . '" onclick="vd.remove_key(this);"><img src="images/publish_x.png"/></a></fieldset>';
-            } else
-            {
-                foreach ( $k as $key )
-                {
+        if ( $k ) {
+        	
+            if ( !is_array( $k ) ) {
+                   $paramsHtml .= '<fieldset class="text"><input class="keyname" name="jform[costomParameterKey][]" value="' . $k . '" type="text">
+                <a class="jgrid"  href="javascript:void(null);" title="' . JText::_( 'REMOVE' ) . '" onclick="vd.remove_key(this);"><span class="state unpublish"/><span class="text">Remove</span></span></a></fieldset>';
+                
+            } else {
+            	
+                foreach ( $k as $key ) {
                     $paramsHtml .= '<fieldset class="text"><input name="jform[costomParameterKey][]" value="' . $key . '" type="text">
-                <a href="javascript:void(null);" title="' . JText::_( 'REMOVE' ) . '" onclick="vd.remove_key(this);"><img src="images/publish_x.png"/></a></fieldset>';
+                <a class="jgrid"  href="javascript:void(null);" title="' . JText::_( 'REMOVE' ) . '" onclick="vd.remove_key(this);"><span class="state unpublish"/><span class="text">Remove</span></span></a></fieldset>';
                 }
             }
         }
