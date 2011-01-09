@@ -3,5 +3,9 @@
   <params addpath="/administrator/components/com_virtualdomains/elements">
     <param type="spacer" default="COSTUMPARAMS INTRO" />
     <param name="PARAMSNAMECOSTOM" type="costomparameters" label="PARAMSLABELCOSTOM" description="PARAMSDESCCOSTOM"/>
+    <param type="spacer" default="PREVIEW OPTIONS" />
+    <param name="framewidth" label="FRAMEWIDTH" type="text" default="600" />
+    <param name="frameheight" label="FRAMEHEIGHT" type="text" default="400" />
   </params>
+  
 </config>
