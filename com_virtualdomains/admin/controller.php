@@ -1,5 +1,4 @@
-<?php
-/**
+<?php /**
  * @version		$Id:controller.php 1 2010-10-23Z  $
  * @author	   	
  * @package    Virtualdomains
@@ -9,9 +8,9 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.controller');
+jimport( 'joomla.application.component.controller' );
 
 /**
  * Virtualdomains Standard Controller
@@ -22,127 +21,129 @@ jimport('joomla.application.component.controller');
 class VirtualdomainsController extends JController
 {
 
-	protected $_viewname = 'item';
-	protected $_mainmodel = 'item';
-	protected $_itemname = 'Item';    
+    protected $_viewname = 'item';
+    protected $_mainmodel = 'item';
+    protected $_itemname = 'Item';
 
-	/**
-	 * Constructor
-	 */
-		 
-	public function __construct($config = array ()) 
-	{
-		
-		parent :: __construct($config);
-		
-		if (isset($config['viewname'])) $this->_viewname = $config['viewname'];
-		if (isset($config['mainmodel'])) $this->_mainmodel = $config['mainmodel'];
-		if (isset($config['itemname'])) $this->_itemname = $config['itemname']; 		
-		JRequest :: setVar('view', $this->_viewname);
+    /**
+     * Constructor
+     */
 
-	}
-	
-	/*
-	 * Overloaded Method display
-	 */
-	function display() 
-	{
+    public function __construct( $config = array() )
+    {
 
-		switch($this->getTask())
-		{
-			case 'add'     :
-			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view', $this->_viewname);
-				JRequest::setVar( 'edit', false );
+        parent::__construct( $config );
 
-			} break;
-			case 'edit'    :
-			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view', $this->_viewname);
-				JRequest::setVar( 'edit', true );
+        if ( isset( $config['viewname'] ) ) $this->_viewname = $config['viewname'];
+        if ( isset( $config['mainmodel'] ) ) $this->_mainmodel = $config['mainmodel'];
+        if ( isset( $config['itemname'] ) ) $this->_itemname = $config['itemname'];
+        JRequest::setVar( 'view', $this->_viewname );
 
-			} break;
-		}
-		parent :: display();
-	}
+    }
 
- 	/**
-	 *stores the item and returnss to previous page 
-	 *
-	 */
+    /*
+    * Overloaded Method display
+    */
+    function display()
+    {
 
-	function apply() 
-	{
-		$this-> save();
-	}
+        switch ( $this->getTask() )
+        {
+            case 'add':
+                {
+                    JRequest::setVar( 'hidemainmenu', 1 );
+                    JRequest::setVar( 'layout', 'form' );
+                    JRequest::setVar( 'view', $this->_viewname );
+                    JRequest::setVar( 'edit', false );
 
-	/**
-	 * stores the item
-	 */
-	function save() 
-	{
-		// Check for request forgeries
-		JRequest :: checkToken() or jexit('Invalid Token');
-		
-		$db = & JFactory::getDBO();  
+                }
+                break;
+            case 'edit':
+                {
+                    JRequest::setVar( 'hidemainmenu', 1 );
+                    JRequest::setVar( 'layout', 'form' );
+                    JRequest::setVar( 'view', $this->_viewname );
+                    JRequest::setVar( 'edit', true );
 
-		$post = JRequest :: getVar('jform', array(), 'post', 'array');
-		$cid = JRequest :: getVar('cid', array (
-			0
-		), 'post', 'array');
-		$post['id'] = (int) $cid[0];	
-		
-		$model = $this->getModel($this->_mainmodel);
-		if ($model->store($post)) {
-			$msg = JText :: _($this->_itemname .' Saved');
-		} else {
-			$msg = $model->getError(); 
-		}
-        
-		switch ($this->getTask())
-		{
-			case 'apply':
-				$link = 'index.php?option=com_virtualdomains&view='.$this->_viewname.'&task=edit&cid[]='.$model->getId() ;
-				break;
+                }
+                break;
+        }
+        parent::display();
+    }
 
-			case 'save':
-			default:
-				$link = 'index.php?option=com_virtualdomains&view='.$this->_viewname;
-				break;
-		}
-        
+    /**
+     *stores the item and returnss to previous page 
+     *
+     */
 
-		$this->setRedirect($link, $msg);
-	}
+    function apply()
+    {
+        $this->save();
+    }
 
-	/**
-	 * remove an item
-	 */		
-	function remove() 
-	{
-		
-		// Check for request forgeries
-		JRequest :: checkToken() or jexit('Invalid Token');
+    /**
+     * stores the item
+     */
+    function save()
+    {
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$db = & JFactory::getDBO();  
-		$cid = JRequest :: getVar('cid', array (), 'post', 'array');
-		JArrayHelper :: toInteger($cid);
-		$msg = JText::_($this->_itemname.' deleted');
-		if (count($cid) < 1) {
-			JError :: raiseError(500, JText :: _('Select a '.$this->_itemname.' to delete'));
-		}
-    	$model = $this->getModel($this->_mainmodel);			
-		if (!$model->delete($cid)) {
-				$msg = $model->getError(); 
-		}		
-		$link = 'index.php?option=com_virtualdomains&view='.$this->_viewname;
-		$this->setRedirect($link, $msg);
-	}
+        $db = &JFactory::getDBO();
 
-}// class
-  
-?>
+        $post = JRequest::getVar( 'jform', array(), 'post', 'array' );
+        $cid = JRequest::getVar( 'cid', array( 0 ), 'post', 'array' );
+        $post['id'] = ( int )$cid[0];
+
+        $model = $this->getModel( $this->_mainmodel );
+        if ( $model->store( $post ) )
+        {
+            $msg = JText::_( $this->_itemname . ' Saved' );
+        } else
+        {
+            $msg = $model->getError();
+        }
+
+        switch ( $this->getTask() )
+        {
+            case 'apply':
+                $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname . '&task=edit&cid[]=' . $model->getId();
+                break;
+
+            case 'save':
+            default:
+                $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname;
+                break;
+        }
+
+        $this->setRedirect( $link, $msg );
+    }
+
+    /**
+     * remove an item
+     */
+    function remove()
+    {
+
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
+
+        $db = &JFactory::getDBO();
+        $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+        JArrayHelper::toInteger( $cid );
+        $msg = JText::_( $this->_itemname . ' deleted' );
+        if ( count( $cid ) < 1 )
+        {
+            JError::raiseError( 500, JText::_( 'Select a ' . $this->_itemname . ' to delete' ) );
+        }
+        $model = $this->getModel( $this->_mainmodel );
+        if ( !$model->delete( $cid ) )
+        {
+            $msg = $model->getError();
+        }
+        $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname;
+        $this->setRedirect( $link, $msg );
+    }
+
+} // class
+ ?>

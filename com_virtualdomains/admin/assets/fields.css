@@ -189,7 +189,7 @@ label#paramsusermode-lbl,
 label#paramsphishing-resistant-lbl,
 label#paramsmulti-factor-lbl,
 label#paramsmulti-factor-physical-lbl,
-paramslang_mode-lbl {
+.paramslang_mode-lbl {
 	min-width: 200px;
 }
 

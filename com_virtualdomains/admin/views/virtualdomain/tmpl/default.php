@@ -2,6 +2,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JToolBarHelper::title( JText::_( 'Virtual Domains' ), 'generic.png' );
+JToolbarHelper::preferences( 'com_virtualdomains',500,500,'CONFIG PARAMETER' );
 JToolBarHelper::publishList();
 JToolBarHelper::unpublishList();
 JToolBarHelper::deleteList();
@@ -10,19 +11,6 @@ JToolBarHelper::addNewX();
 JToolBarHelper::help( 'virtualdomain', 1 );
 
 
-/*preview js */
-$doc=& JFactory::getDocument();
-	$js = "
-		function jSelectArticle(id, title, object) {
-			document.getElementById(object + '_id').value = id;
-			document.getElementById(object + '_name').value = title;
-			document.getElementById('sbox-window').close();
-		}
-
-		
-		";
-		
-		$doc->addScriptDeclaration($js);
 JHTML::_('behavior.modal', 'a.modal');
  ?>
 <style>.romacron {height:100%; width:100%;left:10%!important; top:10%!important;}</style>
@@ -91,7 +79,7 @@ if ( count( $this->items ) > 0 ):
             'asc' ) ); ?></span></td>
           <td style="text-align:center"><?php echo $published ?></td>
           <?php $preViewModalHandlerLink= "http://". $this->escape( $row->domain );?>
-          <td style="text-align:center"><a class="modal" title="<?php JText::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x:  1200, y:800}}"><?php echo JText::_('TEST')?></a></td>
+          <td style="text-align:center"><a class="modal" title="<?php JText::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x:  1200, y:800}}"><?php echo JText::_('Preview')?></a></td>
           <td><?php echo $row->id ?></td>
         </tr>
         <?php $k = 1 - $k;

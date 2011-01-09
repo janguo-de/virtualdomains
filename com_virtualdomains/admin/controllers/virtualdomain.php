@@ -1,16 +1,15 @@
-<?php
-/**
-* @version		$virtualdomain.php
-* @package		Virtualdomain
-* @subpackage 	Controllers
-* @copyright	Copyright (C) 2010, . All rights reserved.
-* @license #
-*/
+<?php /**
+ * @version		$virtualdomain.php
+ * @package		Virtualdomain
+ * @subpackage 	Controllers
+ * @copyright	Copyright (C) 2010, . All rights reserved.
+ * @license #
+ */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.controller');
+jimport( 'joomla.application.component.controller' );
 
 /**
  * VirtualdomainVirtualdomain Controller
@@ -20,216 +19,238 @@ jimport('joomla.application.component.controller');
  */
 class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
 {
-	/**
-	 * Constructor
-	 */
-	protected $_viewname = 'virtualdomain'; 
-	 
-	public function __construct($config = array ()) 
-	{
-		parent :: __construct($config);
-		JRequest :: setVar('view', $this->_viewname);
+    /**
+     * Constructor
+     */
+    protected $_viewname = 'virtualdomain';
 
-	}	
-	
-	function cancel()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+    public function __construct( $config = array() )
+    {
+        parent::__construct( $config );
+        JRequest::setVar( 'view', $this->_viewname );
 
-		$this->setRedirect( 'index.php?option=com_virtualdomains&view=virtualdomain' );
-		
-		$model = $this->getModel('virtualdomain');
+    }
 
-		$model ->checkin();
-	}	
-	
-	function edit() 
-	{
-		$document =& JFactory::getDocument();
+    /**
+     * VirtualdomainsControllerVirtualdomain::cancel()
+     * Cancels the Editing Form
+     * @return void
+     */
+    function cancel()
+    {
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$viewType	= $document->getType();
-		$viewType	= $document->getType();
-		$viewName	= JRequest::getCmd( 'view', $this->_viewname);
-				
-		$view = & $this->getView( $viewName, $viewType);
-		$view->setLayout('form');
-		$cid = JRequest :: getVar('cid', array (
-			0
-		), 'get', 'array');
-		$id = $cid[0];
-		$model = &$this->getModel($this->_viewname);		
-		if ($id  > 0) {
-			
-			$item = $model->getItem(); 
-			// If not already checked out, do so.
+        $this->setRedirect( 'index.php?option=com_virtualdomains&view=virtualdomain' );
 
-			if ($item->checked_out == 0) {
-				
-				if (!$model->checkout()) {
-					// Check-out failed, go back to the list and display a notice.
-					$message = JText::sprintf('JError_Checkout_failed', $model->getError());
-					$this->setRedirect('index.php?option=com_virtualdomains&view=virtualdomain', $message, 'error');
-					return false;
-				}
-			}
-		}
-		
-		JRequest::setVar( 'hidemainmenu', 1 );
-		JRequest::setVar( 'layout', 'form'  );
-		JRequest::setVar( 'view', $this->_viewname);
-		JRequest::setVar( 'edit', true );
-				
-		$view->setModel($model, true);
-		$view->display();
-	}
-	
+        $model = $this->getModel( 'virtualdomain' );
 
-	/**
-	 * stores the item
-	 */
-	function save() 
-	{
-		// Check for request forgeries
-		JRequest :: checkToken() or jexit('Invalid Token');
-		$app = JFactory::getApplication();
-		$db = & JFactory::getDBO();  
+        $model->checkin();
+    }
 
-		$post = JRequest :: getVar('jform', array(), 'post', 'array');
-		$cid = JRequest :: getVar('cid', array (
-			0
-		), 'post', 'array');
-		$post['id'] = (int) $cid[0];	
-		$model = $this->getModel('virtualdomain');
-		$form	= $model->getForm();
-		if (!$form) {
-			JError::raiseError(500, $model->getError());
-			return false;
-		}
-		$data	= $model->validate($form, $post);
+    /**
+     * VirtualdomainsControllerVirtualdomain::edit()
+     * Edits an existing VirtualDomain
+     * @return
+     */
+    function edit()
+    {
+        $document = &JFactory::getDocument();
 
-			// Check for validation errors.
-		if ($data === false) {
-			// Get the validation messages.
-			$errors	= $model->getErrors();
+        $viewType = $document->getType();
+        $viewType = $document->getType();
+        $viewName = JRequest::getCmd( 'view', $this->_viewname );
 
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if (JError::isError($errors[$i])) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-				} else {
-					$app->enqueueMessage($errors[$i], 'notice');
-				}
-			}
-
-			if ($model->getId()) {
-				$link = 'index.php?option=com_virtualdomains&view=virtualdomain.&task=edit&cid[]='.$model->getId() ;
-			} else {
-				$link = 'index.php?option=com_virtualdomains&view=virtualdomain.&task=edit';
-			}
-			// Redirect back to the edit screen.
-			
-			$this->setRedirect($link, $msg);
-			return;
-		}		
-		if ($model->store($post)) {
-			$msg = JText :: _($this->_itemname .' Saved');
-			$model->checkin();
-		} else {
-			$msg = $model->getError(); 
-		}
+        $view = &$this->getView( $viewName, $viewType );
+        $view->setLayout( 'form' );
+        $cid = JRequest::getVar( 'cid', array( 0 ), 'get', 'array' );
+        $id = $cid[0];
         
-		switch ($this->getTask())
-		{
-			case 'apply':
-				$link = 'index.php?option=com_virtualdomains&view=virtualdomain.&task=edit&cid[]='.$model->getId() ;
-				break;
-
-			case 'save':
-			default:
-				$link = 'index.php?option=com_virtualdomains&view=virtualdomain';
-				break;
-		}
+        $model = &$this->getModel( $this->_viewname );
         
+        if ( $id > 0 )
+        {
 
-		$this->setRedirect($link, $msg);
-	}		
-	public function publish() 
-	{
-		// Check for request forgeries
-		JRequest :: checkToken() or jexit('Invalid Token');
+            $item = $model->getItem();
+            // If not already checked out, do so.
 
-		$cid = JRequest :: getVar('cid', array (), 'post', 'array');
-		JArrayHelper :: toInteger($cid);
+            if ( $item->checked_out == 0 )
+            {
 
-		if (count($cid) < 1) {
-			JError :: raiseError(500, JText :: _('Select an item to publish'));
-		}
+                if ( !$model->checkout() )
+                {
+                    // Check-out failed, go back to the list and display a notice.
+                    $message = JText::sprintf( 'JError_Checkout_failed', $model->getError() );
+                    $this->setRedirect( 'index.php?option=com_virtualdomains&view=virtualdomain', $message, 'error' );
+                    return false;
+                }
+            }
+        }
 
-		$model = $this->getModel('virtualdomain');
-		if (!$model->publish($cid, 1)) {
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
+        JRequest::setVar( 'hidemainmenu', 1 );
+        JRequest::setVar( 'layout', 'form' );
+        JRequest::setVar( 'view', $this->_viewname );
+        JRequest::setVar( 'edit', true );
 
-		$this->setRedirect('index.php?option=com_virtualdomains&view=virtualdomain');
-	}
+        $view->setModel( $model, true );
+        $view->display();
+    }
 
-	public function unpublish() 
-	{
-		// Check for request forgeries
-		JRequest :: checkToken() or jexit('Invalid Token');
+    /**
+     * stores the item
+     */
+    function save()
+    {
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
+        $app = JFactory::getApplication();
+        $db = &JFactory::getDBO();
 
-		$cid = JRequest :: getVar('cid', array (), 'post', 'array');
-		JArrayHelper :: toInteger($cid);
+        $post = JRequest::getVar( 'jform', array(), 'post', 'array' );
+        $cid = JRequest::getVar( 'cid', array( 0 ), 'post', 'array' );
+        $post['id'] = ( int )$cid[0];
+        $model = $this->getModel( 'virtualdomain' );
+        $form = $model->getForm();
+        if ( !$form )
+        {
+            JError::raiseError( 500, $model->getError() );
+            return false;
+        }
+        $data = $model->validate( $form, $post );
 
-		if (count($cid) < 1) {
-			JError :: raiseError(500, JText :: _('Select an item to unpublish'));
-		}
+        // Check for validation errors.
+        if ( $data === false )
+        {
+            // Get the validation messages.
+            $errors = $model->getErrors();
 
-		$model = $this->getModel('virtualdomain');
-		if (!$model->publish($cid, 0)) {
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
+            // Push up to three validation messages out to the user.
+            for ( $i = 0, $n = count( $errors ); $i < $n && $i < 3; $i++ )
+            {
+                if ( JError::isError( $errors[$i] ) )
+                {
+                    $app->enqueueMessage( $errors[$i]->getMessage(), 'notice' );
+                } else
+                {
+                    $app->enqueueMessage( $errors[$i], 'notice' );
+                }
+            }
 
-		$this->setRedirect('index.php?option=com_virtualdomains&view='.$this->_viewname);
-	}
-	public function orderup() 
-	{
-		// Check for request forgeries
-		JRequest :: checkToken() or jexit('Invalid Token');
+            if ( $model->getId() )
+            {
+                $link = 'index.php?option=com_virtualdomains&view=virtualdomain.&task=edit&cid[]=' . $model->getId();
+            } else
+            {
+                $link = 'index.php?option=com_virtualdomains&view=virtualdomain.&task=edit';
+            }
+            // Redirect back to the edit screen.
 
-		$model = $this->getModel('virtualdomain');
-		$model->move(-1);
+            $this->setRedirect( $link, $msg );
+            return;
+        }
+        if ( $model->store( $post ) )
+        {
+            $msg = JText::_( $this->_itemname . ' Saved' );
+            $model->checkin();
+        } else
+        {
+            $msg = $model->getError();
+        }
 
-		$this->setRedirect('index.php?option=com_virtualdomains&view='.$this->_viewname);
-	}
+        switch ( $this->getTask() )
+        {
+            case 'apply':
+                $link = 'index.php?option=com_virtualdomains&view=virtualdomain.&task=edit&cid[]=' . $model->getId();
+                break;
 
-	public function orderdown() 
-	{
-		// Check for request forgeries
-		JRequest :: checkToken() or jexit('Invalid Token');
+            case 'save':
+            default:
+                $link = 'index.php?option=com_virtualdomains&view=virtualdomain';
+                break;
+        }
 
-		$model = $this->getModel('virtualdomain');
-		$model->move(1);
+        $this->setRedirect( $link, $msg );
+    }
+    public function publish()
+    {
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$this->setRedirect('index.php?option=com_virtualdomains&view='.$this->_viewname);
-	}
+        $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+        JArrayHelper::toInteger( $cid );
 
-	public function saveorder() 
-	{
-		// Check for request forgeries
-		JRequest :: checkToken() or jexit('Invalid Token');
+        if ( count( $cid ) < 1 )
+        {
+            JError::raiseError( 500, JText::_( 'Select an item to publish' ) );
+        }
 
-		$cid = JRequest :: getVar('cid', array (), 'post', 'array');
-		$order = JRequest :: getVar('order', array (), 'post', 'array');
-		JArrayHelper :: toInteger($cid);
-		JArrayHelper :: toInteger($order);
+        $model = $this->getModel( 'virtualdomain' );
+        if ( !$model->publish( $cid, 1 ) )
+        {
+            echo "<script> alert('" . $model->getError( true ) . "'); window.history.go(-1); </script>\n";
+        }
 
-		$model = $this->getModel('virtualdomain');
-		$model->saveorder($cid, $order);
+        $this->setRedirect( 'index.php?option=com_virtualdomains&view=virtualdomain' );
+    }
 
-		$msg = JText :: _('New ordering saved');
-		$this->setRedirect('index.php?option=com_virtualdomains&view='.$this->_viewname, $msg);
-	}	
-}// class
-?>
+    public function unpublish()
+    {
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
+
+        $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+        JArrayHelper::toInteger( $cid );
+
+        if ( count( $cid ) < 1 )
+        {
+            JError::raiseError( 500, JText::_( 'Select an item to unpublish' ) );
+        }
+
+        $model = $this->getModel( 'virtualdomain' );
+        if ( !$model->publish( $cid, 0 ) )
+        {
+            echo "<script> alert('" . $model->getError( true ) . "'); window.history.go(-1); </script>\n";
+        }
+
+        $this->setRedirect( 'index.php?option=com_virtualdomains&view=' . $this->_viewname );
+    }
+    public function orderup()
+    {
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
+
+        $model = $this->getModel( 'virtualdomain' );
+        $model->move( -1 );
+
+        $this->setRedirect( 'index.php?option=com_virtualdomains&view=' . $this->_viewname );
+    }
+
+    public function orderdown()
+    {
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
+
+        $model = $this->getModel( 'virtualdomain' );
+        $model->move( 1 );
+
+        $this->setRedirect( 'index.php?option=com_virtualdomains&view=' . $this->_viewname );
+    }
+
+    public function saveorder()
+    {
+        // Check for request forgeries
+        JRequest::checkToken() or jexit( 'Invalid Token' );
+
+        $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+        $order = JRequest::getVar( 'order', array(), 'post', 'array' );
+        JArrayHelper::toInteger( $cid );
+        JArrayHelper::toInteger( $order );
+
+        $model = $this->getModel( 'virtualdomain' );
+        $model->saveorder( $cid, $order );
+
+        $msg = JText::_( 'New ordering saved' );
+        $this->setRedirect( 'index.php?option=com_virtualdomains&view=' . $this->_viewname, $msg );
+    }
+} // class
+ ?>

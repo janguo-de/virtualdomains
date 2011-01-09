@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <config>
-   <params>
-   </params>
+  <params addpath="/administrator/components/com_virtualdomains/elements">
+    <param type="spacer" default="COSTUMPARAMS INTRO" />
+    <param name="PARAMSNAMECOSTOM" type="costomparameters" label="PARAMSLABELCOSTOM" description="PARAMSDESCCOSTOM"/>
+  </params>
 </config>
