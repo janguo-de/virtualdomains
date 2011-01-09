@@ -36,6 +36,7 @@
 			<filename>controller.php</filename>
 			<filename>index.html</filename>
 			<folder>assets</folder>
+			<folder>elements</folder>
 			<folder>joomla</folder>						
 			<folder>controllers</folder>
 			<folder>helpers</folder>
