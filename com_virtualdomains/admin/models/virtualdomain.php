@@ -82,68 +82,29 @@ class VirtualdomainsModelVirtualdomain extends VirtualdomainsModel
     }
 
     /**
-     * @notice für welche !J version ist dieser Part?
+     * @notice Zurück zu Revision 11
      * 
      * VirtualdomainsModelVirtualdomain::getParamFields()
      * 
      * @return
      */
-    public function getParamFields()
-    {
-        $item = $this->getItem();
-
-        $returnParametersObject = array();
-
-        /*saved Parameters for the curren VirtualDomain*/
-        $params = ( array )$item->params;
-
-        $keys = $this->loadComponentKeyPattern();
-        /*
-        * keys from pattern will be removed from params
-        * to find paramters in this VD config wich have no key in KeyPatterns)
-        */
-        $tmpParams = $params;
-        /*sync key patterns*/
-        $i = 0;
-        if ( !is_array( $keys ) && !empty( $keys ) )
-        {
-            /*only one key was predefined*/
-            $returnParametersObject[$i]->name = $keys;
-            if ( $params[$keys] )
-            {
-                $returnParametersObject[$i]->value = $params[$keys];
-                /* memorice that we have settet an valid keyPattern with value*/
-
-            }
-
-        } elseif ( is_array( $keys ) && !empty( $keys ) )
-        {
-
-            foreach ( $keys as $key )
-            {
-                $returnParametersObject[$i]->name = $key;
-                unset( $tmpParams[$key] );
-                /*key pattern has value*/
-                if ( $params[$key] )
-                {
-                    $returnParametersObject[$i]->value = $params[$key];
-                    /* memorice that we have settet an valid keyPattern with value*/
-
-                }
-                $i++;
-            }
-            /* some keys was predefined*/
-        } else
-        {
-            /*no key was predefinded*/
-            return null;
-        }
-
-        /* show parameters they are not defined in Key pattern(Perhaps the key was deleted in pattern and now he is swimming here)*/
-
-        return $returnParametersObject;
-
-    }
+	public function getParamFields() 
+	{
+		$item =$this->getItem();
+		$this->_db->setQuery('Select name, "" as value From #__virtualdomain_params Where 1');
+		$result = $this->_db->loadObjectList();
+		$params = (array)  $item->params;
+		if (count($params )) { 
+			for ($i=0;$i<count($result);$i++) {
+				foreach ($params as $key=>$value) {
+					if ($result[$i]->name == $key) {
+						$result[$i]->value = $value;
+					}
+				}
+			} 
+		} 
+		return $result;		
+	}
 
     /**
      * VirtualdomainsModelVirtualdomain::loadComponentKeyPattern()

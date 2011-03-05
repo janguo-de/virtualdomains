@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-  <params addpath="/administrator/components/com_virtualdomains/elements">
-    <param type="spacer" default="COSTUMPARAMS INTRO" />
-    <param name="PARAMSNAMECOSTOM" type="costomparameters" label="PARAMSLABELCOSTOM" description="PARAMSDESCCOSTOM"/>
-    <param type="spacer" default="PREVIEW OPTIONS" />
-    <param name="framewidth" label="FRAMEWIDTH" type="text" default="600" />
-    <param name="frameheight" label="FRAMEHEIGHT" type="text" default="400" />
+  <params>
+    <param type="spacer" default="PREVIEW_OPTIONS_DESC" />
+    <param name="framewidth" label="FRAMEWIDTH" description="FRAMEWIDTH_DESC" type="text" default="600" />
+    <param name="frameheight" label="FRAMEHEIGHT" description="FRAMEHEIGHT_DESC" type="text" default="400" />
   </params>
-	<fieldset
-		addfieldpath="/administrator/components/com_virtualdomains/models/fields"
-		name="parameters"
-		label="COSTUMPARAMS"
-		description="COSTUMPARAMS INTRO">
-		<field
-			name="costomParameterKey" 
-			type="customparameters"
-			label="PARAMSLABELCOSTOM"
-			description="PARAMSDESCCOSTOM"
-		/>
-	</fieldset>	  
+
 	<fieldset
 		name="PREVIEW OPTIONS"
 		label="PREVIEW OPTIONS"
@@ -28,14 +15,14 @@
 			type="text"
 			default="600"
 			label="FRAMEWIDTH"
-			description="FRAMEWIDTH"
+			description="FRAMEWIDTH_DESC"
 		/>
 	<field
 			name="frameheight" 
 			type="text"
 			default="400"
 			label="FRAMEHEIGHT"
-			description="FRAMEHEIGHT"
+			description="FRAMEHEIGHT_DESC"
 		/>				
 	</fieldset>		
 </config>
