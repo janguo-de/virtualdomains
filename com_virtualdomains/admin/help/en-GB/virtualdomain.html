@@ -16,17 +16,23 @@ body{
 
 <body bgcolor="#FFFFFF" text="#000000">
 <h1> Virtual Domains Help</h1>
+<h2>Content</h2>
+<ul>
+	<li><a href="#a1">Introduction</a></li>
+	<li><a href="#a2">View Virtual Domains</a></li>
+	<li><a href="#a3">View Parameters</a></li>
+</ul>
 <h2>Introduction</h2>
 <p>The idea of Virtual Domains, it is,  to have two or more sites with different design and partially different content and functionality, but without the necessarity to manage consistent content multiple.</p>
 <p>This can be achieved with Joomla in combination with Virtual Domains, by defining for each website/domain a special template and specifying what menu should be the starting point for the site.</p>
-<h2>Example</h2>
+<h3>Example</h3>
 <p>1. Domain<em><strong> main.domain.tld</strong></em> starts with the menu item &quot;<strong>Home</strong>&quot; and the template<strong> ja_purity</strong> is assigned. (Say <strong>Home</strong> is part of the menu &quot;<strong>firstmenu</strong>&quot;).<br />
 </p>
 <p>2. Domain <em><strong>second.domain.tld</strong></em> starts with the menu item &quot;News&quot; and the template 'Beez' is assigned. (Say &quot;<strong>News</strong>&quot; menu item is the blog view of the category &quot;<strong>News</strong>&quot; and part of the menu &quot;<strong>secondmenu</strong>&quot;) .<br />
 </p>
 <p>3.  Both domains should show the menu &quot;<strong>Company</strong>&quot;. (Let's say <strong>Company </strong>contains various links to learn more about our company).<br />
 </p>
-<h2>Practice</h2>
+<h3>Practice</h3>
 <ol>
   <li>Add the required menu items.<br />
   </li>
@@ -44,5 +50,46 @@ body{
   <li>In the Virtual Domains Manager add the <em><strong>second.domain.tld </strong></em>as item, assign the the template '<strong>Beez</strong>' and the menu item &quot;<strong>News</strong>&quot; as point of start.</li>
 </ol>
 <p>Now each site has a different design, and a separate menu with different content but also a common menu with the same content.</p>
+<a name="a2"></a>
+<h2>View Virtual Domains</h2>
+<h3>Description</h3>
+<div>
+		<ol>
+		<li>Define Virtual Domain,  assign a menu item, that provides de dsired content for "Home" and assign a template too.</li>
+		<li>Define language (Joomfish), meta description, keywords, and possibly your own parameters.</li>
+		 </ol>		 
+</div>
+<div><i><strong>Caution:</strong>Don't add standard /main domain. For the default domain, Joomlas common  settings for page template are valid. Standard domain must be recognized in the plugin "virtualdomains.php".</i></div>
+<h3>Screenshot1</h3>
+<img src="images/vd-screen-1.png" />
+<h3>Screenshot2</h3>
+<img src="images/vd-screen-2.png" />
+<div>
+		<ol>
+		<li><strong>Langugage: </strong>Used by Joomfish</li>
+		<li><strong>Meta-Description/Keywords: </strong>Print this in meta tags</li>
+		<li><strong>Custom Parameters: </strong>Are defined in the View  "Parameters". May be used by programmers for domain specific adaptions.</li>
+		 </ol>
+</div>
+<a name="a3"></a>
+<h2>View Parameters</h2>
+<h3>Description</h3>
+<div>Custom Parameters may be used by programmers for domain specific adaptions.<br />Here you can define new parameter keys. The corresponding values for each domain, you can enter in the appropriate template. Keys and values are added to  the variables $ _REQUEST or $ _GLOBALS.</div>
+<h3>Screenshot</h3>
+<img src="images/vd-screen-3.png" />
+<div>
+		<ol>
+		<li><strong>Name: </strong>Parameters keyword</li>
+		<li><strong>Action: </strong>
+				<ul>
+				<li><strong>None:</strong>Don't add to  $_GLOBALS and $_REQUEST <i>(eg, to instead use a database query)</i></li>
+				<li><strong>Request:</strong>Add to $_REQUEST</li>
+				<li><strong>Globals:</strong>Add to $_GLOBALS</li>
+				</ul>
+		</li>
+		<li><strong>Home only: </strong>Use the parameter only for the home of the domain.</li>
+		 </ol>
+</div>
 </body>
 </html>
+

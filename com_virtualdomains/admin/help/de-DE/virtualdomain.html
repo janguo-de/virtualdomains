@@ -16,14 +16,21 @@ body{
 
 <body bgcolor="#FFFFFF" text="#000000">
 <h1> Virtual Domains Hilfe </h1>
+<h2>Inhalt</h2>
+<ul>
+	<li><a href="#a1">Einführung</a></li>
+	<li><a href="#a2">Ansicht Virtual domains</a></li>
+	<li><a href="#a3">Ansicht Parameter</a></li>
+</ul>
+<a name="a1"></a>
 <h2>Einführung</h2>
 <p>Die Idee von Virtual Domains ist es, zwei oder mehr Websites mit unterschiedlichem Design zu haben, deren Inhalt und Funktionalität sich teilweise unterscheidet, ohne jedoch gleichbleibende Inhalte mehrfach verwalten zu müssen.</p>
 <p>Dies lässt sich mit Joomla in Kombination mit Virtual Domains bewerkstelligen, indem man jeder Website/Domain ein eigenes Template zuweist und definiert, welcher Menupunkt als Startpunkt dienen soll.</p>
-<h2>Beispiel</h2>
+<h3>Beispiel</h3>
 <p>1. Domain<em><strong> main.domain.tld</strong></em> startet mit dem Menupunkt &quot;<strong>Startseite</strong>&quot; und erhält das Template <strong>ja_purity</strong>. (Sagen wir &quot;<strong>Startseite</strong>&quot; sei Teil des Menus <strong>&quot;firstmenu</strong>&quot;).</p>
 <p>2. Domain <em><strong>second.domain.tld</strong></em> startet mit dem Menupunkt &quot;<strong>News</strong>&quot; und erhält das Template <strong>beez</strong>. (Sagen wir &quot;<strong>News</strong>&quot; sei Menupunkt, der die Blogansicht der Kategorie &quot;<em><strong>Aktuelles/News</strong></em>&quot; anzeigt und sei Teil des Menus &quot;<strong>secondmenu</strong>&quot;). </p>
 <p>3. Beide Domains sollen das Menu &quot;<strong>Company</strong>&quot; anzeigen. (Sagen wir, <strong>Company</strong> enthält verschiedene Links auf Wissenswertes über unsere Firma).</p>
-<h2>Vorgehen</h2>
+<h3>Vorgehen</h3>
 <ol>
   <li>Legen Sie die oben geforderten Menupunkte an. </li>
   <li>Definieren Sie im Template '<strong>ja_purity</strong>' in der Datei &quot;<em>templateDetails.xml</em>&quot; in der Sektion &quot;<em><strong>positions</strong></em>&quot; eine Position <strong>'first</strong>', im Template '<strong>beez</strong>' eine Position '<strong>second</strong>' und in beiden Templates eine Position '<strong>company</strong>' und stellen Sie sicher, das in der index.php der Templates die Positionen an der richtigen Stelle aufgerufen werden (z.B: <em>&lt;jdoc:include type=&quot;modules&quot; name=&quot;first&quot; /&gt;</em> )</li>
@@ -39,5 +46,45 @@ body{
   <li>Legen Sie in der Komponente  <em><strong>second.domain.tld</strong></em> an, weisen sie ihr das Template '<strong>beez</strong>' und den Menupunkt  &quot;<strong>News</strong>&quot; als Startmenupunkt zu.</li>
 </ol>
 <p>Die beiden Websites haben nun unterschiedliche Designs, je ein eigenständiges Menu mit unterschiedlichen Inhalten und ein gemeinsames Menu mit gleichen Inhalten</p>
+<a name="a2"></a>
+<h2>Ansicht Virtual Domain</h2>
+<h3>Beschreibung</h3>
+<div>
+		<ol>
+		<li>Definiere eine Virtuelle Domain,  ordne einen Menupunkt zu, der den gewünschten Inhalt für "Home" zur Verfügung stellt und ordne ein Template zu.</li>
+		<li>Definiere Sprache (für Joomfish), Meta-Description, Keywords, und ggf. eigene Parameter.</li>
+		 </ol>		 
+</div>
+<div><i><strong>Achtung:</strong> Trage nicht die Standard/Hauptdomain ein. Für die Standarddomain gelten die Einstellungen für Template und Startseite von Joomla. Sie muss im Plugin "virtualdomains.php" erfasst werden</i></div>
+<h3>Screenshot1</h3>
+<img src="images/vd-screen-1.png" />
+<h3>Screenshot2</h3>
+<img src="images/vd-screen-2.png" />
+<div>
+		<ol>
+		<li><strong>Sprache: </strong>Wird von Joomfish verwendet</li>
+		<li><strong>Meta-Description/Keywords: </strong>Für diese Seite in den Metatags ausgeben</li>
+		<li><strong>Eigene Parameter: </strong>Unter dem Menupunkt "Params" definieren. Eigene Parameter können von Programmierern für  domainspezifische Anpassungen verwendet werden.</li>
+		 </ol>
+</div>
+<a name="a3"></a>
+<h2>Ansicht Parameter</h2>
+<h3>Beschreibung</h3>
+<div>Eigene Parameter können von Programmierern für  domainspezifische Anpassungen verwendet werden.<br />Definieren Sie hier neue Parameter-Schlüssel. Die dazugehörigen Werte können Sie für jede Domain in der jeweiligen Vorlage eintragen. Schlüssel und Werte werden der Variable $_REQUEST  oder $_GLOBALS hinzugefügt.</div>
+<h3>Screenshot</h3>
+<img src="images/vd-screen-3.png" />
+<div>
+		<ol>
+		<li><strong>Name: </strong>Schlüssel/Keyword des Parameters</li>
+		<li><strong>Aktion: </strong>
+				<ul>
+				<li><strong>Keine:</strong>Nicht in den Variablen $_GLOBALS und $_REQUEST ausgeben <i>(z.b., um statt dessen eine Datenbankabfrage zu verwenden)</i></li>
+				<li><strong>Request:</strong>In der Variablen $_REQUEST ausgeben</li>
+				<li><strong>Globals:</strong>In der Variablen $_GLOBALS ausgeben</li>
+				</ul>
+		</li>
+		<li><strong>Nur Startseite: </strong>Den Parameter nur für die Startseite der Domain verwenden.</li>
+		 </ol>
+</div>
 </body>
 </html>
