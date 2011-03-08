@@ -1,7 +1,7 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD plugin 1.0//EN" "http://www.joomla.org/xml/dtd/1.5/plugin-install.dtd">
 <install version="1.5" type="plugin" group="system">
 	<name>System - virtualdomains</name>
-	<creationDate>September 2008</creationDate>	
+	<creationDate>March 2011</creationDate>	
 	<author>Michael Liebler</author>
 	<authorEmail>michael-liebler@janguo.de</authorEmail>
 	<authorUrl>www.janguo.de</authorUrl>
@@ -13,10 +13,23 @@
 		<filename plugin="virtualdomains">virtualdomains.php</filename>
 	</files>
 	<params>
-		<param name="std_domain" type="text" default="www.mydomain.tld" label="Standard Domain" description="The Standard Domain" />
+		<param name="std_domain" type="text" default="www.mydomain.tld" label="Default Domain" description="The Default Domain" />
 		<param name="noreroute" type="radio" default="" label="Change only template" description="Use Virtual Domains as template switcher only">
 			<option value="">No, point to a menu item</option>
 			<option value="1">Yes, only template</option>
 		</param>	
 	</params>
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic">
+				<field name="std_domain" type="text" default="www.mydomain.tld" label="Default Domain" description="The Default Domain" />
+
+					<field name="noreroute" type="radio" default="" label="Change only template" description="Use Virtual Domains as template switcher only" >
+					<option value="">No, point to a menu item</option>
+					<option value="1">Yes, only template</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>	
 </install>
