@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="package_vd_build" default="build">
+<project name="package_vd_build" default="build-all">
+	<property name="revisionx" value="x" override="true"/>
+	 <property name="package" value="pkg_virtualdomains" override="true"/>	
+	 <php expression="file_get_contents('version')" returnProperty="vd.version" />  
+	 <exec returnProperty="revision"	outputProperty="revisionx" command="svn info | grep Revision | awk '{print $2}'" dir="." />	 
 	<target name="clean">
 		<echo msg="Cleaning directories" />
 		<delete dir="packages" includeemptydirs="true" />
-		<delete file="pkg_virtualdomains.zip" />
+		<delete>		
+			<fileset dir=".">
+    			<include name="*.zip" />
+  			</fileset>
+  		</delete>
+	</target>
+
+	<target name="build-all">
+		<phingcall target="clean" />
+		<phingcall target="build" />
+		<phingcall target="build-15" />
 	</target>
 
 	<target name="build">
-		<echo msg="Building package" />
+		<echo msg="Building package for Joomla 1.6" />
 		<mkdir dir="packages" />
 		<copy file="build_1.6/com_virtualdomains.xml" tofile="com_virtualdomains/com_virtualdomains.xml" overwrite="true"/>
 		<zip destfile="packages/com_virtualdomains.zip" basedir="com_virtualdomains" />
 		<zip destfile="packages/plg_virtualdomains.zip" basedir="plg_virtualdomains" />
 		<copy file="build_1.6/pgk_virtualdomains.xml" tofile="pgk_virtualdomains.xml" overwrite="true"/>						
-		<zip destfile="pkg_virtualdomains.zip">
+		<zip destfile="${package}-${vd.version}-j1.6-r${revisionx}.zip">
 			<fileset dir=".">
 				<include name="packages/**" />
 				<include name="pgk_virtualdomains.xml" />
 			</fileset>
 		</zip>
 		<delete file="pgk_virtualdomains.xml" />
+		<delete dir="packages" includeemptydirs="true" />
 	</target>
 	
 	<target name="build-15">
-		<echo msg="Building package 1.5." />
+		<echo msg="Building package for Joomla 1.5." />
 		<copy file="build_1.5/com_virtualdomains.xml" tofile="com_virtualdomains/com_virtualdomains.xml" overwrite="true"/>
 		<copy file="install.package.php" tofile="com_virtualdomains/install.package.php" overwrite="true"/>
 		<mkdir dir="com_virtualdomains/plg_virtualdomains" />
@@ -32,10 +47,12 @@
 		    <include name="**/*.*" />
 		  </fileset>
 		</copy>
-		<copy file="uninstall.package.php" tofile="com_virtualdomains/uninstall.package.php" overwrite="true"/>
-		<zip destfile="virtualdomains.zip" basedir="com_virtualdomains" />		
+		<copy file="uninstall.package.php" tofile="com_virtualdomains/uninstall.package.php" overwrite="true"/>		
+		<zip destfile="${package}-${vd.version}-j1.5-r${revisionx}.zip" basedir="com_virtualdomains" />		
 		<delete file="com_virtualdomains/install.package.php" />
 		<delete file="com_virtualdomains/uninstall.package.php" />
-		<delete dir="com_virtualdomains/plg_virtualdomains" includeemptydirs="true" />
+		<delete dir="com_virtualdomains/plg_virtualdomains" includeemptydirs="true" />		
+		<delete dir="packages" includeemptydirs="true" />			
 	</target>	
+	
 </project>

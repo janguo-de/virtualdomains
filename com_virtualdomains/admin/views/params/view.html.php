@@ -89,7 +89,7 @@ class VirtualdomainsViewParams  extends JView {
 			$item->published = 1;
 		}
 	
-		$lists['published'] 		= JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $item->published );
+		//$lists['published'] 		= JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $item->published );
 		
 	 	$this->assign('form', $form);
 	 

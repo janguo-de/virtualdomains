@@ -7,7 +7,7 @@
 	<authorUrl>http://www.janguo.de</authorUrl>
 	<copyright>Copyright (C) 2010  Open Source Matters. All rights reserved.</copyright>	
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.0 Sulu</version>
+	<version>0.4 Chekov</version>
 	<description>Multi Domain Support for Joomla</description>
 	<installfile>install.package.php</installfile>
 	<uninstallfile>uninstall.package.php</uninstallfile>
@@ -40,6 +40,7 @@
 			<folder>joomla</folder>						
 			<folder>controllers</folder>
 			<folder>helpers</folder>
+			<folder>help</folder>
 			<folder>models</folder>
 			<folder>sql</folder>			
 			<folder>tables</folder>

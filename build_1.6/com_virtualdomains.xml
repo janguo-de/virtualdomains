@@ -1,4 +1,4 @@
-<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD component 1.0//EN" "http://www.janguo.de/xml/package-install.dtd">
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD component 1.0//EN" "http://www.janguo.de/xml/package-install.dtd">
 <extension type="component" version="1.6.0">
 	<name>Virtual Domains</name>
 	<creationDate>2011-01-02</creationDate>
@@ -7,7 +7,7 @@
 	<authorUrl>http://www.janguo.de</authorUrl>
 	<copyright>Copyright (C) 2010  Open Source Matters. All rights reserved.</copyright>	
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.0 Sulu</version>
+	<version>0.4 Chekov</version>
 	<description>Multi Domain Support for Joomla</description>
 	<install>
 		<sql>
