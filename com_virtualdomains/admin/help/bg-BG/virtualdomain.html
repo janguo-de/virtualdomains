@@ -1,48 +1,611 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<title>Jimtawl Hilfe</title>
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
-<style type="text/css">
-<!--
-body{
-	font-family: Verdana,Arial,sans-serif;
-	font-size:0.8em;
-	line-height:1.1;
-	background-color:#EEE8D5;
-}
--->
-</style>
-</head>
+<title>Virtual Domains</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script src="jquery-1.5.1.min.js" type="text/javascript"></script>
+<script src="easyTooltip.js" type="text/javascript"></script>
+<style>
+body { background-color:#fff;font:80% Verdana,Tahoma,Arial,sans-serif; }
+h1, h2, h3, h4 {  font-family: "Trebuchet MS",Georgia,"Times New Roman",serif; }
+ul#contentmenu { padding: 4px; margin-left: 0; }
+ul#contentmenu a {text-decoration:none;color:#3b3b3b}
+ul#contentmenu a.active {color:#990000}
+ul#contentmenu li { list-style-type:none; }
+ul#contentmenu li.heading2 { margin-left: 1em; }
+ul#contentmenu li.heading3 { margin-left: 2em; }
 
-<body bgcolor="#FFFFFF" text="#000000">
-<h1> Помощ за Virtual Domains</h1>
-<h2>Въведение</h2>
-<p>Идеята на Virtual Domains е да имате два или повече сайта с различен дизайн и частично различно съдържание и функционалност, но без необходимостта да управлявате едно и също съдържание няколко пъти.</p>
-<p>Това може да бъде постигнато с Joomla в комбинация с Virtual Domains като определите за всеки от уебсайтовете/домейните определен шаблон и посочите коя връзка от менюто да бъде начална страница на сайта.</p>
-<h2>Пример</h2>
-<p>1. Домейнът<em><strong> main.domain.tld</strong></em> започва с връзка от меню &quot;<strong>Начало</strong>&quot; и с назначен шаблон &quot;<strong>ja_purity</strong>&quot;. (Връзката &quot;<B>Начало</B>&quot; е част от менюто &quot;<strong>firstmenu</strong>&quot;).<br />
+a {text-decoration:none}
+img {border:none}
+a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
+h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
+
+#easyTooltip{
+	margin:0 10px 1em 0;
+	width:400px;
+	padding:8px;
+	background:#efefef;
+	border:1px dotted #bababa;
+	line-height:130%;				
+	}
+#easyTooltip h3{
+	margin:0 0 .5em 0;
+	font:13px Arial, Helvetica, sans-serif;
+	text-transform:uppercase;
+	}	
+#easyTooltip p{
+	margin:0 0 .5em 0;
+	}		
+#easyTooltip img{
+		background:#fff;
+		padding:1px;
+		border:1px solid #e1e1e1;
+		float:left;
+		margin-right:10px;
+		}	
+
+#sidebar {
+   position:fixed;
+   width:250px;	
+   background-color:#eee;	
+   height:100%;
+}
+#content {
+   display:block;
+   margin-left:250px;
+   padding-left:10px;
+   height:100%;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.chapter').hide();
+    $('.popup').hide();    
+    $('#00-Wiki').show();  
+    $('#contentmenu>li>a').click(function () { 
+       $('.chapter').hide();
+       $('#contentmenu li a').removeClass('active');      
+       $('.submenu li a').removeClass('active');
+	var myid = $(this).attr('href');
+	$(this).addClass('active');
+        $(myid).show();
+    });    
+    $('.submenu li a').click(function () { 
+       $('.chapter').hide();      
+       $('#contentmenu li a').removeClass('active');
+       $('.submenu li a').removeClass('active');
+	var myid = $(this).attr('href');
+	$(this).addClass('active');
+        $("#04-04-Chekov-configuration").show();
+    });   
+
+	$("a#a-Whats-all-this-in-aid-of").easyTooltip({
+			useElement: "Using-Parameters"				   
+	});
+
+ 	$("a#a-ServerAliases").easyTooltip({
+			useElement: "Server-Aliases"				   
+	});
+});
+</script>
+</head>
+<body>
+<div id="sidebar">
+<strong>Content</strong>
+<ul id="contentmenu"> 
+
+    <li><a class="active" href="#00-Wiki">Description</a></li>
+
+    <li><a href="#01-04-Chekov-features">New Features</a></li>
+
+    <li><a href="#02-04-Chekov-requierements">Requirements</a></li>
+
+    <li><a href="#03-04-Chekov-installation">Installation</a></li>
+
+    <li><a href="#04-04-Chekov-configuration">Backend Manual</a>
+	<ul class="submenu">
+	    <li><a href="#Virtualdomains-Manager">Virtualdomains Manager</a></li>
+            <li><a href="#Details-Page">Details Page</a></li>
+            <li><a href="#Parameters-Manager">Parameters Manager</a></li>	
+            <li><a href="#About">About</a></li>
+            <li><a href="#Component-Configuration">Component Configuration</a></li>
+            <li><a href="#Plugin">Plugin</a></li>
+	</ul>
+    </li>
+
+    <li><a href="#05-04-Chekov-quickanddirty">Quick'nDirty</a></li>
+
+    <li><a href="#06-04-Chekov-restrictions">Restrictions</a></li>
+
+</ul>
+</div>
+<div id="content">
+<hr />
+<a name="00-Wiki" />
+
+<div class="chapter" id="00-Wiki">
+<h1>Description<a href="#Wiki" class="wiki-anchor">&para;</a></h1>
+
+
+	<p>VD provides Multi-domain capability for Joomla without changing the Joomla core files. Simply register any number of additional available domains in the components backend and define their properties.</p>
+
+
+	<p>You can run different web sites from a single Joomla installation with specific designs, (default) languages, home page content and navigation.</p>
+
+
+	<p>Installation of a separate template per subdomain/domain is recommended. An adaptation of the templates might be necessary.</p>
+
+
+	<p><strong>Current Version</strong>:</p>
+
+
+	<h2 id="04-Chekov">0.4-Chekov<a href="#04-Chekov" class="wiki-anchor">&para;</a></h2>
+
+
+	<ul>
+	<li><a href="#01-04-Chekov-features" class="wiki-page">New Features</a></li>
+		<li><a href="#02-04-Chekov-requierements" class="wiki-page">Requirements</a></li>
+		<li><a href="#03-04-Chekov-installation" class="wiki-page">Installation</a></li>
+		<li><a href="#04-04-Chekov-configuration" class="wiki-page">Backend Manual</a></li>
+		<li><a href="#05-04-Chekov-quickanddirty" class="wiki-page">Quick'nDirty Example</a></li>
+		<li><a href="#06-04-Chekov-restrictions" class="wiki-page">Restrictions</a></li>
+	</ul>
+
+<hr />
+</div>
+<div class="chapter" id="01-04-Chekov-features">
+<a name="01-04-Chekov-features" />
+
+<h1>0.4 Chekov Features<a href="#04-Chekov-Features" class="wiki-anchor">&para;</a></h1>
+
+
+	<h2 id="Features-in-component">Features in component<a href="#Features-in-component" class="wiki-anchor">&para;</a></h2>
+
+
+	<ul>
+	<li>preview in Joomla Backend</li>
+	</ul>
+
+
+<blockquote>
+
+	<p><a href="#Virtualdomains-Backend-Preview" class="wiki-page new">virtualdomains Backend Preview howto</a></p>
+
+
+</blockquote>
+
+	<ul>
+	<li>flexible Custom Parameters defining for more flexibility with and without hardcoding</li>
+	</ul>
+
+
+<blockquote>
+
+	<p><a href="#Custom-parameters" class="wiki-page new">virtualdomains custom parameters howto</a></p>
+
+
+</blockquote>
+
+	<ul>
+	<li>Domain specific Meta-Description and Meta-Keywords</li>
+		<li>Domain specific default language</li>
+	</ul>
+
+
+	<h2 id="Features-in-plugin">Features in plugin<a href="#Features-in-plugin" class="wiki-anchor">&para;</a></h2>
+
+
+	<ul>
+	<li>Faster Domain allocation</li>
+	</ul>
+
+<hr />
+</div>
+<div  class="chapter" id="02-04-Chekov-requierements">
+
+<a name="02-04-Chekov-requierements" />
+<h1>Requirements (04-Chekov)<a href="#Requirements-04-Chekov" class="wiki-anchor">&para;</a></h1>
+
+
+	<ol>
+	<li>Is Compatible with Joomla 1.5 and 1.6</li>
+		<li>Php-version min 5.2.0</li>
+		<li>1 or more Server Aliases for your domain<br />  or<br />  2 or more virtual hosts, pointing to the same document root
+
+	<p><strong>Notice</strong>: <em>Don't try to realize this, by using a rewrite rule in your .htaccess file</em></p></li>
+	</ol>
+
+
+	<p>Learn more about <a id="a-ServerAliases" href="#ServerAliases" class="wiki-page">Server Aliases</a></p>
+
+<hr />
+</div>
+<div class="chapter" id="03-04-Chekov-installation">
+<a name="03-04-Chekov-installation" />
+<h1>Installation (04-Checkov)<a href="#Installation-04-Checkov" class="wiki-anchor">&para;</a></h1>
+
+
+	<ol>
+	<li>Download Virtualdomains for your Joomla Version</li>
+		<li>From the Joomla backend select <em>Extensions⇒Install/Uninstall</em> / <em>Extensions⇒Extension Manager</em>, click the upload button, select the package from your download folder and click <strong>Upload &#38; Install</strong>. <br />  The package will be installed and the Message "Installing package was successful." will be shown.</li>
+		<li>Select <em>Extensions⇒Plugin-Manager</em>, filter for System Plugins and click on <strong>System - Virtualdomains</strong>, to edit the plugins parameters.</li>
+		<li>Replace the entry for "Standard Domain" with your domain and click <strong>Save</strong>.</li>
+	</ol>
+
+
+	<p><a class="thumb" href="images/vd-plugin.jpg"><img src="images/87.jpg" /></a>
 </p>
-<p>2. Домейнът<em><strong> second.domain.tld</strong></em> започва с връзка от меню &quot;<B>Новини</B>&quot; и с назначен шаблон &quot;Beez&quot;. (Връзката &quot;<B>Новини</B>&quot; е блог страница на категорията &quot;<B>Новини</B>&quot; и е част от менюто &quot;<strong>secondmenu</strong>&quot;).<br />
+
+
+	<p>You can setup now your additional domains/subdomains (<em>Components⇒Virtualdomains</em>)</p>
+
+<hr />
+</div>
+<div class="chapter" id="04-04-Chekov-configuration">
+<a name="04-04-Chekov-configuration" />
+<h1>Backend Overview (04-Chekov)<a href="#Backend-Overview-04-Chekov" class="wiki-anchor">&para;</a></h1>
+
+
+	<p>Joomla Virtualdomains Backend Overview</p>
+
+
+	<p><strong>Joomla Backend Virtualdomains Menu</strong></p>
+
+
+	<table>
+		<tr>
+			<td><a href="#Virtualdomains-Manager" class="wiki-page">Virtualdomains</a></td>
+			<td><a href="#Parameters-Manager" class="wiki-page">Parameters</a></td>
+			<td><a href="#About" class="wiki-page">About</a></td>
+		</tr>
+	</table>
+
+
+
+
+	<h2 id="Virtualdomains-Manager">Virtualdomains Manager<a href="#Virtualdomains-Manager" class="wiki-anchor">&para;</a></h2>
+
+
+	<h3 id="Manager-Description">Manager Description<a href="#Manager-Description" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Register new Domains. Reconfigure and preview registered domains.</p>
+
+
+	<h3 id="Screenshot">Screenshot<a href="#Screenshot" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><a class="thumb" href="images/vd-screen-4.jpg"><img src="images/67.jpg" /></a>
 </p>
-<p>3.  И двата домейна трябва да показват менюто &quot;<strong>Company</strong>&quot;. (Менюто &quot;<B>Company</B>&quot; съдържа различни връзки за вашата фирма).<br />
+
+
+	<h3 id="Toolbar">Toolbar<a href="#Toolbar" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><img src="VD_manager_toolbar.jpg" alt="" /></p>
+
+
+	<ul>
+	<li><strong>Edit/New</strong>: Edit or register domains on the <a href="#Details-Page" class="wiki-page">Details Page</a></li>
+		<li><strong>Parameters</strong>: <a href="#Component-Configuration">Component Configuration</a></li>
+	</ul>
+
+
+	<h3 id="Columns">Columns<a href="#Columns" class="wiki-anchor">&para;</a></h3>
+
+
+	<ul>
+	<li><strong>Domain</strong>: Open the link to edit the domain on the <a href="#Details-Page" class="wiki-page">Details Page</a></li>
+		<li><strong>Preview</strong>: Show the domain in the preview frame and test if it works. (Define height and width in the <a href="#Component-Configuration">Component Configuration</a>)</li>
+	</ul>
+
+
+	<h2 id="Details-Page">Details Page<a href="#Details-Page" class="wiki-anchor">&para;</a></h2>
+
+
+	<h3 id="Details-Description">Details Description<a href="#Details-Description" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Configure the properties of a domain/subdomain.</p>
+
+
+	<h3 id="Details-Screenshot">Details Screenshot<a href="#Details-Screenshot" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><a class="thumb" href="images/vd-details.jpg"><img src="images/81.jpg" /></a>
 </p>
-<h2>Приложение</h2>
-<ol>
-  <li>Добавете необходимите връзки в менютата.<br />
-  </li>
-  <li> В шаблона &quot;<strong>ja_purity</strong>&quot;, във файла <em>&quot;templateDetails.xml</em>&quot;, в секция &quot;<em><strong>positions</strong></em>&quot; добавете позциция &quot;<strong>first&quot;</strong>, в шаблона &quot;<strong>Beez</strong>&quot; добавете позиция &quot;<strong>second</strong>&quot;, а в двата шаблона - позиция &quot;<strong>company</strong>&quot;. Уверете се, че позициите се извикват от index.php файловете в двата шаблона и са поставени на правилните места (напр. <em>&lt;jdoc:include type=&quot;modules&quot; name=&quot;first&quot; /&gt;</em>)<br />
-  </li>
-  <li>В Приложения / Модули поставете 
-    <ul>
-      <li>меню &quot;<strong>firstmenu</strong>&quot; на позиция &quot;<strong>first</strong>&quot;</li>
-      <li>меню &quot;<strong>secondmenu</strong>&quot; на позиция &quot;<strong>second</strong>&quot; </li>
-      <li>меню &quot;<strong><strong><B>Company</B></strong></strong>&quot; на позиция &quot;<strong><strong><B>company</B></strong></strong>&quot;<br />
-      </li>
-    </ul>
-  </li>
-  <li>В добавката Virtual Domains посочете <em><strong>main.domain.tld</strong></em> като основен домейн.</li>
-  <li>В управление на  Virtual Domains добавете <em><strong>second.domain.tld</strong></em> като нов запис, задайте шаблона &quot;<B>Bee<B>z</B></B>&quot; и връзката от менюто &quot;<B>Новини</B>&quot; като начална страница.</li>
-</ol>
-<p>Сега всеки сайт има различен дизайн и отделни менюто с различно съдържание, но също така и едно общо меню с едно и също съдържание.</p>
+
+
+	<h3 id="Details-Fields">Details Fields<a href="#Details-Fields" class="wiki-anchor">&para;</a></h3>
+
+
+	<ul>
+	<li><strong>Domain Name</strong>: The name of a domain/subdomain (FQDN) that points to your Joomla site. Note, that VD will accept the domains www alias too. So don't enter <a class="external" href="http://www.mydomain.com">www.mydomain.com</a>, if your default domain is mydomain.com.</li>
+	</ul>
+
+
+	<ul>
+	<li><strong>Home Menu Item</strong>: This will be the Home of the domain regardless of the settings you have made in Joomla.</li>
+	</ul>
+
+
+	<ul>
+	<li><strong>Template</strong>: Defines the template for this domain .</li>
+	</ul>
+
+
+	<ul>
+	<li><strong>Language Name</strong>: The default language (Joomla 1.5 requires JoomFish).</li>
+	</ul>
+
+
+	<ul>
+	<li><strong>Meta Description</strong>: Alternating Meta Description in the header of the HTMl document.</li>
+	</ul>
+
+
+	<ul>
+	<li><strong>Keywords</strong>: Alternating keywords in the header of the HTMl document.</li>
+	</ul>
+
+
+	<ul>
+	<li><strong>Custom Parameters</strong>: Enter values for the parameters, you have defined on the <a href="#Parameters-Manager" >Parameters Manager</a>.</li>
+	</ul>
+
+
+	<p><strong>Note:</strong> Don't enter the default domain here. It is to define in the VD plugin (<em>*Extensions->Plugin Manager->System - Virtualdomains*</em>). For it the common Joomla settings are valid.</p>
+
+
+	<p><strong>Note:</strong> Some people uses VD as a template switcher. For this purpose there is a parameter "Change only template" on the VD plugin settings. If this parameter has been set to "Yes", only the value for <strong>Template</strong> will have affect.</p>
+
+
+	<h2 id="Parameters-Manager">Parameters Manager<a href="#Parameters-Manager" class="wiki-anchor">&para;</a></h2>
+
+
+	<h3 id="Parameters-Description">Parameters Description<a href="#Parameters-Description" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Custom Parameters may be used by programmers for domain specific adaptions.<br />You can define new parameter keys. Once you have stored a parameter, it will be shown on the domain <a href="#Details-Page" class="wiki-page">Details Page</a>, where you can define the parameters value for each domain.</p>
+
+
+	<p>Keys and values are added to the variables $_REQUEST or $GLOBALS.</p>
+
+
+         <h3><a id="a-Whats-all-this-in-aid-of" href="#Whats-all-this-in-aid-of">What's all this in aid of?</a></h3>
+
+
+	<h3 id="Parameters-Screenshot">Parameters Screenshot<a href="#Parameters-Screenshot" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><a class="thumb" href="images/vd-screen-3.jpg"><img src="images/79.jpg" /></a>
+</p>
+
+
+	<h3 id="Fields">Fields<a href="#Fields" class="wiki-anchor">&para;</a></h3>
+
+
+	<ul>
+	<li><strong>Name</strong>: Parameters key</li>
+		<li><strong>Action</strong>: 
+	<ul>
+	<li><strong>None</strong>: Don't add to $GLOBALS and $_REQUEST (eg, to instead use a database query)</li>
+		<li><strong>Request</strong>: Add to $_REQUEST</li>
+		<li><strong>Globals</strong>: Add to $_GLOBALS</li>
+	</ul>
+	</li>
+		<li><strong>Home only</strong>: Use the parameter only for the home of the domain.</li>
+	</ul>
+
+
+	<h2 id="About">About<a href="#About" class="wiki-anchor">&para;</a></h2>
+
+
+	<h3 id="About-Description">About Description<a href="#About-Description" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Information on developers and support</p>
+
+
+	<h2 id="Component-Configuration">Component Configuration<a href="#Component-Configuration" class="wiki-anchor">&para;</a></h2>
+
+
+	<h3 id="How-to-Access">How to Access<a href="#How-to-Access" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Select Components → Virtualdomains from the drop-down menu of the Joomla! Administrator Panel and click on the Confguration/Options Button at the <a href="#Toolbar" >toolbar</a>.</p>
+
+
+	<p><img src="toolbar.jpg" alt="" /> <img src="options.jpg" alt="" /></p>
+
+
+	<h3 id="Configuration-Description">Configuration Description<a href="#Configuration-Description" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Configure dimensions of the preview frame</p>
+
+
+	<h3 id="Configuration-Screenshot">Configuration Screenshot<a href="#Configuration-Screenshot" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><a class="thumb" href="images/config.jpg"><img src="images/83.jpg" /></a>
+</p>
+
+
+	<h3 id="Preview-Options">Preview Options<a href="#Preview-Options" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Configure the dimensions of the preview frame. Customize it with your default/own Monitor settings, if required.</p>
+
+
+	<ul>
+	<li><strong>Frame Width</strong>: The width of the Preview Window </li>
+		<li><strong>Frame Height</strong>: The height of the Preview Window</li>
+	</ul>
+
+
+	<h2 id="Plugin">Plugin<a href="#Plugin" class="wiki-anchor">&para;</a></h2>
+
+
+	<h3 id="How-to-Acess-the-Plugin">How to Acess the Plugin<a href="#How-to-Acess-the-Plugin" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Select <em>Extensions → Plugin Manager</em> from the drop-down menu of the Joomla! Administrator Panel and filter for system plugins. The entry System - Virtualdomains will be shown.</p>
+
+
+	<h3 id="Plugin-Description">Plugin Description<a href="#Plugin-Description" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>The VD Plugin rewrites the joomla settings according your definitions, if your site is called under one of the configured domains/subdomains. <br />You must define your default domain in the plugins settings.</p>
+
+
+	<h3 id="Plugin-Screenshot">Plugin Screenshot<a href="#Plugin-Screenshot" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><a class="thumb" href="images/vd-plugin.jpg"><img src="images/89.jpg" /></a>
+</p>
+
+
+	<h3 id="Plugin-Parameters">Plugin Parameters<a href="#Plugin-Parameters" class="wiki-anchor">&para;</a></h3>
+
+
+	<ul>
+	<li><strong>Standard Domain:</strong> Enter the name of your default domain (mandatory)</li>
+		<li><strong>Change only template:</strong> Use VD as temlplate switcher only. Other settings in the domain details page will be ignored.</li>
+	</ul>
+
+<hr />
+</div>
+<div  class="chapter" id="05-04-Chekov-quickanddirty">
+<a name="05-04-Chekov-quickanddirty" />
+<h1>Quick'n Dirty Example<a href="#Quickn-Dirty-Example" class="wiki-anchor">&para;</a></h1>
+
+
+	<h2 id="Introduction">Introduction<a href="#Introduction" class="wiki-anchor">&para;</a></h2>
+
+
+	<p>There are two main properties that VD changes for the additional domains:</p>
+
+
+	<ol>
+	<li>The appearance: to the domain is assigned a different template</li>
+		<li>The Home: Instead of the start menu item configured in Joomla, the domain uses an alternative menu item.</li>
+	</ol>
+
+
+	<p>This makes possible a completely altered navigation structure by doing a few changes.</p>
+
+
+	<h2 id="Example">Example<a href="#Example" class="wiki-anchor">&para;</a></h2>
+
+
+	<ol>
+	<li>Domain main.domain.tld starts with the menu item "Home" and the template ja_purity is assigned. (Say Home is part of the menu "firstmenu").  </li>
+		<li>Domain second.domain.tld starts with the menu item "News" and the template 'Beez' is assigned. (Say "News" menu item is the blog view of the category "News" and part of the menu "secondmenu").  </li>
+		<li>Both domains should show the menu "Company". (Let's say Company contains various links to learn more about our company).</li>
+	</ol>
+
+
+	<h4>Practice</h4>
+
+
+	<ol>
+	<li>Add the required menu items.</li>
+		<li>In the template ja_purity define in the file "templateDetails.xml" at the section "positions" a position "first", in the template 'Beez' define a position 'second' and in both templates a position 'company'. Make sure that the positions are called by the index.php of the templates and are located at the right place (eg: &lt;jdoc:include type="modules" name="first" /&gt;)</li>
+		<li>Under Extensions> Modules assign
+	<ul>
+	<li>to the menu 'firstmenu' the position 'first'</li>
+		<li>to the menu 'secondmenu' the position 'second'</li>
+		<li>to the menu 'Company' the position company</li>
+	</ul>
+	</li>
+		<li>In the plugin virtualdomains define main.domain.tld as the default domain.</li>
+		<li>In the Virtual Domains Manager add the second.domain.tld as item, assign the the template 'Beez' and the menu item "News" as point of start.</li>
+	</ol>
+
+
+	<p>Now each site has a different design, and a separate menu with different content but also a common menu with the same content.</p>
+
+<hr />
+</div>
+<div  class="chapter" id="06-04-Chekov-restrictions">
+<a name="06-04-Chekov-restrictions" />
+
+<h1>Restrictions (04-Chekov)<a href="#Restrictions-04-Chekov" class="wiki-anchor">&para;</a></h1>
+
+
+	<ul>
+	<li>VD doesn't really separate the domains content. <br />   E.g. if you use the search form, you will get the stuff of all your domains. <br />   You also can't explicitly define frontpage articles for the additional domains.</li>
+		<li>Third party extensions may conflict with VD. You can reduce the risk by placing the VD plugin in the first place of the system plugins.</li>
+	</ul>
+
+<hr />
+</div>
+<div class="popup" id="Using-Parameters">
+<a name="Parameters-more" />
+<h1>Using Parameters<a href="#Using-Parameters" class="wiki-anchor">&para;</a></h1>
+
+
+	<h2 id="Description">Description<a href="#Description" class="wiki-anchor">&para;</a></h2>
+
+
+	<p>Parameters are usefull for the distinction of cases regarding the domains.</p>
+
+
+	<h2 id="Example">Example<a href="#Example" class="wiki-anchor">&para;</a></h2>
+
+
+	<p>Sorry, this is a very simple Example, that could be realized in many other ways:.</p>
+
+
+	<p>Suppose you decided to use the same template for two domains, for example because mainly the language differs. But the logos are different too.</p>
+
+
+	<p>So, you may define the parameter "showlogo" and choose the action "Request".</p>
+
+
+	<p>In the VD details view you enter for domain first.mydomain.com the value "logo1.jpg", and for domain second.mydomain.com the value "logo2.jpg" (Both images are stored in joomlas common image folder)</p>
+
+
+	<p>This has the same effect as if its appended to the query "showlogo=logo1.jpg": <br /><a class="external" href="http://first.mydomain.com?showlogo=logo1.jpg">http://first.mydomain.com?showlogo=logo1.jpg</a> <em>or</em> <a class="external" href="http://first.mydomain.com/about/?showlogo=logo1.jpg">http://first.mydomain.com/about/?showlogo=logo1.jpg</a>.</p>
+
+
+	<p>The following code in the template completes the work:</p>
+
+
+<pre>
+&lt;img src="images/&lt;?php echo JFactory::getVar('showlogo') ?&gt;" /&gt;
+</pre>
+
+<hr />
+</div>
+<div class="popup" id="Server-Aliases">
+<a name="ServerAliases" />
+<h1>Server Aliases<a href="#Server-Aliases" class="wiki-anchor">&para;</a></h1>
+
+
+	<p>Surely you can access your web site in the browser under two addresses:</p>
+
+
+	<p>Domain: mycompany.com<br />Alias: <a class="external" href="http://www.mycompany.com">www.mycompany.com</a></p>
+
+
+	<p>Two preconditions must be met:</p>
+
+
+	<ol>
+	<li>The nameserver of your provider refers both mycompany.com and <a class="external" href="http://www.mycompany.com">www.mycompany.com</a> on the IP address of the webserver on which is your web site.</li>
+	</ol>
+
+
+	<ol>
+	<li><a class="external" href="http://www.mycompany.com">www.mycompany.com</a> is registered on the webserver as an alias of mycompany.com</li>
+	</ol>
+
+
+	<p>You can add more server aliases like www2. Your provider will do this for you, or you can define it via a configuration tool like <a href="http://en.wikipedia.org" class="external">Plesk</a>, if available.<br /><em><br /><strong>Notice</strong>: Alternatively, instead of a server alias, a new virtual host www2.mycompany.com may be created on the webserver, pointing to the same directory/document root. The result will be the same.</em><br /><em><br /><strong>Caution</strong>: Never try to realize the VD Hosts by using the .htaccess file. This won't work.</em></p>
+</div>
+</div>
 </body>
 </html>
