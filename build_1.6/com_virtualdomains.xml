@@ -43,14 +43,24 @@
 			<folder>joomla</folder>						
 			<folder>controllers</folder>
 			<folder>helpers</folder>
+			<folder>language</folder>
 			<folder>help</folder>
 			<folder>models</folder>	
 			<folder>tables</folder>
 			<folder>views</folder>									
 		</files>	
-        <languages folder="admin">
-        	<language tag="en-GB">language/en-GB.com_virtualdomains.ini</language>
-            <language tag="de-DE">language/de-DE.com_virtualdomains.ini</language>            
-		</languages>		
-	</administration>              	
+ 		<languages folder="admin">
+                        <language tag="en-GB">language/en-GB/en-GB.com_virtualdomains.ini</language>
+						<language tag="en-GB">language/en-GB/en-GB.com_virtualdomains.sys.ini</language>
+      					<language tag="de-DE">language/de-DE/de-DE.com_virtualdomains.ini</language>
+						<language tag="de-DE">language/de-DE/de-DE.com_virtualdomains.sys.ini</language>
+      					<language tag="bg-BG">language/bg-BG/bg-BG.com_virtualdomains.ini</language>
+						<language tag="bg-BG">language/bg-BG/bg-BG.com_virtualdomains.sys.ini</language>												
+	</languages>					
+
+	</administration>        
+	<updateservers>
+                <server type="extension" priority="1" name="Virtualdomains Update Site">http://janguo.de/vd/update/vd-update.xml</server>
+ 	</updateservers>
+	      	
 </extension>
