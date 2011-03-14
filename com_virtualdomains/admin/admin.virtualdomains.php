@@ -29,9 +29,11 @@ $GLOBALS['alt_libdir'] = ($jv->RELEASE < 1.6) ? JPATH_COMPONENT_ADMINISTRATOR : 
 //set the default view
 $controller = JRequest::getWord('view', 'virtualdomain');
 
+require_once( JPATH_COMPONENT.DS.'helpers'.DS.'virtualdomains.php' );
+
 //add submenu for 1.6
 if ($jv->RELEASE > 1.5) {
-	require_once( JPATH_COMPONENT.DS.'helpers'.DS.'virtualdomains.php' );
+
 	VirtualdomainsHelper::addSubmenu($controller);	
 }
 
