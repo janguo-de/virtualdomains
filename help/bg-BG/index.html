@@ -36,6 +36,12 @@
     <li><a href="#05-04-Chekov-quickanddirty">Quick'nDirty</a></li>
 
     <li><a href="#06-04-Chekov-restrictions">Restrictions</a></li>
+       <li><a href="#Appendix">Appendix</a>
+      <ul class="submenu">
+      			<li><a href="#Setup-a-Test-Environment-under-Windows">Setup a test environment under Windows</a></li>
+      			<li><a href="#Setup-a-Test-Environment-under-Linux-DebianUbuntu">Setup a test environment under Linux (Debian/Ubuntu)</a></li>
+      </ul>
+      </li>
 
 </ul>
 </div>
@@ -461,6 +467,106 @@
 
 <hr />
 </div>
+<div id="Appendix" class="chapter">
+<h1>Setup a Test Environment </h1>
+
+<div id="Setup-a-Test-Environment-under-Windows">
+<h2>Windows<a href="#Windows" class="wiki-anchor">&para;</a></h2>
+
+
+	<p>coming soon</p>
+</div>
+<div id="Setup-a-Test-Environment-under-Linux-DebianUbuntu">
+<h2>Linux (Debian/Ubuntu)<a href="#Setup-a-Test-Environment-under-Linux-DebianUbuntu" class="wiki-anchor">&para;</a></h2>
+
+
+	<h3 id="Description">Description<a href="#Description" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>The following describes how you can get access to your local Joomla installation using adresses like <a class="external" href="http://vhost1.dev">http://vhost1.dev</a> <a class="external" href="http://vhost2.dev">http://vhost2.dev</a>, by adding some extra lines to /etc/hosts and setting up a virtual host on the Apache web server.</p>
+
+
+	<p>Thus, the preconditions are met, to test virtual domains on the local machine.</p>
+
+
+	<h3 id="Preconditions">Preconditions<a href="#Preconditions" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>An installed Apache Web Server.</p>
+
+
+	<h3 id="Enable-the-Resolving-of-the-Domain-Names">Enable the Resolving of the Domain Names<a href="#Enable-the-Resolving-of-the-Domain-Names" class="wiki-anchor">&para;</a></h3>
+
+
+	<ul>
+	<li>Edit /etc/hosts<br /><pre>sudo nano /etc/hosts</pre></li>
+	</ul>
+
+
+	<ul>
+	<li>Below the line "<code>127.0.0.1    localhost.localdomain    localhost</code>", add the following and save:<br />  <pre>
+127.0.0.1    vhost1.dev    www.vhost1.dev
+127.0.0.1    vhost2.dev    www.vhost2.dev
+  </pre></li>
+		<li>Check the result:<br />  <pre>
+ping vhost1.dev
+  </pre><br />   Answer:<br />  <pre>
+PING vhost1.dev (127.0.0.1) 56(84) bytes of data.
+64 bytes from localhost.localdomain (127.0.0.1): icmp_req=1 ttl=64 time=0.022 ms
+64 bytes from localhost.localdomain (127.0.0.1): icmp_req=2 ttl=64 time=0.021 ms  
+  </pre></li>
+	</ul>
+
+
+	<h3 id="Control-Apache-Settings">Control Apache Settings<a href="#Control-Apache-Settings" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Make sure the following settings are correct:</p>
+
+
+	<ul>
+	<li>Open /etc/apache2/apache2.conf and check, if the include statement of the last line is uncommented:<br />  <pre>
+# Include the virtual host configurations:
+Include /etc/apache2/sites-enabled/
+  </pre></li>
+		<li>Open /etc/apache2/ports.conf and check tho following settings:<br />  <pre>
+NameVirtualHost *:80
+Listen 80
+  </pre></li>
+	</ul>
+
+
+	<h3 id="Add-the-virtual-host">Add the virtual host<a href="#Add-the-virtual-host" class="wiki-anchor">&para;</a></h3>
+
+
+	<ul>
+	<li>Make a copy of /etc/apache2/sites-available/default:<br />  <pre>
+  sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/vhost.conf
+  </pre></li>
+		<li>Customize vhost.conf:<br />  <pre>
+  nano /etc/apache2/sites-available/vhost.conf
+  </pre>
+	<ul>
+	<li> Change the entry for DocumentRoot to your Joomla path, change ServerName and add the ServerAliases:<br />  <pre>
+ServerName vhost1.dev
+ServerAlias www.vhost1.dev
+ServerAlias vhost2.dev www.vhost2.dev 
+DocumentRoot /var/www/your-joomla
+  </pre></li>
+	</ul>
+	</li>
+		<li>Create a symlink:<br />  <pre>
+sudo ln -s /etc/apache2/sites-available/vhost.conf /etc/apache2/sites-enabled/vhost.conf
+  </pre></li>
+		<li>Reload Apache:<br />  <pre>
+  sudo /etc/init.d/apache2 reload
+  </pre></li>
+	</ul>
+
+
+	<p>Now you should be able to access your Joomla typing <a class="external" href="http://vhost1.dev">http://vhost1.dev</a> or  <a class="external" href="http://vhost2.dev">http://vhost2.dev</a> in your browsers address bar.</p>
+	
+</div>	
 <div class="popup" id="Using-Parameters">
 <a name="Parameters-more" />
 <h1>Using Parameters<a href="#Using-Parameters" class="wiki-anchor">&para;</a></h1>
@@ -498,6 +604,8 @@
 </pre>
 
 <hr />
+</div>
+
 </div>
 <div class="popup" id="Server-Aliases">
 <a name="ServerAliases" />

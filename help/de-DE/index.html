@@ -36,6 +36,12 @@
     <li><a href="#05-04-Chekov-quickanddirty">Quick'nDirty</a></li>
 
     <li><a href="#06-04-Chekov-restrictions">Einschränkungen</a></li>
+      <li><a href="#Appendix">Anhang</a>
+      <ul class="submenu">
+      			<li><a href="#Setup-a-Test-Environment-under-Windows">Testumgebung unter Windows</a></li>
+      			<li><a href="#Setup-a-Test-Environment-under-Linux-DebianUbuntu">Testumgebung unter Linux (Debian/Ubuntu)</a></li>
+      </ul>
+      </li>
 
 </ul>
 </div>
@@ -442,6 +448,106 @@ auf der du unterschiedliche Werte für jede Domain definieren kannst.</p>
 
 <hr />
 </div>
+<div id="Appendix" class="chapter">
+<h1>Testumgebung aufsetzen</h1>
+
+<div id="Setup-a-Test-Environment-under-Windows">
+<h2>Windows<a href="#Windows" class="wiki-anchor">&para;</a></h2>
+
+
+	<p>In Arbeit</p>
+</div>
+<div id="Setup-a-Test-Environment-under-Linux-DebianUbuntu">
+<h2>Linux (Debian/Ubuntu)<a href="#Setup-a-Test-Environment-under-Linux-DebianUbuntu" class="wiki-anchor">&para;</a></h2>
+
+
+	<h3 id="10-Description">Beschreibung<a href="#10-Description" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Im Folgenden wird beschrieben, wie du auf deine lokale Joomla Installation über Adressen wie  <strong>http://vhost1.dev</strong>,  <strong>http://vhost2.dev</strong> zugreifen kannst, indem du einige Zeilen in der  /etc/hosts hinzufügst und einen virtuellen Host auf dem Apache Webserver konfigurierst.</p>
+
+
+	<p>Damit kannst du Virtualdomains auf deinem Rechner lokal  testen.</p>
+
+
+	<h3 id="Preconditions">Voraussetzungen<a href="#Preconditions" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Ein installierter Apache2.</p>
+
+
+	<h3 id="Enable-the-Resolving-of-the-Domain-Names">Namensauflösung aktivieren<a href="#Enable-the-Resolving-of-the-Domain-Names" class="wiki-anchor">&para;</a></h3>
+
+
+	<ul>
+	<li>Editiere /etc/hosts<br /><pre>sudo nano /etc/hosts</pre></li>
+	</ul>
+
+
+	<ul>
+	<li>Unterhalb der Zeile "<code>127.0.0.1    localhost.localdomain    localhost</code>", füge das Folgende hinzu und speichere:<br />  <pre>
+127.0.0.1    vhost1.dev    www.vhost1.dev
+127.0.0.1    vhost2.dev    www.vhost2.dev
+  </pre></li>
+		<li>Prüfe das Ergebnis:<br />  <pre>
+ping vhost1.dev
+  </pre><br />   Antwort:<br />  <pre>
+PING vhost1.dev (127.0.0.1) 56(84) bytes of data.
+64 bytes from localhost.localdomain (127.0.0.1): icmp_req=1 ttl=64 time=0.022 ms
+64 bytes from localhost.localdomain (127.0.0.1): icmp_req=2 ttl=64 time=0.021 ms  
+  </pre></li>
+	</ul>
+
+
+	<h3 id="Control-Apache-Settings">Apache Konfiguration prüfen<a href="#Control-Apache-Settings" class="wiki-anchor">&para;</a></h3>
+
+
+	<p>Stelle sicher, dass die folgenden Einstellungen korrekt sind:</p>
+
+
+	<ul>
+	<li>Öffne /etc/apache2/apache2.conf und stelle sicher, dass das Incude Statement in der letzten Zeile aktiv ist:<br />  <pre>
+# Include the virtual host configurations:
+Include /etc/apache2/sites-enabled/
+  </pre></li>
+		<li>Öffne /etc/apache2/ports.conf und prüfe die folgenden Einstellungen:<br />  <pre>
+NameVirtualHost *:80
+Listen 80
+  </pre></li>
+	</ul>
+
+
+	<h3 id="Add-the-virtual-host">Konfiguriere einen virtuellen Host<a href="#Add-the-virtual-host" class="wiki-anchor">&para;</a></h3>
+
+
+	<ul>
+	<li>Kopiere /etc/apache2/sites-available/default:<br />  <pre>
+  sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/vhost.conf
+  </pre></li>
+		<li>Passe vhost.conf an:<br />  <pre>
+  nano /etc/apache2/sites-available/vhost.conf
+  </pre>
+	<ul>
+	<li> Ersetze den Eintrag für  DocumentRoot mit dem Pfad auf deine Joomla Installation und füge die ServerAliase hinzu:<br />  <pre>
+ServerName vhost1.dev
+ServerAlias www.vhost1.dev
+ServerAlias vhost2.dev www.vhost2.dev 
+DocumentRoot /var/www/your-joomla
+  </pre></li>
+	</ul>
+	</li>
+		<li>Lege einen symbolischen Link:<br />  <pre>
+sudo ln -s /etc/apache2/sites-available/vhost.conf /etc/apache2/sites-enabled/vhost.conf
+  </pre></li>
+		<li>Lade den Apache Webserver neu:<br />  <pre>
+  sudo /etc/init.d/apache2 reload
+  </pre></li>
+	</ul>
+
+
+	<p>Nun sollte deine Joomla-Seite angezeigt werden, wenn du <a class="external" href="http://vhost1.dev">http://vhost1.dev</a> oder  <a class="external" href="http://vhost2.dev">http://vhost2.dev</a> in der Adressleiste deines Browsers eingibst.</p>
+	
+</div>	
 <div class="popup" id="Using-Parameters">
 <a name="Parameters-more" />
 <h1>Parameter verwenden<a href="#Using-Parameters" class="wiki-anchor">&para;</a></h1>
