@@ -16,7 +16,7 @@ if (!$edit) {
 	// for existing items the button is renamed `close`
 	JToolBarHelper::cancel( 'cancel', 'Close' );
 }
-
+  VirtualdomainsHelper::helpIcon('Parameters-Manager');
 ?>
 
 <script language="javascript" type="text/javascript">

@@ -6,6 +6,7 @@ defined('_JEXEC') or die('Restricted access');
   JToolBarHelper::deleteList();
   JToolBarHelper::editListX();
   JToolBarHelper::addNewX();
+  VirtualdomainsHelper::helpIcon('Parameters-Manager');
 ?>
 
 <form action="index.php?option=com_virtualdomains&amp;view=params" method="post" name="adminForm">

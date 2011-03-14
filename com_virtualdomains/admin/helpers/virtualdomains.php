@@ -62,7 +62,7 @@ class VirtualdomainsHelper
 
 		// Add a standard button
 		
-		$html = "<a href='#' onclick=\"popupWindow('http://help.janguo.de/vd/".$lang->getTag()."/virtualdomain.html".$chapter."', '".$text	."', 900, 600, 1)\" class='toolbar'>";
+		$html = "<a href='#' onclick=\"popupWindow('http://help.janguo.de/vd/".$lang->getTag()."/index.html".$chapter."', '".$text	."', 900, 600, 1)\" class='toolbar'>";
         $html .= "<span class='icon-32-help' title='".$text	."'></span>".$text;
         $bar->appendButton( 'Custom', $html);
 		
