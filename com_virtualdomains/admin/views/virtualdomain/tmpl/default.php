@@ -8,7 +8,7 @@ JToolBarHelper::unpublishList();
 JToolBarHelper::deleteList();
 JToolBarHelper::editListX();
 JToolBarHelper::addNewX();
-JToolBarHelper::help( 'virtualdomain', 1 );
+VirtualdomainsHelper::helpIcon('Virtualdomains-Manager');
 
 
 JHTML::_('behavior.modal', 'a.modal');

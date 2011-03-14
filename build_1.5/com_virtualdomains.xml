@@ -40,7 +40,6 @@
 			<folder>joomla</folder>						
 			<folder>controllers</folder>
 			<folder>helpers</folder>
-			<folder>help</folder>
 			<folder>models</folder>
 			<folder>sql</folder>			
 			<folder>tables</folder>
