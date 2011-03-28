@@ -9,7 +9,7 @@ defined('_JEXEC') or die( 'Restricted access' );
   <tbody>
   <tr class="row0">
     <td class="key">Authors</td>
-    <td><a href="http://janguo.de">Michael Liebler</a>, <a href="http://romacron.de">Roman Teske</a></td>
+    <td><a href="http://janguo.de">Michael Liebler</a>, <a href="http://romacron.de">romacron</a></td>
   </tr>
   <tr class="row1">
     <td class="key">Project Website</td>
