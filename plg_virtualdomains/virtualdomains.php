@@ -145,7 +145,9 @@ class plgSystemVirtualdomains extends JPlugin {
 		if (isset ($query_link['Itemid']) and ($query_link['Itemid'] <> $orighome)) {
 			return false;
 		}
-		
+
+		$menu = & JSite::getMenu();			
+		$menu->setActive($row->menuid);
 		$this->setRequest('Itemid', $row->menuid);
 			
 		$this->setJoomfishLang();
@@ -253,7 +255,7 @@ class plgSystemVirtualdomains extends JPlugin {
 		$nohome->home = null;
 		$item->home = 1;
 		$menu->setDefault($newhome);
-		$menu->setActive($newhome);
+		//$menu->setActive($newhome);
 	}
 
 	/**
