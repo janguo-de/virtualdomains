@@ -61,7 +61,7 @@
 		<field
 			id="menuid"
 			name="menuid"
-			type="menu"
+			type="menuitem"
 			required="false"
 			label="Menuid"
 			description="menuid_Desc"
