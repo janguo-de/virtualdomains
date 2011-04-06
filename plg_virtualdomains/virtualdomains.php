@@ -142,10 +142,9 @@ class plgSystemVirtualdomains extends JPlugin {
 		$query_link = $router->parse(clone ($uri));
 		
 		//do nothing, if we are not on frontpage	             
-		if (isset ($query_link['Itemid']) and ($query_link['Itemid'] <> $orighome)) {
-			return false;
+		if (!isset ($query_link['Itemid']) or ((int) $query_link['Itemid'] != (int) $orighome)) {
+		    return false;
 		}
-
 		$menu = & JSite::getMenu();			
 		$menu->setActive($row->menuid);
 		$this->setRequest('Itemid', $row->menuid);
