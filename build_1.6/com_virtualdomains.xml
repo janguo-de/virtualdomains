@@ -1,65 +1,62 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD component 1.0//EN" "http://www.janguo.de/xml/package-install.dtd">
 <extension type="component" version="1.6.0">
-	<name>Virtual Domains</name>
-	<creationDate>2011-04-07</creationDate>
-	<author>Michael Liebler, romacron</author>
-	<authorEmail>michael-liebler@janguo.de</authorEmail>
-	<authorUrl>http://www.janguo.de</authorUrl>
-	<copyright>Copyright (C) 2010  Open Source Matters. All rights reserved.</copyright>	
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>0.4.76-chekov</version>
-	<description>Multi Domain Support for Joomla</description>
-	<install>
-		<sql>
-			<file driver="mysql" charset="utf8">sql/install.mysql.sql</file>
-		</sql>
-	</install>
-	<uninstall>
-		<sql>
-			<file driver="mysql" charset="utf8">sql/uninstall.mysql.sql</file>
-		</sql>
-	</uninstall>
-		<update> <!-- Runs on update; New in 1.6 -->
-		<schemas>
-			<schemapath type="mysql">sql/updates</schemapath>
-		</schemas>
-	</update>	
-	<files>
-	</files>	
-	<administration>
-		<menu>Virtualdomains</menu>
-		<submenu>
-			<menu link="option=com_virtualdomains&amp;view=virtualdomain">Virtualdomains</menu>
-		  	<menu link="option=com_virtualdomains&amp;view=params">Params</menu>
-		  	<menu link="option=com_virtualdomains&amp;view=about">About</menu>
-		</submenu>
-		<files folder="admin">
-			<filename>config.xml</filename>
-			<filename>admin.virtualdomains.php</filename>
-			<filename>controller.php</filename>
-			<filename>index.html</filename>
-			<folder>assets</folder>
-			<folder>sql</folder>
-			<folder>joomla</folder>						
-			<folder>controllers</folder>
-			<folder>helpers</folder>
-			<folder>language</folder>
-			<folder>models</folder>	
-			<folder>tables</folder>
-			<folder>views</folder>									
-		</files>	
- 		<languages folder="admin">
-                        <language tag="en-GB">language/en-GB/en-GB.com_virtualdomains.ini</language>
-						<language tag="en-GB">language/en-GB/en-GB.com_virtualdomains.sys.ini</language>
-      					<language tag="de-DE">language/de-DE/de-DE.com_virtualdomains.ini</language>
-						<language tag="de-DE">language/de-DE/de-DE.com_virtualdomains.sys.ini</language>
-      					<language tag="bg-BG">language/bg-BG/bg-BG.com_virtualdomains.ini</language>
-						<language tag="bg-BG">language/bg-BG/bg-BG.com_virtualdomains.sys.ini</language>												
-	</languages>					
-
-	</administration>        
-	<updateservers>
-                <server type="extension" priority="1" name="Virtualdomains Update Site">http://janguo.de/vd/update/vd-update.xml</server>
- 	</updateservers>
-	      	
+  <name>Virtual Domains</name>
+  <creationDate>2011-04-07</creationDate>
+  <author>Michael Liebler, romacron</author>
+  <authorEmail>michael-liebler@janguo.de</authorEmail>
+  <authorUrl>http://www.janguo.de</authorUrl>
+  <copyright>Copyright (C) 2010  Open Source Matters. All rights reserved.</copyright>
+  <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+  <version>0.4.83-chekov</version>
+  <description>Multi Domain Support for Joomla</description>
+  <install>
+    <sql>
+      <file driver="mysql" charset="utf8">sql/install.mysql.sql</file>
+    </sql>
+  </install>
+  <uninstall>
+    <sql>
+      <file driver="mysql" charset="utf8">sql/uninstall.mysql.sql</file>
+    </sql>
+  </uninstall>
+  <update><!-- Runs on update; New in 1.6 -->
+    <schemas>
+      <schemapath type="mysql">sql/updates</schemapath>
+    </schemas>
+  </update>
+  <files></files>
+  <administration>
+    <menu link="index.php?option=com_virtualdomains">Virtualdomains</menu>
+    <submenu>
+      <menu link="option=com_virtualdomains&amp;view=virtualdomain">Virtualdomains</menu>
+      <menu link="option=com_virtualdomains&amp;view=params">Params</menu>
+      <menu link="option=com_virtualdomains&amp;view=about">About</menu>
+    </submenu>
+    <files folder="admin">
+      <filename>config.xml</filename>
+      <filename>admin.virtualdomains.php</filename>
+      <filename>controller.php</filename>
+      <filename>index.html</filename>
+      <folder>assets</folder>
+      <folder>sql</folder>
+      <folder>joomla</folder>
+      <folder>controllers</folder>
+      <folder>helpers</folder>
+      <folder>language</folder>
+      <folder>models</folder>
+      <folder>tables</folder>
+      <folder>views</folder>
+    </files>
+    <languages folder="admin">
+      <language tag="en-GB">language/en-GB/en-GB.com_virtualdomains.ini</language>
+      <language tag="en-GB">language/en-GB/en-GB.com_virtualdomains.sys.ini</language>
+      <language tag="de-DE">language/de-DE/de-DE.com_virtualdomains.ini</language>
+      <language tag="de-DE">language/de-DE/de-DE.com_virtualdomains.sys.ini</language>
+      <language tag="bg-BG">language/bg-BG/bg-BG.com_virtualdomains.ini</language>
+      <language tag="bg-BG">language/bg-BG/bg-BG.com_virtualdomains.sys.ini</language>
+    </languages>
+  </administration>
+  <updateservers>
+    <server type="extension" priority="1" name="Virtualdomains Update Site">http://janguo.de/vd/update/vd-update.xml</server>
+  </updateservers>
 </extension>
