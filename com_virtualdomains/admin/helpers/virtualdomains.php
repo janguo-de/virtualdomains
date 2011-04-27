@@ -20,7 +20,7 @@ class VirtualdomainsHelper
 			$query->from('#__menu');
 			$query->select('*');
 			
-			$query->where('menutype = "main"');
+			$query->where('menutype = "menu"');
 			$query->where('client_id = "1"');
 			$query->where('link LIKE "%option=com_virtualdomains%"');
 			$query->where('parent_id > 1');					
