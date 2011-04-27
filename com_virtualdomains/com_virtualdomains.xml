@@ -47,7 +47,8 @@
 		</files>	
         <languages folder="admin">
         	<language tag="en-GB">language/en-GB/en-GB.com_virtualdomains.ini</language>
-            <language tag="de-DE">language/de-DE/de-DE.com_virtualdomains.ini</language>            
+            <language tag="de-DE">language/de-DE/de-DE.com_virtualdomains.ini</language>           
+      		<language tag="bg-BG">language/bg-BG/bg-BG.com_virtualdomains.ini</language>             
 		</languages>		
 	</administration>
     <plugins>
