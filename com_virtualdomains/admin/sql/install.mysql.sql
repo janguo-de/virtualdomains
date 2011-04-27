@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `#__virtualdomain` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+);
 
 CREATE TABLE IF NOT EXISTS `#__virtualdomain_params` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS `#__virtualdomain_params` (
   `action` set('none','globals','request') NOT NULL,
   `home` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+);
 
