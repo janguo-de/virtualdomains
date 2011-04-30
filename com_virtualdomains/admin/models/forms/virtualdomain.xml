@@ -8,6 +8,13 @@
 			default="0"
 			required="true"
 			readonly="true"/>							
+
+		<field
+			name="viewlevel"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"/>
 															
 		<field
 			id="domain"

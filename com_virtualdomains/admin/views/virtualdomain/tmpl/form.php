@@ -107,6 +107,7 @@ foreach ( $fieldSets as $name => $fieldset ): ?>
 			</fieldset>									
 
         </div>                   
+        <?php echo $this->form->getInput( 'viewlevel' ); ?>		        
 		<input type="hidden" name="option" value="com_virtualdomains" />
 	    <input type="hidden" name="cid[]" value="<?php echo $this->item->id ?>" />
 		<input type="hidden" name="task" value="" />

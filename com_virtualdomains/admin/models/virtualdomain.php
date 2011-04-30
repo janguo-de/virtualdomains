@@ -38,6 +38,35 @@ class VirtualdomainsModelVirtualdomain extends VirtualdomainsModel
         return parent::_buildQuery();
     }
 
+
+/**
+ *  overwrites parent delete method
+ * @see VirtualdomainsModel::delete()
+ */	
+    
+    public function delete($cid) {
+   		$db = JFactory::getDbo();
+   		if(is_array($cid)) {
+   			foreach($cid as $id) {
+   				$row = $this->getTable();
+   				$row->load($id);
+   				if($row->viewlevel) {
+   					$db->setQuery('DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel);
+   				    $db->query();
+   				}   				
+   			}
+   		} else {
+   			$row = $this->getTable();
+   				$row->load($id);
+   				if($row->viewlevel) {
+   					$db->setQuery('DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel);
+   				    $db->query();
+   				}
+   		}
+   		return  parent::delete($cid);
+   } 
+    
+  
     /**
      * Method to store the Item
      *
@@ -51,6 +80,8 @@ class VirtualdomainsModelVirtualdomain extends VirtualdomainsModel
          * Example: get text from editor 
          * $Text  = JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW );
          */
+        
+        $db = JFactory::getDbo();
 
         // Bind the form fields to the table
         if ( !$row->bind( $data ) )
@@ -59,18 +90,34 @@ class VirtualdomainsModelVirtualdomain extends VirtualdomainsModel
             return false;
         }
 
+		
+        
         // Make sure the table is valid
         if ( !$row->check() )
         {
             $this->setError( $this->_db->getErrorMsg() );
             return false;
         }
-
+		
+        //Add or update viewlevel
+      	if($row->viewlevel) {
+      	     $query = "UPDATE #__viewlevels SET title = ".$db->Quote($row->domain)." WHERE id = ". (int) $row->viewlevel ;
+      	     $db->setQuery($query);
+      	     $db->query();      	     	
+        } else {
+        	$query = "INSERT INTO #__viewlevels SET rules = ". $db->Quote('[]').",  title = ".$db->Quote($row->domain);
+        	 $db->setQuery($query);
+      	     $db->query();
+      	     $row->viewlevel = $db->insertid();
+        }
+                
         /**
          * Clean text for xhtml transitional compliance
          * $row->text		= str_replace( '<br>', '<br />', $Text );
          */
 
+        
+        
         // Store the table to the database
         if ( !$row->store() )
         {
