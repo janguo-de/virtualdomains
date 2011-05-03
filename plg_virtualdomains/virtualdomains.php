@@ -17,9 +17,48 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.plugin.plugin' );
+jimport('joomla.application.module.helper');
 /*
 * test
 */
+
+
+class vdMenuFilter extends JMenu {
+	/**
+	 * 
+	 * Method to Filter Menu Items 
+	 * @param array $items - Array of menu item id's
+	 * @param string $filter - show/hide
+	 */
+	
+	function filterMenues($items, $filter, $default) {
+		
+		//Get the instance
+		$menu = & parent::getInstance('site',array());
+		
+		//Set all defaults on default
+		$menu->setDefault($default, JFactory::getLanguage()->getTag());
+		$menu->setDefault($default,'*');
+		$menu->setDefault($default);
+
+		//Check every item
+		foreach($menu->_items  as $item) {
+			//Delete menu item, if the VD ID is in the params comma separated list
+ 
+			switch($filter) {
+				case "hide":
+					if(in_array($item->id, $items)) {
+			    		unset($menu->_items[$item->id]);
+					}					
+					 break;
+				case "show":
+					if(!in_array($item->id, $items)) {
+			    		unset($menu->_items[$item->id]);
+					}							
+			}
+		}		
+	}
+}
 
 
 class plgSystemVirtualdomains extends JPlugin
@@ -45,6 +84,14 @@ class plgSystemVirtualdomains extends JPlugin
 		parent::__construct( $subject, $config );		
 	}
 	
+	private function filterMenus($default) 
+	{
+		$filter = $this->_hostparams->get( 'menumode' );
+		$items = $this->_hostparams->get( 'menufilter' );
+		if(!$filter) return;
+		$menu = new vdMenuFilter();
+		$menu->filterMenues($items, $filter, $default );							
+	}
 
 	/**
 	 *  onAfterInitialise
@@ -61,6 +108,8 @@ class plgSystemVirtualdomains extends JPlugin
 		{
 			return; // Dont run in backend
 		}
+		
+
 		$uri = JURI::getInstance();
 		$jos_host = str_replace( 'www.', '', $uri->getHost() );
 
@@ -72,7 +121,7 @@ class plgSystemVirtualdomains extends JPlugin
 		
 		$db->setQuery( $query );
 		$row = $db->loadObject();
-
+		
 		$user = &JFactory::getUser();
 		
 
@@ -81,7 +130,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		// Set Meta Data
 		$this->_hostparams = $this->_getParams( $row->params );
-
+		
 		$config = &JFactory::getConfig();
 		if ( is_object( $this->_hostparams ) )
 		{
@@ -121,6 +170,8 @@ class plgSystemVirtualdomains extends JPlugin
 		{
 			$this->setActions();
 		}
+		
+			$this->filterMenus($row->menuid); 		
 	}
 
 	/**
