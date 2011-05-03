@@ -99,9 +99,14 @@ class VirtualdomainsModelVirtualdomain extends VirtualdomainsModel
             return false;
         }
 		
+        $query = "SELECT id FROM #__viewlevels WHERE title = ".$db->Quote($row->domain). " OR id = ". (int) $row->viewlevel ;        
+        
+        $db->setQuery($query);        
+        
+        $viewlevel = $db->loadResult();
         //Add or update viewlevel
-      	if($row->viewlevel) {
-      	     $query = "UPDATE #__viewlevels SET title = ".$db->Quote($row->domain)." WHERE id = ". (int) $row->viewlevel ;
+      	if($viewlevel) {
+      	     $query = "UPDATE #__viewlevels SET title = ".$db->Quote($row->domain)." WHERE id = ". (int) $viewlevel ;
       	     $db->setQuery($query);
       	     $db->query();      	     	
         } else {

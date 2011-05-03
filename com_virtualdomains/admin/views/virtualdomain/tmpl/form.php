@@ -34,7 +34,7 @@ function submitbutton(task)
 </script>
 
 	 	<form method="post" action="index.php" id="adminForm" name="adminForm">
-	 	<div class="col width-70 fltlft">
+	 	<div class="col width-60 fltlft">
 		  <fieldset class="adminform">
 			<legend><?php echo JText::_( 'Details' ); ?></legend>
 							
@@ -55,17 +55,27 @@ function submitbutton(task)
 				<?php echo $this->form->getInput( 'published' ); ?>
 			
 						
-          </fieldset>                      
+          </fieldset>               
+         <fieldset class="panelform">
+         <legend><?php echo JText::_( 'Menu Filter' ); ?></legend>
+         <?php foreach ( $this->form->getFieldset( 'menus') as $field ): ?>
+         		<?php echo $field->label; ?><br />
+         		<?php echo $field->input; ?><br />
+         <?php endforeach; ?>
+         </fieldset>
+
         </div>
-        <div class="col width-30 fltrt">
+        	<div class="width-40 fltrt">
 			        
      		
-			<fieldset class="adminform">
+			<fieldset class="panelform">
 				<legend><?php echo JText::_( 'Advanced Parameters' ); ?></legend>
 				<table>				
 				<?php $fieldSets = $this->form->getFieldsets( 'params' );
 
-foreach ( $fieldSets as $name => $fieldset ): ?>				
+		foreach ( $fieldSets as $name => $fieldset ): 
+		    if($name != 'menus') : 
+		     ?>				
 				<?php foreach ( $this->form->getFieldset( $name ) as $field ): ?>
 					<?php if ( $field->hidden ): ?>
 						<?php echo $field->input; ?>
@@ -80,6 +90,7 @@ foreach ( $fieldSets as $name => $fieldset ): ?>
 					</tr>
 				<?php endif; ?>
 				<?php endforeach; ?>
+			<?php endif; ?>				
 			<?php endforeach; ?>
 			</table>			
 			</fieldset>									
@@ -106,8 +117,8 @@ foreach ( $fieldSets as $name => $fieldset ): ?>
 			</table>			
 			</fieldset>									
 
-        </div>                   
-        <?php echo $this->form->getInput( 'viewlevel' ); ?>		        
+        </div>
+        <?php echo $this->form->getInput( 'viewlevel' ); ?>		        		
 		<input type="hidden" name="option" value="com_virtualdomains" />
 	    <input type="hidden" name="cid[]" value="<?php echo $this->item->id ?>" />
 		<input type="hidden" name="task" value="" />

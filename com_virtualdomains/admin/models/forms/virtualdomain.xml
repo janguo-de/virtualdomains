@@ -15,7 +15,7 @@
 			default="0"
 			required="true"
 			readonly="true"/>
-															
+																								
 		<field
 			id="domain"
 			name="domain"
@@ -84,7 +84,7 @@
 			description="template_Desc"
 			class="inputbox"
 			size="10"/>						
-								
+	
 	</fields>	
 		
 	<fields name="params">
@@ -107,9 +107,9 @@
 			<field
 				name="metadesc"
 				type="textarea"
-				class="textarea"
+				class="inputbox"
 				rows="5"
-				cols="20"
+				cols="30"
 				default=""
 				label="Meta Description"
 				description="Params_Metadesc_Desc">
@@ -118,14 +118,47 @@
 			<field
 				name="keywords"
 				type="textarea"
-				class="textarea"
+				class="inputbox"
 				rows="5"
-				cols="20"
+				cols="30"
 				default=""
 				label="Keywords"
 				description="Params_Keywords_Desc">
 			</field>		
 		</fieldset>
 	</fields>
+	<fields name="params">	
+		<fieldset
+			name="menus">
+	<field
+			id="menumode"
+			name="menumode"
+			type="list"
+			class="inputbox"
+			default=""			
+			label="JField_Menumode_Label"
+			description="JField_Menumode_Desc">
+			<option
+				value="">
+				JOption_ItemAll</option>			
+			<option
+				value="show">
+				JOption_ItemShow</option>
+			<option
+				value="hide">
+				JOption_ItemHide</option>								
+		</field>			
+	<field
+			id="menufilter"
+			name="menufilter"
+			type="menuitem"
+			required="false"
+			label="JField_Menuselection"
+			description="JField_Menuselection_Desc"
+			class="inputbox"
+			multiple="true"
+			size="15"/>								
+		</fieldset>											
+	</fields>		
 		
 </form>	
