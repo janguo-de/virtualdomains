@@ -53,7 +53,7 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
      * Edits an existing VirtualDomain
      * @return
      */
-    function edit()
+    public function edit()
     {
         $document = &JFactory::getDocument();
 
@@ -99,7 +99,7 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
     /**
      * stores the item
      */
-    function save()
+    public function save()
     {
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
@@ -193,6 +193,37 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
         $this->setRedirect( 'index.php?option=com_virtualdomains&view=virtualdomain' );
     }
 
+    
+    public function setDefault() {
+    			// Check for request forgeries
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Initialise variables.
+		$pks = JRequest::getVar('cid', array(), 'post', 'array');
+    	try
+		{
+			if (empty($pks)) {
+				throw new Exception(JText::_('NO_DOMAIN_SELECTED'));
+			}
+
+			JArrayHelper::toInteger($pks);
+
+			// Pop off the first element.
+			$id = array_shift($pks);
+			$model =  $this->getModel( 'virtualdomain' );
+			$model->setDefault($id);
+			$this->setMessage(JText::_('SUCCESS_DEFAULT_SET'));
+
+		}
+		catch (Exception $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		$this->setRedirect('index.php?option=com_virtualdomains&view=virtualdomain');
+	}
+    
+    
     public function unpublish()
     {
         // Check for request forgeries

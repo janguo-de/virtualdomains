@@ -37,21 +37,23 @@ class vdMenuFilter extends JMenu {
 		$menu = & parent::getInstance('site',array());
 		
 		//Set all defaults on default
+		//TODO: Allow language specific home items
 		$menu->setDefault($default, JFactory::getLanguage()->getTag());
 		$menu->setDefault($default,'*');
 		$menu->setDefault($default);
 
 		//Check every item
 		foreach($menu->_items  as $item) {
-			//Delete menu item, if the VD ID is in the params comma separated list
  
 			switch($filter) {
 				case "hide":
+					//Delete menu item, if the item id  is in the items list
 					if(in_array($item->id, $items)) {
 			    		unset($menu->_items[$item->id]);
 					}					
 					 break;
 				case "show":
+					//Delete menu item, if the item id  is not in the items list
 					if(!in_array($item->id, $items)) {
 			    		unset($menu->_items[$item->id]);
 					}							
@@ -98,11 +100,12 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
+
 		jimport('joomla.user.authentication');
 		$this->_hostparams = null;
 		$app = &JFactory::getApplication();
 		$db = &JFactory::getDBO();
-			$user = &JFactory::getUser();
+		$user = &JFactory::getUser();
 
 		if ( $app->isAdmin() )
 		{
@@ -113,8 +116,11 @@ class plgSystemVirtualdomains extends JPlugin
 		$uri = JURI::getInstance();
 		$jos_host = str_replace( 'www.', '', $uri->getHost() );
 
+		$defaultDomain = $this->_getDefaultDomain(); 
+		
+		//TODO: Since default domain is found in the table, some things are to proceed...
 		//let joomla do its work, if its the main domain
-		if ( $jos_host == $this->params->get( 'std_domain' ) ) return;
+		if ( $jos_host == $defaultDomain) return;
 
 		//is there an entry for the domain returned by $uri->getHost() ?
 		$query = "SELECT  * FROM #__virtualdomain as a WHERE domain = " . $db->Quote( $jos_host ) . " AND published > 0";
@@ -125,7 +131,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$user = &JFactory::getUser();
 		
 
-		$vdUser = new vdUser($user->get('id'));
+		//$vdUser = new vdUser($user->get('id'));
 		$vdUser->addAuthLevel($row->viewlevel);
 
 		// Set Meta Data
@@ -171,9 +177,28 @@ class plgSystemVirtualdomains extends JPlugin
 			$this->setActions();
 		}
 		
-			$this->filterMenus($row->menuid); 		
+		$this->filterMenus($row->menuid); 		
 	}
 
+	
+	private function _getDefaultDomain() {
+			
+			static $instance;
+			
+			if(!empty($instance)) return $instance;
+			
+			$db = JFactory::getDbo();
+
+			$db->setQuery(
+				"SELECT domain FROM #__virtualdomain
+				  WHERE `home` = ".$db->Quote('1')			
+			);
+			
+			$instance = $db->loadResult();
+			
+			return $instance;
+	}
+	
 	/**
 	 * 
 	 *  Routes to VD-Hosts home, if necessery
