@@ -125,8 +125,26 @@
 				label="Keywords"
 				description="Params_Keywords_Desc">
 			</field>		
+
 		</fieldset>
 	</fields>
+	<fields name="params">	
+		<fieldset
+			name="accesslevels">
+		<field
+				name="access"
+				type="vdaccesslevel"
+				id="access"
+				class="inputbox"
+				label="JFIELD_VDACCESS_LABEL"
+				description="JFIELD_VDACCESS_DESC"
+				default="1"
+				size="15"
+				selfexclude="true"
+				multiple="true"
+				filter="integer" />								
+		</fieldset>
+	</fields>			
 	<fields name="params">	
 		<fieldset
 			name="menus">
@@ -157,7 +175,7 @@
 			description="JField_Menuselection_Desc"
 			class="inputbox"
 			multiple="true"
-			size="15"/>								
+			size="15"/>							
 		</fieldset>											
 	</fields>		
 		

@@ -41,29 +41,43 @@ function submitbutton(task)
 				<?php echo $this->form->getLabel( 'domain' ); ?>
 				
 				<?php echo $this->form->getInput( 'domain' ); ?>
-					
-				<?php echo $this->form->getLabel( 'menuid' ); ?>
-				
-				<?php echo $this->form->getInput( 'menuid' ); ?>
-					
-				<?php echo $this->form->getLabel( 'template' ); ?>
-				
-				<?php echo $this->form->getInput( 'template' ); ?>										
-							
-				<?php echo $this->form->getLabel( 'published' ); ?>
-				
-				<?php echo $this->form->getInput( 'published' ); ?>
 			
+				<?php if($this->item->home != 1):?>
+								
+					<?php echo $this->form->getLabel( 'menuid' ); ?>
+				
+					<?php echo $this->form->getInput( 'menuid' ); ?>
+					
+					<?php echo $this->form->getLabel( 'template' ); ?>
+				
+					<?php echo $this->form->getInput( 'template' ); ?>						
+							
+					<?php echo $this->form->getLabel( 'published' ); ?>
+				
+					<?php echo $this->form->getInput( 'published' ); ?>
+				
+				<?php else: ?>
+					<div class="col width-60"><strong><?php echo JText::_('Default Domain')?></strong></div>
+				<?php endif;?>
 						
           </fieldset>               
-         <fieldset class="panelform">
-         <legend><?php echo JText::_( 'Menu Filter' ); ?></legend>
+		<?php echo JHtml::_('sliders.start','vd-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+		<?php echo JHtml::_('sliders.panel',JText::_('Menu Filter'), 'advanced-menus'); ?>          
+         <fieldset class="panelform">        
          <?php foreach ( $this->form->getFieldset( 'menus') as $field ): ?>
          		<?php echo $field->label; ?><br />
          		<?php echo $field->input; ?><br />
          <?php endforeach; ?>
          </fieldset>
-
+		<?php echo JHtml::_('sliders.panel',JText::_('Access Level Inheritance'), 'advanced-accesslevel'); ?>          
+         <fieldset class="panelform">        
+         <?php foreach ( $this->form->getFieldset( 'accesslevels') as $field ): ?>
+         		<?php echo $field->label; ?><br />
+         		<?php echo $field->input; ?><br />
+         <?php endforeach; ?>
+         </fieldset>         
+		<?php echo JHtml::_('sliders.end'); ?>
         </div>
         	<div class="width-40 fltrt">
 			        
@@ -74,7 +88,7 @@ function submitbutton(task)
 				<?php $fieldSets = $this->form->getFieldsets( 'params' );
 
 		foreach ( $fieldSets as $name => $fieldset ): 
-		    if($name != 'menus') : 
+		    if(!in_array($name ,array('menus', 'accesslevels'))) : 
 		     ?>				
 				<?php foreach ( $this->form->getFieldset( $name ) as $field ): ?>
 					<?php if ( $field->hidden ): ?>

@@ -23,52 +23,13 @@ jimport('joomla.application.module.helper');
 */
 
 
-class vdMenuFilter extends JMenu {
-	/**
-	 * 
-	 * Method to Filter Menu Items 
-	 * @param array $items - Array of menu item id's
-	 * @param string $filter - show/hide
-	 */
-	
-	function filterMenues($items, $filter, $default) {
-		
-		//Get the instance
-		$menu = & parent::getInstance('site',array());
-		
-		//Set all defaults on default
-		//TODO: Allow language specific home items
-		$menu->setDefault($default, JFactory::getLanguage()->getTag());
-		$menu->setDefault($default,'*');
-		$menu->setDefault($default);
-
-		//Check every item
-		foreach($menu->_items  as $item) {
- 
-			switch($filter) {
-				case "hide":
-					//Delete menu item, if the item id  is in the items list
-					if(in_array($item->id, $items)) {
-			    		unset($menu->_items[$item->id]);
-					}					
-					 break;
-				case "show":
-					//Delete menu item, if the item id  is not in the items list
-					if(!in_array($item->id, $items)) {
-			    		unset($menu->_items[$item->id]);
-					}							
-			}
-		}		
-	}
-}
-
-
 class plgSystemVirtualdomains extends JPlugin
 {
 
 	private $_db = null;
 	private $_request = array();
 	private $_hostparams = array();
+	private $_curhost = array();
 
 	
 
@@ -114,28 +75,27 @@ class plgSystemVirtualdomains extends JPlugin
 		
 
 		$uri = JURI::getInstance();
-		$jos_host = str_replace( 'www.', '', $uri->getHost() );
+		$this->_curhost = str_replace( 'www.', '', $uri->getHost() );
 
-		$defaultDomain = $this->_getDefaultDomain(); 
+		$currentDomain = $this->_getCurrentDomain();
 		
 		//TODO: Since default domain is found in the table, some things are to proceed...
 		//let joomla do its work, if its the main domain
-		if ( $jos_host == $defaultDomain) return;
+		if ($currentDomain === null) return;
 
-		//is there an entry for the domain returned by $uri->getHost() ?
-		$query = "SELECT  * FROM #__virtualdomain as a WHERE domain = " . $db->Quote( $jos_host ) . " AND published > 0";
-		
-		$db->setQuery( $query );
-		$row = $db->loadObject();
-		
+
 		$user = &JFactory::getUser();
 		
 
-		//$vdUser = new vdUser($user->get('id'));
-		$vdUser->addAuthLevel($row->viewlevel);
+		$vdUser = new vdUser($user->get('id'));
+		
+		$viewlevels =  (array) $currentDomain ->params->get('access');
+		
+		$viewlevels[] = $currentDomain ->viewlevel;
+		$vdUser->addAuthLevel($viewlevels);
 
 		// Set Meta Data
-		$this->_hostparams = $this->_getParams( $row->params );
+		$this->_hostparams = $currentDomain ->params;
 		
 		$config = &JFactory::getConfig();
 		if ( is_object( $this->_hostparams ) )
@@ -154,47 +114,62 @@ class plgSystemVirtualdomains extends JPlugin
 			}
 
 		}
-		//return, if no result
-		if ( !$row ) return;
 
 		//set the template
-		if ( $row->template )
+		if ( $currentDomain ->template )
 		{
 			$jv = new JVersion();
 			//let 1.6 set the template by itself - otherwise the templates params won't be set
 			if ( $jv->RELEASE > 1.5 )
 			{
-				JRequest::setVar( 'template', $row->template );
+				JRequest::setVar( 'template', $currentDomain ->template );
 			} else
 			{
-				$app->setTemplate( $row->template );
+				$app->setTemplate( $currentDomain ->template );
 			}
 		}
 
 		//Set the route, if necessary
-		if ( !$this->_reRoute( $row, $uri ) )
+		if ( !$this->_reRoute( $currentDomain , $uri ) )
 		{
 			$this->setActions();
 		}
 		
-		$this->filterMenus($row->menuid); 		
+		$this->filterMenus($currentDomain ->menuid); 		
 	}
 
 	
-	private function _getDefaultDomain() {
+	private function _getCurrentDomain() {
 			
 			static $instance;
 			
 			if(!empty($instance)) return $instance;
 			
 			$db = JFactory::getDbo();
-
 			$db->setQuery(
-				"SELECT domain FROM #__virtualdomain
-				  WHERE `home` = ".$db->Quote('1')			
+				"SELECT * FROM #__virtualdomain
+				  WHERE `domain` = ".$db->Quote($this->_curhost )			
 			);
+
+			$curDomain = $db->loadObject();
 			
-			$instance = $db->loadResult();
+			if($db->getError() ) {
+				return null;
+			}
+			
+			if($curDomain === null) {
+				return null;
+			}			
+	
+			$curDomain->params = new JObject(json_decode($curDomain->params));
+			
+			// Standard Domain uses Joomla settings
+			if($curDomain->home == 1) {
+				$curDomain->template = null;
+				$curDomain->menuid = null;
+			}
+			
+			$instance =$curDomain; 
 			
 			return $instance;
 	}
@@ -206,40 +181,43 @@ class plgSystemVirtualdomains extends JPlugin
 
 	private function _reRoute( $row, &$uri )
 	{
+		
+		
+		if($row->home == 1) return;  
 
 		if ( $this->params->get( 'noreroute' ) )
 		{
 			return false;
 		}
-		$db = &JFactory::getDBO();
+		
+		$menu = & JMenu::getInstance('site',array());
+		
+		$menuItem = & $menu->getItem(( int )$row->menuid );
+		
+		$origHome = $menu->getDefault();  
 
-		//get the domains frontpage menu item
-		$query = "SELECT link" . "\n FROM #__menu" . "\n WHERE id = " . ( int )$row->menuid . "\n AND published = '1'";
-		$db->setQuery( $query );
-		$menulink = $db->loadResult();
-		if ( !$menulink )
+		
+		if ( !$menuItem )
 		{
 			//item is lost
 			return false;
 		}
+		
+		$menulink = $menuItem->link;
+     
 
-		//check the Item ID, that joomla will return, if we are on frontpage
-		$query = "SELECT id " . "\n FROM #__menu " . "\n WHERE home = 1 ";
-		$db->setQuery( $query );
-		$orighome = $db->loadResult();
-
-		$this->_switchMenu( $orighome, $row->menuid );
+		$this->_switchMenu( $menu,$menuItem );
 
 		$router = JSite::getRouter();
 
 		$query_link = $router->parse( clone ( $uri ) );
 
 		//do nothing, if we are not on frontpage
-		if ( !isset( $query_link['Itemid'] ) or ( ( int )$query_link['Itemid'] != ( int )$orighome ) )
+		if ( !isset( $query_link['Itemid'] ) or ( ( int )$query_link['Itemid'] != ( int )$origHome->id) )
 		{
 			return false;
 		}
-		$menu = &JSite::getMenu();
+
 		$menu->setActive( $row->menuid );
 		$this->setRequest( 'Itemid', $row->menuid );
 
@@ -249,8 +227,8 @@ class plgSystemVirtualdomains extends JPlugin
 		$link = $menulink . "&Itemid=" . $row->menuid;
 
 		//Parse the new Url
-		var_dump( $this->_getBase() );
-		var_Dump( $link );
+		//var_dump( $this->_getBase() );
+		///var_Dump( $link );
 		$parse = parse_url( $this->_getBase() . $link );
 
 		//Build the new Query
@@ -277,27 +255,6 @@ class plgSystemVirtualdomains extends JPlugin
 		return true;
 	}
 
-	/**
-	 * 
-	 *  Method to get the VD-Hosts params
-	 */
-
-	public function _getParams( $dparams )
-	{
-
-		if ( isset( $dparams ) )
-		{
-			$params = json_decode( $dparams );
-			if ( !is_object( $params ) )
-			{
-				$params = json_decode( $params );
-			}
-			$params = JArrayHelper::fromObject( $params );
-			$dparams = new JObject();
-			$dparams->setProperties( $params );
-			return $dparams;
-		}
-	}
 
 	/**
 	 * 
@@ -342,22 +299,20 @@ class plgSystemVirtualdomains extends JPlugin
 				}
 			}
 		}
-
 	}
 
 	/**
 	 * 
 	 *  Method to switch the menu to the VD-hosts home
 	 */
-	private function _switchMenu( $orighome, $newhome )
+	private function _switchMenu( & $menu, &$newhome )
 	{
-
-		$menu = &JSite::getMenu();
-		$item = &$menu->getItem( $newhome );
-		$nohome = &$menu->getItem( $orighome );
+		
+		
+		$nohome = $menu->getDefault();
 		$nohome->home = null;
-		$item->home = 1;
-		$menu->setDefault( $newhome );
+		$newhome->home = 1;
+		$menu->setDefault( $newhome->id);
 		//$menu->setActive($newhome);
 	}
 
@@ -415,6 +370,56 @@ class plgSystemVirtualdomains extends JPlugin
 
 /**
  * 
+ * Dummy JMenu Class
+ * @author michel
+ *
+ */
+
+class vdMenuFilter extends JMenu {
+	/**
+	 * 
+	 * Method to Filter Menu Items 
+	 * @param array $items - Array of menu item id's
+	 * @param string $filter - show/hide
+	 */
+	
+	function filterMenues($items, $filter, $default) {
+		
+		//Get the instance
+		$menu = & parent::getInstance('site',array());
+		
+		//Set all defaults on default
+		//TODO: Allow language specific home items
+		if($default) {
+			$menu->setDefault($default, JFactory::getLanguage()->getTag());
+			$menu->setDefault($default,'*');
+			$menu->setDefault($default);
+		}
+
+		//Check every item
+		foreach($menu->_items  as $item) {
+ 
+			switch($filter) {
+				case "hide":
+					//Delete menu item, if the item id  is in the items list
+					if(in_array($item->id, $items)) {
+			    		unset($menu->_items[$item->id]);
+					}					
+					 break;
+				case "show":
+					//Delete menu item, if the item id  is not in the items list
+					if(!in_array($item->id, $items)) {
+			    		unset($menu->_items[$item->id]);
+					}							
+			}
+		}		
+	}
+}
+
+
+
+/**
+ * 
  * Dummy User Class
  * @author michel
  *
@@ -430,23 +435,26 @@ class vdUser extends JUser {
 	 * This method proceeds a pseudo login for guests
 	 * The viewlevel is pushed to the user object 
 	 * 
-	 * @param int $viewlevel
+	 * @param array $viewlevels
 	 */
-	function addAuthLevel($viewlevel) {		
+	function addAuthLevel($viewlevels) {		
+		if(!count($viewlevels)) return;		
 		if(!$this->id) {
 			$user = new JUser();
 			$user->guest = 1;
 			$user->_authLevels[] = 1;			
-			$user->_authLevels[] = $viewlevel;
 		} else {
 			$user = new JUser($this->id);
-        	$user->_authLevels=  JAccess:: getAuthorisedViewLevels($user->id);
-        	$user->_authLevels[] = $viewlevel;
-			
+        	$user->_authLevels=  JAccess:: getAuthorisedViewLevels($user->id);			
 		}
+		
+		foreach($viewlevels as $viewlevel) {
+			if($viewlevel)
+					$user->_authLevels[] = $viewlevel;
+		}
+		
 		$session = JFactory::getSession();							
 		$session->set('user', $user);
-	
-         
+	         
 	}
 }
