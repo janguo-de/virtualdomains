@@ -159,8 +159,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$link = $menulink . "&Itemid=" . $row->menuid;
 
 		//Parse the new Url
-		var_dump( $this->_getBase() );
-		var_Dump( $link );
+	
 		$parse = parse_url( $this->_getBase() . $link );
 
 		//Build the new Query
