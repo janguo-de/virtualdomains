@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `#__virtualdomain` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain` varchar(200) NOT NULL,
+  `home` TINYINT( 1 ) NOT NULL,
   `menuid` int(11) NOT NULL,
   `template` varchar(100) NOT NULL,
   `viewlevel` int(11) NOT NULL,
