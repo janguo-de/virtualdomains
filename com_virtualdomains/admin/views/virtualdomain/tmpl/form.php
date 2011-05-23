@@ -18,6 +18,7 @@ if ( !$edit )
     JToolBarHelper::cancel( 'cancel', 'Close' );    
 } 
 VirtualdomainsHelper::helpIcon('Details-Page');
+
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -41,13 +42,20 @@ function submitbutton(task)
 				<?php echo $this->form->getLabel( 'domain' ); ?>
 				
 				<?php echo $this->form->getInput( 'domain' ); ?>
-			
+				<div class="width-45  fltrt"> 			   
+         		<?php foreach ( $this->form->getFieldset( 'translation') as $field ): ?>
+         			<?php echo $field->label; ?><br />
+         			<?php echo $field->input; ?><br />
+         		<?php endforeach; ?>
+         		</div>
 				<?php if($this->item->home != 1):?>
-								
+
+				<div class="width-45 fltlft"> 				
 					<?php echo $this->form->getLabel( 'menuid' ); ?>
 				
 					<?php echo $this->form->getInput( 'menuid' ); ?>
-					
+				</div>
+
 					<?php echo $this->form->getLabel( 'template' ); ?>
 				
 					<?php echo $this->form->getInput( 'template' ); ?>						
@@ -88,7 +96,7 @@ function submitbutton(task)
 				<?php $fieldSets = $this->form->getFieldsets( 'params' );
 
 		foreach ( $fieldSets as $name => $fieldset ): 
-		    if(!in_array($name ,array('menus', 'accesslevels'))) : 
+		    if(!in_array($name ,array('menus', 'accesslevels','translation'))) : 
 		     ?>				
 				<?php foreach ( $this->form->getFieldset( $name ) as $field ): ?>
 					<?php if ( $field->hidden ): ?>

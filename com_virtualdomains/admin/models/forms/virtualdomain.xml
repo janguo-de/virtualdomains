@@ -125,9 +125,22 @@
 				label="Keywords"
 				description="Params_Keywords_Desc">
 			</field>		
-
+		
 		</fieldset>
 	</fields>
+	
+	<fields name="params">	
+		<fieldset
+			name="translation">
+			<field
+				name="translatemenu"
+				type="translatemenu"
+				label="Translate Home Item"
+				description="Translate_Home_Item_DESC">
+			</field>				
+		</fieldset>
+	</fields>			
+	
 	<fields name="params">	
 		<fieldset
 			name="accesslevels">

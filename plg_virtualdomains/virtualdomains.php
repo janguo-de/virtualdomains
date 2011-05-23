@@ -47,13 +47,16 @@ class plgSystemVirtualdomains extends JPlugin
 		parent::__construct( $subject, $config );		
 	}
 	
+   /**
+    * Method to hide/show Menu items and translate home iiten
+    * 
+    * @param int $default - Current domains home menu item
+    */	
 	private function filterMenus($default) 
 	{
-		$filter = $this->_hostparams->get( 'menumode' );
-		$items = $this->_hostparams->get( 'menufilter' );
-		if(!$filter) return;
+        
 		$menu = new vdMenuFilter();
-		$menu->filterMenues($items, $filter, $default );							
+		$menu->filterMenues($this->_hostparams, $default);							
 	}
 
 	/**
@@ -308,8 +311,7 @@ class plgSystemVirtualdomains extends JPlugin
 	private function _switchMenu( & $menu, &$newhome )
 	{
 		
-		
-		$nohome = $menu->getDefault();
+		$nohome = & $menu->getDefault();
 		$nohome->home = null;
 		$newhome->home = 1;
 		$menu->setDefault( $newhome->id);
@@ -338,6 +340,8 @@ class plgSystemVirtualdomains extends JPlugin
 		return $path;
 	}
 
+
+	
 	/**
 	 * 
 	 * Sets the lang Variable, if not set by Joomfish
@@ -345,16 +349,32 @@ class plgSystemVirtualdomains extends JPlugin
 
 	private function setJoomfishLang()
 	{
+		//There is no JoomFish for now :-(
+		return;
 		if ( !$this->_hostparams->get( 'language' ) )
 		{
 			return;
 		}
+       $lang = new vdLanguage();
+		$lang_code = $this->_hostparams->get( 'language' );
+       $lang->setDefault($this->_hostparams->get( 'language' ));
+       $lang = JFactory::getLanguage();
+	   $lang_codes 	= JLanguageHelper::getLanguages('lang_code');
+		$default_lang = JComponentHelper::getParams('com_languages')->get('site',$this->_hostparams->get( 'language' ));
+		$sef 	= $lang_codes[$default_lang]->sef;
 		$jfcookie = JRequest::getVar( 'jfcookie', null, "COOKIE" );
 		if ( isset( $jfcookie["lang"] ) && $jfcookie["lang"] != "" )
 		{
 			return;
 		}
-		$this->setRequest( 'lang', $this->_hostparams->get( 'language' ) );
+               $conf = JFactory::getConfig();
+				$cookie_domain 	= $conf->get('config.cookie_domain', '');
+				$cookie_path 	= $conf->get('config.cookie_path', '/');
+				setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+				// set the request var
+		JRequest::setVar('language',$lang_code);		
+		$this->setRequest( 'lang', $sef );
+		$this->setRequest( 'language', $this->_hostparams->get( 'language' ));
 	}
 
 	/**
@@ -383,22 +403,31 @@ class vdMenuFilter extends JMenu {
 	 * @param string $filter - show/hide
 	 */
 	
-	function filterMenues($items, $filter, $default) {
-		
+	function filterMenues($params, $default) {
+		 $filter = $params->get( 'menumode' );		
+		 $items = $params->get( 'menufilter' );
+		 $translatations = $params->get( 'translatemenu' );
+		 $lang =  JFactory::getLanguage()->getTag() ;
+	
 		//Get the instance
 		$menu = & parent::getInstance('site',array());
 		
 		//Set all defaults on default
 		//TODO: Allow language specific home items
 		if($default) {
-			$menu->setDefault($default, JFactory::getLanguage()->getTag());
+			$menu->setDefault($default, $lang);
 			$menu->setDefault($default,'*');
 			$menu->setDefault($default);
 		}
 
 		//Check every item
 		foreach($menu->_items  as $item) {
- 
+ 			//Translate if translation available
+			if ($item->home) {
+ 				if(isset($translatations->$lang) && ($menutranslation = trim($translatations->$lang))) {
+ 					$item->title = $menutranslation;
+ 				}
+			}	
 			switch($filter) {
 				case "hide":
 					//Delete menu item, if the item id  is in the items list
@@ -416,7 +445,17 @@ class vdMenuFilter extends JMenu {
 	}
 }
 
+class vdLanguage extends JLanguage {
+	
+	function setDefault($lang) {
+			$refresh = & JFactory::getLanguage();
+			$refresh->metadata['tag'] = $lang;
 
+			$refresh->default	= $lang;
+			$new = & JFactory::getLanguage();	
+
+	}
+}	
 
 /**
  * 
@@ -438,21 +477,27 @@ class vdUser extends JUser {
 	 * @param array $viewlevels
 	 */
 	function addAuthLevel($viewlevels) {		
+		//No access levels assigned to this domain? return...
 		if(!count($viewlevels)) return;		
+		//is the user not logged in 
 		if(!$this->id) {
+			//we give him minimum public accesslevel and make him a guest
 			$user = new JUser();
 			$user->guest = 1;
 			$user->_authLevels[] = 1;			
 		} else {
+			//prepare users accesslevel 
 			$user = new JUser($this->id);
         	$user->_authLevels=  JAccess:: getAuthorisedViewLevels($user->id);			
 		}
 		
+		//Now add all access levels assigned to this domain
 		foreach($viewlevels as $viewlevel) {
 			if($viewlevel)
 					$user->_authLevels[] = $viewlevel;
 		}
 		
+		//put this to the session
 		$session = JFactory::getSession();							
 		$session->set('user', $user);
 	         
