@@ -89,7 +89,12 @@ class TableVirtualdomain extends JTable
 			$this->ordering = $this->getNextOrder();
 		}
 
-	/** check for valid name */
+		/** No www */		
+		if (strpos($this->domain,'www.') ===0) {
+			$this->domain = substr($this->domain,4);			
+		}
+		
+	    /** check for valid name */
 
 		if (trim($this->domain) == '') {
 			$this->setError(JText::_('Your Domain must have a name.'));
