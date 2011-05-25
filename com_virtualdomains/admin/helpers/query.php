@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Database
  * @since		1.6
  */
-class JQueryElement
+class VDJQueryElement
 {
 	/** @var string The name of the element */
 	protected $_name = null;
@@ -68,7 +68,7 @@ class JQueryElement
  * @subpackage	Database
  * @since		1.6
  */
-class JQuery
+class VDJQuery
 {
 	/** @var string The query type */
 	protected $_type = '';
@@ -101,7 +101,7 @@ class JQuery
 	{
 		$this->_type = 'select';
 		if (is_null($this->_select)) {
-			$this->_select = new JQueryElement('SELECT', $columns);
+			$this->_select = new VDJQueryElement('SELECT', $columns);
 		} else {
 			$this->_select->append($columns);
 		}
@@ -115,7 +115,7 @@ class JQuery
 	public function from($tables)
 	{
 		if (is_null($this->_from)) {
-			$this->_from = new JQueryElement('FROM', $tables);
+			$this->_from = new VDJQueryElement('FROM', $tables);
 		} else {
 			$this->_from->append($tables);
 		}
@@ -132,7 +132,7 @@ class JQuery
 		if (is_null($this->_join)) {
 			$this->_join = array();
 		}
-		$this->_join[] = new JQueryElement(strtoupper($type) . ' JOIN', $conditions);
+		$this->_join[] = new VDJQueryElement(strtoupper($type) . ' JOIN', $conditions);
 
 		return $this;
 	}
@@ -185,7 +185,7 @@ class JQuery
 	{
 		if (is_null($this->_where)) {
 			$glue = strtoupper($glue);
-			$this->_where = new JQueryElement('WHERE', $conditions, "\n\t$glue ");
+			$this->_where = new VDJQueryElement('WHERE', $conditions, "\n\t$glue ");
 		} else {
 			$this->_where->append($conditions);
 		}
@@ -199,7 +199,7 @@ class JQuery
 	public function group($columns)
 	{
 		if (is_null($this->_group)) {
-			$this->_group = new JQueryElement('GROUP BY', $columns);
+			$this->_group = new VDJQueryElement('GROUP BY', $columns);
 		} else {
 			$this->_group->append($columns);
 		}
@@ -213,7 +213,7 @@ class JQuery
 	public function having($columns)
 	{
 		if (is_null($this->_having)) {
-			$this->_having = new JQueryElement('HAVING', $columns);
+			$this->_having = new VDJQueryElement('HAVING', $columns);
 		} else {
 			$this->_having->append($columns);
 		}
@@ -227,7 +227,7 @@ class JQuery
 	public function order($columns)
 	{
 		if (is_null($this->_order)) {
-			$this->_order = new JQueryElement('ORDER BY', $columns);
+			$this->_order = new VDJQueryElement('ORDER BY', $columns);
 		} else {
 			$this->_order->append($columns);
 		}

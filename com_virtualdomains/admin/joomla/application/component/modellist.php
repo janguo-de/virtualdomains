@@ -53,7 +53,7 @@ class JModelList extends JModel
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
-		$this->query = new JQuery;		
+		$this->query = new VDJQuery;		
 		$this->populateState();
 		// Guess the context as Option.ModelName.
 		if (empty($this->context)) {

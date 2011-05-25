@@ -99,7 +99,7 @@ class VirtualdomainsModel extends JModel
             $this->option = 'com_' . strtolower( $r[1] );
         }
 
-        $this->_query = new JQuery;
+        $this->_query = new VDJQuery;
 
         $configTable = ( isset( $config['table'] ) && !empty( $config['table'] ) ) ? $config['table'] : null;
 
