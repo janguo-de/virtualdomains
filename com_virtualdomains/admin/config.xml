@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-  <params>
-    <param type="spacer" default="PREVIEW_OPTIONS_DESC" />
-    <param name="framewidth" label="FRAMEWIDTH" description="FRAMEWIDTH_DESC" type="text" default="600" />
-    <param name="frameheight" label="FRAMEHEIGHT" description="FRAMEHEIGHT_DESC" type="text" default="400" />
-  </params>
-
+	<fieldset
+		name="GENERAL"
+		label="GENERAL">
+		<field
+			id="override"
+			name="override"
+			type="list"
+			class="inputbox"
+			default="2"
+			size="1"
+			label="JFIELD_VDOVERRIDE_TEMPLATESTYLES_LABEL"
+			description="JFIELD_VDOVERRIDE_TEMPLATESTYLES_Desc">
+			<option
+				value="2">
+				JFIELD_OVERRIDE_YES</option>
+			<option
+				value="1">
+				JFIELD_OVERRIDE_HOME</option>				
+			<option
+				value="0">
+				JFIELD_OVERRIDE_NO</option>
+		</field>		
+</fieldset>
 	<fieldset
 		name="PREVIEW OPTIONS"
 		label="PREVIEW OPTIONS"

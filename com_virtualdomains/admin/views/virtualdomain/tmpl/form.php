@@ -48,14 +48,19 @@ function submitbutton(task)
          			<?php echo $field->input; ?><br />
          		<?php endforeach; ?>
          		</div>
-				<?php if($this->item->home != 1):?>
+
 
 				<div class="width-45 fltlft"> 				
+			
 					<?php echo $this->form->getLabel( 'menuid' ); ?>
-				
+				<?php if($this->item->home != 1):?>	
 					<?php echo $this->form->getInput( 'menuid' ); ?>
+					<?php else: ?>
+					<?php echo JText::_('JOOMLA_SETTINGS')?>
 				</div>
-
+			
+					
+				<?php endif;?>
 					<?php echo $this->form->getLabel( 'template' ); ?>
 				
 					<?php echo $this->form->getInput( 'template' ); ?>						
@@ -64,9 +69,7 @@ function submitbutton(task)
 				
 					<?php echo $this->form->getInput( 'published' ); ?>
 				
-				<?php else: ?>
-					<div class="col width-60"><strong><?php echo JText::_('Default Domain')?></strong></div>
-				<?php endif;?>
+	
 						
           </fieldset>               
 		<?php echo JHtml::_('sliders.start','vd-sliders-'.$this->item->id, array('useCookie'=>1)); ?>

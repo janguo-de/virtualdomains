@@ -67,6 +67,8 @@ class plgSystemVirtualdomains extends JPlugin
 
 		jimport('joomla.user.authentication');
 		$this->_hostparams = null;
+		
+	
 		$app = &JFactory::getApplication();
 		$db = &JFactory::getDBO();
 		$user = &JFactory::getUser();
@@ -79,7 +81,8 @@ class plgSystemVirtualdomains extends JPlugin
 
 		$uri = JURI::getInstance();
 		$this->_curhost = str_replace( 'www.', '', $uri->getHost() );
-
+		
+		
 		$currentDomain = $this->_getCurrentDomain();
 		
 		//TODO: Since default domain is found in the table, some things are to proceed...
@@ -98,9 +101,10 @@ class plgSystemVirtualdomains extends JPlugin
 		$vdUser->addAuthLevel($viewlevels);
 
 		// Set Meta Data
-		$this->_hostparams = $currentDomain ->params;
+		$this->_hostparams = $currentDomain ->params;		
 		
 		$config = &JFactory::getConfig();
+		
 		if ( is_object( $this->_hostparams ) )
 		{
 			if ( trim( $this->_hostparams->get( 'metadesc' ) ) )
@@ -118,26 +122,18 @@ class plgSystemVirtualdomains extends JPlugin
 
 		}
 
-		//set the template
-		if ( $currentDomain ->template )
-		{
-			$jv = new JVersion();
-			//let 1.6 set the template by itself - otherwise the templates params won't be set
-			if ( $jv->RELEASE > 1.5 )
-			{
-				JRequest::setVar( 'template', $currentDomain ->template );
-			} else
-			{
-				$app->setTemplate( $currentDomain ->template );
-			}
-		}
-
 		//Set the route, if necessary
 		if ( !$this->_reRoute( $currentDomain , $uri ) )
 		{
 			$this->setActions();
 		}
 		
+		//set the template
+		if ( $currentDomain ->template )
+		{
+				JRequest::setVar( 'template', $currentDomain ->template );
+		}
+				
 		$this->filterMenus($currentDomain ->menuid); 		
 	}
 
@@ -145,6 +141,9 @@ class plgSystemVirtualdomains extends JPlugin
 	private function _getCurrentDomain() {
 			
 			static $instance;
+			
+			$vd = JComponentHelper::getComponent('com_virtualdomains');		
+			$app = JFactory::getApplication();
 			
 			if(!empty($instance)) return $instance;
 			
@@ -165,28 +164,70 @@ class plgSystemVirtualdomains extends JPlugin
 			}			
 	
 			$curDomain->params = new JObject(json_decode($curDomain->params));
+
+		  //Set the global override styles settings, if not configured
+			if($curDomain->params->get('override') === '') $curDomain->params->set('override',$vd->params->get('override'));			
+			
+            $router = JSite::getRouter();
+
+			$uri = JURI::getInstance();
+		
+		    $curDomain->query_link = $router->parse( clone ( $uri ) );
+		  
+		    $curDomain->activeItemId  = ( int )$curDomain->query_link['Itemid'];
+
 			
 			// Standard Domain uses Joomla settings
 			if($curDomain->home == 1) {
 				$curDomain->template = null;
 				$curDomain->menuid = null;
 			}
+		    
+			$menu = & JMenu::getInstance('site',array());
+		
+			$menuItem = & $menu->getItem(( int ) $curDomain->menuid );
+		
+			$origHome = $menu->getDefault();
 			
+			$curDomain->isHome = false;
+			
+			//do nothing, if we are not on frontpage
+			if (  ( int )$curDomain->query_link['Itemid'] === ( int )$origHome->id )
+			{
+				$curDomain->isHome = true;
+			} 
+			
+			
+			//override style?
+			switch($curDomain->params->get('override')) {
+				
+				case 1:			
+					if(!$curDomain->isHome ) {
+						$curDomain->template = null;
+					}		
+					break;
+				case '0':
+					$curDomain->template = null;
+					break;		
+			}
+		    
 			$instance =$curDomain; 
 			
 			return $instance;
 	}
+	
+	
 	
 	/**
 	 * 
 	 *  Routes to VD-Hosts home, if necessery
 	 */
 
-	private function _reRoute( $row, &$uri )
+	private function _reRoute($curDomain, &$uri )
 	{
 		
-		
-		if($row->home == 1) return;  
+		//Is this the default domain?
+		if($curDomain->home == 1) return;  
 
 		if ( $this->params->get( 'noreroute' ) )
 		{
@@ -195,7 +236,7 @@ class plgSystemVirtualdomains extends JPlugin
 		
 		$menu = & JMenu::getInstance('site',array());
 		
-		$menuItem = & $menu->getItem(( int )$row->menuid );
+		$menuItem = & $menu->getItem(( int )$curDomain->menuid );
 		
 		$origHome = $menu->getDefault();  
 
@@ -207,27 +248,24 @@ class plgSystemVirtualdomains extends JPlugin
 		}
 		
 		$menulink = $menuItem->link;
-     
 
+		
 		$this->_switchMenu( $menu,$menuItem );
 
-		$router = JSite::getRouter();
-
-		$query_link = $router->parse( clone ( $uri ) );
 
 		//do nothing, if we are not on frontpage
-		if ( !isset( $query_link['Itemid'] ) or ( ( int )$query_link['Itemid'] != ( int )$origHome->id) )
+		if ( $curDomain->isHome )
 		{
 			return false;
 		}
 
-		$menu->setActive( $row->menuid );
-		$this->setRequest( 'Itemid', $row->menuid );
+		$menu->setActive( $curDomain->menuid );
+		$this->setRequest( 'Itemid', $curDomain->menuid );
 
 		$this->setJoomfishLang();
 
 		//rewrite the uri
-		$link = $menulink . "&Itemid=" . $row->menuid;
+		$link = $menulink . "&Itemid=" . $curDomain->menuid;
 
 		//Parse the new Url
 		//var_dump( $this->_getBase() );
@@ -404,14 +442,15 @@ class vdMenuFilter extends JMenu {
 	 */
 	
 	function filterMenues($params, $default) {
-		 $filter = $params->get( 'menumode' );		
+		 $filter = $params->get( 'menumode' );
+	
 		 $items = $params->get( 'menufilter' );
 		 $translatations = $params->get( 'translatemenu' );
 		 $lang =  JFactory::getLanguage()->getTag() ;
 	
 		//Get the instance
 		$menu = & parent::getInstance('site',array());
-		
+		 
 		//Set all defaults on default
 		//TODO: Allow language specific home items
 		if($default) {
@@ -420,6 +459,7 @@ class vdMenuFilter extends JMenu {
 			$menu->setDefault($default);
 		}
 
+		//if(!$filter) return;					
 		//Check every item
 		foreach($menu->_items  as $item) {
  			//Translate if translation available
