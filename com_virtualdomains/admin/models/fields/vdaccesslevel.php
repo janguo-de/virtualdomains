@@ -57,6 +57,8 @@ class JFormFieldVdAccessLevel extends JFormFieldList
 		
 		// Get the field options.
 		$options = $this->getOptions();
+		
+		if(!is_array($options)) $options = array();
         array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_VDACCESS_NONE')));
 		//return JHtml::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
 		return JHtml::_('select.genericlist', $options, $this->name,
@@ -73,12 +75,12 @@ class JFormFieldVdAccessLevel extends JFormFieldList
 		
 		$query = "SELECT GROUP_CONCAT( DISTINCT `viewlevel`
 						SEPARATOR ', ' )
-						FROM `jos_virtualdomain`
+						FROM #__virtualdomain
 						WHERE published =1
 						AND id != ".(int) $this->_exclude." 
 						GROUP BY published";
 		$db->setQuery($query );
-		
+
 		$vdlevels = $db->loadResult();
 		
 		$query	= $db->getQuery(true);
@@ -92,7 +94,6 @@ class JFormFieldVdAccessLevel extends JFormFieldList
 		// Get the options.
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		
 		return $options;
 
 		

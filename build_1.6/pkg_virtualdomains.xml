@@ -37,7 +37,8 @@
 		]]></description>
 	<update>http://www.janguo.de</update>
 	<files folder="packages">
-		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>
-		<file type="plugin" id="virtualdomains" group="system">plg_virtualdomains.zip</file>
+		<file type="component" client_id="1" id="com_virtualdomains" >com_virtualdomains.zip</file>
+		<file type="plugin" id="plg_virtualdomains" group="system">plg_virtualdomains.zip</file>
+		<file type="template" id="pkg_virtualdomains">tpl_vdpower.zip</file>
 	</files>
 </extension>

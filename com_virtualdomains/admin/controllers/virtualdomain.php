@@ -26,7 +26,8 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
 
     public function __construct( $config = array() )
     {
-        parent::__construct( $config );
+        VirtualdomainsHelper::addSubmenu($this->_viewname );	
+    	parent::__construct( $config );
         JRequest::setVar( 'view', $this->_viewname );
 
     }
