@@ -17,7 +17,7 @@
 	<target name="build-all">
 		<phingcall target="clean" />
 		<phingcall target="build" />
-		<phingcall target="build-15" />
+
 	</target>
 
 	<target name="build">
@@ -26,7 +26,7 @@
 		<copy file="build_1.6/com_virtualdomains.xml" tofile="com_virtualdomains/com_virtualdomains.xml" overwrite="true"/>
 		<zip destfile="packages/com_virtualdomains.zip" basedir="com_virtualdomains" />
 		<zip destfile="packages/plg_virtualdomains.zip" basedir="plg_virtualdomains" />
-		<zip destfile="packages/tpl_vdpower.zip" basedir="tpl_vdpower" />
+
 		<copy file="build_1.6/pkg_virtualdomains.xml" tofile="pkg_virtualdomains.xml" overwrite="true"/>						
 		<zip destfile="${package}-${vd.version}-j1.6-r${revisionx}.zip">
 			<fileset dir=".">

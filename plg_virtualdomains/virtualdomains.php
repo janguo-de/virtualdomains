@@ -254,7 +254,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 
 		//do nothing, if we are not on frontpage
-		if ( $curDomain->isHome )
+		if ( !$curDomain->isHome )
 		{
 			return false;
 		}

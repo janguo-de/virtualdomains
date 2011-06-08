@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="package" version="1.6">
 	<name>Virtual Domains</name>
+	<author>mliebler, romacron</author>
 	<packagename>virtualdomains</packagename>
-	<version>0.4 Chekov</version>
+	<version>0.5 Mccoy</version>
 	<url>http://www.janguo.de</url>
 	<packager>Michael Liebler</packager>
 	<packagerurl>http://www.janguo.de</packagerurl>
@@ -37,8 +38,7 @@
 		]]></description>
 	<update>http://www.janguo.de</update>
 	<files folder="packages">
-		<file type="component" client_id="1" id="com_virtualdomains" >com_virtualdomains.zip</file>
-		<file type="plugin" id="plg_virtualdomains" group="system">plg_virtualdomains.zip</file>
-		<file type="template" id="pkg_virtualdomains">tpl_vdpower.zip</file>
+		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>
+		<file type="plugin" client="site" id="virtualdomains" group="system">plg_virtualdomains.zip</file>		
 	</files>
 </extension>
