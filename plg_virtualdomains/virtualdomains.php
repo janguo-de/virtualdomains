@@ -66,9 +66,10 @@ class plgSystemVirtualdomains extends JPlugin
 	{
 
 		jimport('joomla.user.authentication');
+		jimport('joomla.application.router');
 		$this->_hostparams = null;
 		
-	
+
 		$app = &JFactory::getApplication();
 		$db = &JFactory::getDBO();
 		$user = &JFactory::getUser();
@@ -78,8 +79,19 @@ class plgSystemVirtualdomains extends JPlugin
 			return; // Dont run in backend
 		}
 		
-
+		// add vars to the request 
 		$uri = JURI::getInstance();
+		
+		$uri = clone (JFactory::getURI());
+		$router = JRouter::getInstance('site'); 
+		$request_vars = $router->parse($uri );
+				
+	    if(count($request_vars)) {
+	    	foreach ($request_vars as $key => $var ) {
+	    		$this->setRequest($key, $var);
+	    	}	    	
+	    }
+		
 		$this->_curhost = str_replace( 'www.', '', $uri->getHost() );
 		
 		
@@ -258,10 +270,10 @@ class plgSystemVirtualdomains extends JPlugin
 		{
 			return false;
 		}
-
+	
 		$menu->setActive( $curDomain->menuid );
 		$this->setRequest( 'Itemid', $curDomain->menuid );
-
+	
 		$this->setJoomfishLang();
 
 		//rewrite the uri
@@ -269,15 +281,15 @@ class plgSystemVirtualdomains extends JPlugin
 
 		//Parse the new Url
 		//var_dump( $this->_getBase() );
-		///var_Dump( $link );
+	
 		$parse = parse_url( $this->_getBase() . $link );
-
+		
 		//Build the new Query
 		$request = array();
 		parse_str( $parse['query'], $request );
+
 		$this->_request = array_merge( $request, $this->_request );
 		$parse['query'] = JURI::buildQuery( $this->_request );
-
 		//Not shure, whether this make sense...
 		//$uri->setQuery($parse['query'] );
 
@@ -293,6 +305,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		JRequest::set( $this->_request, 'get', false );
 		JRequest::set( $this->_request, 'post', false );
+		
 		return true;
 	}
 
