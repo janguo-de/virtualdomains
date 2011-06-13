@@ -100,9 +100,7 @@ JHtml::_('behavior.modal');
 					<li><?php echo $this->form->getLabel('home'); ?>
 					<?php echo $this->form->getInput('home'); ?></li>
 				<?php endif; ?>
-				<li><?php echo $this->form->getLabel('domain'); ?>
-				<?php echo JHtml::_('virtualdomains.domains',  $this->item->domain); ?>
-				</li>
+
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 
