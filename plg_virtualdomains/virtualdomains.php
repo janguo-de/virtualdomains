@@ -79,18 +79,9 @@ class plgSystemVirtualdomains extends JPlugin
 			return; // Dont run in backend
 		}
 		
-		// add vars to the request 
+ 
 		$uri = JURI::getInstance();
-		
-		$uri = clone (JFactory::getURI());
-		$router = JRouter::getInstance('site'); 
-		$request_vars = $router->parse($uri );
-				
-	    if(count($request_vars)) {
-	    	foreach ($request_vars as $key => $var ) {
-	    		$this->setRequest($key, $var);
-	    	}	    	
-	    }
+
 		
 		$this->_curhost = str_replace( 'www.', '', $uri->getHost() );
 		
@@ -185,7 +176,7 @@ class plgSystemVirtualdomains extends JPlugin
 			$uri = JURI::getInstance();
 		
 		    $curDomain->query_link = $router->parse( clone ( $uri ) );
-		  
+
 		    $curDomain->activeItemId  = ( int )$curDomain->query_link['Itemid'];
 
 			
@@ -250,6 +241,10 @@ class plgSystemVirtualdomains extends JPlugin
 		
 		$menuItem = & $menu->getItem(( int )$curDomain->menuid );
 		
+
+		$rewrite = (str_replace('/','',$_SERVER['REQUEST_URI'] ) == ''); 
+		
+
 		$origHome = $menu->getDefault();  
 
 		
@@ -285,16 +280,16 @@ class plgSystemVirtualdomains extends JPlugin
 		$parse = parse_url( $this->_getBase() . $link );
 		
 		//Build the new Query
-		$request = array();
-		parse_str( $parse['query'], $request );
-
-		$this->_request = array_merge( $request, $this->_request );
-		$parse['query'] = JURI::buildQuery( $this->_request );
-		//Not shure, whether this make sense...
-		//$uri->setQuery($parse['query'] );
-
-		//rewrite some server environment vars to fool joomla
-		$_SERVER['QUERY_STRING'] = $parse['query'];
+		if($rewrite) {
+			$request = array();
+			parse_str( $parse['query'], $request );
+	
+			$this->_request = array_merge( $request, $this->_request );
+			$parse['query'] = JURI::buildQuery( $this->_request );
+			
+			//rewrite some server environment vars to fool joomla
+			$_SERVER['QUERY_STRING'] = $parse['query'];
+		}
 		$_SERVER['REQUEST_URI'] = $this->_getBase() . $link;
 		$_SERVER['PHP_SELF'] = $this->_getBase() . $parse['path'];
 		$_SERVER['SCRIPT_NAME'] = $this->_getBase() . $parse['path'];
@@ -302,9 +297,14 @@ class plgSystemVirtualdomains extends JPlugin
 
 		//set userdefined actions
 		$this->setActions( 1 );
-
-		JRequest::set( $this->_request, 'get', false );
-		JRequest::set( $this->_request, 'post', false );
+		//return true;
+		//var_dump($this->_request);
+		if(count($this->_request)) {
+			foreach( $this->_request as $key=>$var) {		
+				JRequest::setVar($key,$var,'get');
+				JRequest::setVar($key,$var,'post');
+			}
+		}
 		
 		return true;
 	}
@@ -391,7 +391,18 @@ class plgSystemVirtualdomains extends JPlugin
 		return $path;
 	}
 
-
+     public static function explodeQuery($sUrl) {
+            $aUrl = parse_url($sUrl);
+            $aUrl['query_params'] = array();
+            $aPairs = explode('&', $aUrl['query']);
+            //DU::show($aPairs);
+            foreach($aPairs as $sPair) {
+                if (trim($sPair) == '') { continue; }
+                list($sKey, $sValue) = explode('=', $sPair);
+                $aUrl['query_params'][$sKey] = urldecode($sValue);
+            }
+            return $aUrl;
+        }
 	
 	/**
 	 * 
