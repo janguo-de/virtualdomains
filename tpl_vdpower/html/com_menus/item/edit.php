@@ -11,18 +11,16 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_virtualdomains/helpers');
+
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
-
 ?>
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task, type)
 	{
-
 		if (task == 'item.setType' || task == 'item.setMenuType') {
 			if(task == 'item.setType') {
 				document.id('item-form').elements['jform[type]'].value = type;
@@ -30,10 +28,8 @@ JHtml::_('behavior.modal');
 			} else {
 				document.id('item-form').elements['jform[menutype]'].value = type;
 			}
-			
 			Joomla.submitform('item.setType', document.getElementById('item-form'));
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			
 			Joomla.submitform(task, document.getElementById('item-form'));
 		} else {
 			// special case for modal popups validation response
@@ -50,10 +46,13 @@ JHtml::_('behavior.modal');
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 <div class="width-60 fltlft">
- 
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
 			<ul class="adminformlist">
+
+
+				<li><?php echo $this->form->getLabel('type'); ?>
+				<?php echo $this->form->getInput('type'); ?></li>
 
 				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
@@ -117,9 +116,6 @@ JHtml::_('behavior.modal');
 <div class="width-40 fltrt">
 	<?php echo JHtml::_('sliders.start','menu-sliders-'.$this->item->id); ?>
 	<?php //Load  parameters.
- 
-
-		
 		echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
