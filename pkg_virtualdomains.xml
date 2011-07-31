@@ -39,6 +39,6 @@
 	<update>http://www.janguo.de</update>
 	<files folder="packages">
 		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>
-		<file type="plugin" client="site" id="virtualdomains" group="system">plg_virtualdomains.zip</file>		
+		<file type="plugin" client="site" id="virtualdomains" group="system">plg_virtualdomains.zip</file>				
 	</files>
 </extension>

@@ -174,10 +174,7 @@ class plgSystemVirtualdomains extends JPlugin
             $router = JSite::getRouter();
 
 			$uri = JURI::getInstance();
-		
-		    $curDomain->query_link = $router->parse( clone ( $uri ) );
 
-		    $curDomain->activeItemId  = ( int )$curDomain->query_link['Itemid'];
 
 			
 			// Standard Domain uses Joomla settings
@@ -186,20 +183,7 @@ class plgSystemVirtualdomains extends JPlugin
 				$curDomain->menuid = null;
 			}
 		    
-			$menu = & JMenu::getInstance('site',array());
-		
-			$menuItem = & $menu->getItem(( int ) $curDomain->menuid );
-		
-			$origHome = $menu->getDefault();
-			
-			$curDomain->isHome = false;
-			
-			//do nothing, if we are not on frontpage
-			if (  ( int )$curDomain->query_link['Itemid'] === ( int )$origHome->id )
-			{
-				$curDomain->isHome = true;
-			} 
-			
+			$this->_checkHome(&$curDomain);
 			
 			//override style?
 			switch($curDomain->params->get('override')) {
@@ -219,7 +203,74 @@ class plgSystemVirtualdomains extends JPlugin
 			return $instance;
 	}
 	
+	/**
+	 * 
+	 * Method to check, if current menu item is the domains home
+	 * @param object $curDomain
+	 */	
+	private function _checkHome(&$curDomain) {
+		
+			$menu = & JMenu::getInstance('site',array());
+		
+			$menuItem = & $menu->getItem(( int ) $curDomain->menuid );
+		
+			$origHome = $menu->getDefault();
+			
+			$app = JFactory::getApplication();
+			
+			$router = $app->getRouter();
+			
+            $uri = JURI::getInstance();
+			
+            $mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
+            
+			$origHome = $menu->getDefault();
+			
+			$curDomain->isHome = false;
+					
+		    $curDomain->query_link = $router->parse( clone ( $uri ) );
+		  		    
+		    $curDomain->activeItemId  = ( int )$curDomain->query_link['Itemid'];			
+					//do nothing, if we are not on frontpage
 	
+			if (  ( int )$curDomain->query_link['Itemid'] === ( int )$origHome->id  )
+			{
+					$curDomain->isHome = true;
+			} 
+            
+            //its clear: we are not at home
+			if(!$curDomain->isHome) return;
+
+			if($mode_sef) {
+				$route	= $uri->getPath();
+
+				// Handle an empty URL (special case)
+				if (empty($route)) {
+					$curDomain->isHome = false;
+				} else {
+					$items = array_reverse($menu->getMenu());
+					$found = false;
+					$route_lowercase = JString::strtolower($route);
+			
+					foreach ($items as $item) {
+							$length = strlen($item->route); //get the length of the route
+							if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
+								$route = substr($route, $length);
+								if ($route) {
+									$route = substr($route, 1);
+								}
+							$found = true;
+							break;
+						}
+					}
+					//this is the case, if active menu item has changed before
+					if(!$found) {
+						$curDomain->isHome = false;
+						return;
+					}
+				}
+			} 		
+	}
 	
 	/**
 	 * 
@@ -391,7 +442,7 @@ class plgSystemVirtualdomains extends JPlugin
 		return $path;
 	}
 
-     public static function explodeQuery($sUrl) {
+	public static function explodeQuery($sUrl) {
             $aUrl = parse_url($sUrl);
             $aUrl['query_params'] = array();
             $aPairs = explode('&', $aUrl['query']);
@@ -403,7 +454,6 @@ class plgSystemVirtualdomains extends JPlugin
             }
             return $aUrl;
         }
-	
 	/**
 	 * 
 	 * Sets the lang Variable, if not set by Joomfish
@@ -439,6 +489,8 @@ class plgSystemVirtualdomains extends JPlugin
 		$this->setRequest( 'language', $this->_hostparams->get( 'language' ));
 	}
 
+	
+	
 	/**
 	 * 
 	 * Method to add or set a var to the request
