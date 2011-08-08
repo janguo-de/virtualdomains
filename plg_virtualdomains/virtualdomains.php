@@ -203,18 +203,41 @@ class plgSystemVirtualdomains extends JPlugin
 			return $instance;
 	}
 	
+
+    private function getDefaultmenu() {
+            static $_defaultmenu;
+            if(!empty($_defaultmenu)) return $_defaultmenu;
+            $menu = & JMenu::getInstance('site',array());
+            $_defaultmenu = $menu->getDefault();
+			$db = JFactory::getDbo();
+			//fallback 
+			
+			if($_defaultmenu === 0) {
+			    $lang = JFactory::getLanguage();
+			    $query  = "SELECT * FROM #__menu WHERE home = 1 AND language = ".$db->Quote(JFactory::getLanguage()->getTag())." AND published >0";
+			    $db->setQuery($query);		
+			    $_defaultmenu = $db->loadObject();
+			    if($_defaultmenu === null) {
+			        $query  = "SELECT * FROM #__menu WHERE home = 1 AND language = '*' AND published >0";
+			        $db->setQuery($query);		
+			        $_defaultmenu = $db->loadObject();
+			    }			    
+			} 
+	
+			return $_defaultmenu;
+        
+    }	
+	
 	/**
 	 * 
 	 * Method to check, if current menu item is the domains home
 	 * @param object $curDomain
 	 */	
 	private function _checkHome(&$curDomain) {
-		
+			 
 			$menu = & JMenu::getInstance('site',array());
 		
 			$menuItem = & $menu->getItem(( int ) $curDomain->menuid );
-		
-			$origHome = $menu->getDefault();
 			
 			$app = JFactory::getApplication();
 			
@@ -224,7 +247,7 @@ class plgSystemVirtualdomains extends JPlugin
 			
             $mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
             
-			$origHome = $menu->getDefault();
+			$origHome = $this->getDefaultmenu();
 			
 			$curDomain->isHome = false;
 					
@@ -296,7 +319,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$rewrite = (str_replace('/','',$_SERVER['REQUEST_URI'] ) == ''); 
 		
 
-		$origHome = $menu->getDefault();  
+		$origHome = $this->getDefaultmenu();  
 
 		
 		if ( !$menuItem )
@@ -414,7 +437,8 @@ class plgSystemVirtualdomains extends JPlugin
 	{
 		
 		$nohome = & $menu->getDefault();
-		$nohome->home = null;
+		if($nohome !== 0)
+		    $nohome->home = null;
 		$newhome->home = 1;
 		$menu->setDefault( $newhome->id);
 		//$menu->setActive($newhome);
