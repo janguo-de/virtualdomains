@@ -39,7 +39,7 @@ class JFormFieldTemplates extends JFormField {
 			
 			require_once( JPATH_BASE.DS.'components'.DS.'com_templates'.DS.'helpers'.DS.'templates.php' );
   			$trows =TemplatesHelper::getTemplateOptions("0");
-			$html  = JHTML::_('select.genericlist', $trows, $this->name, 'class="inputbox"', 'text', 'text', $this->value );
+			$html  = JHTML::_('select.genericlist', $trows, $this->name, 'class="inputbox"', 'value', 'text', $this->value );
 						
 		} else {
 			
