@@ -18,6 +18,7 @@ if ( !$edit )
     JToolBarHelper::cancel( 'cancel', 'Close' );    
 } 
 VirtualdomainsHelper::helpIcon('Details-Page');
+
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -34,38 +35,72 @@ function submitbutton(task)
 </script>
 
 	 	<form method="post" action="index.php" id="adminForm" name="adminForm">
-	 	<div class="col width-70 fltlft">
+	 	<div class="col width-60 fltlft">
 		  <fieldset class="adminform">
 			<legend><?php echo JText::_( 'Details' ); ?></legend>
 							
 				<?php echo $this->form->getLabel( 'domain' ); ?>
 				
 				<?php echo $this->form->getInput( 'domain' ); ?>
-					
-				<?php echo $this->form->getLabel( 'menuid' ); ?>
-				
-				<?php echo $this->form->getInput( 'menuid' ); ?>
-					
-				<?php echo $this->form->getLabel( 'template' ); ?>
-				
-				<?php echo $this->form->getInput( 'template' ); ?>										
-							
-				<?php echo $this->form->getLabel( 'published' ); ?>
-				
-				<?php echo $this->form->getInput( 'published' ); ?>
+				<div class="width-45  fltrt"> 			   
+         		<?php foreach ( $this->form->getFieldset( 'translation') as $field ): ?>
+         			<?php echo $field->label; ?><br />
+         			<?php echo $field->input; ?><br />
+         		<?php endforeach; ?>
+         		</div>
+
+
+				<div class="width-45 fltlft"> 				
 			
+					<?php echo $this->form->getLabel( 'menuid' ); ?>
+				<?php if($this->item->home != 1):?>	
+					<?php echo $this->form->getInput( 'menuid' ); ?>
+					<?php else: ?>
+					<?php echo JText::_('JOOMLA_SETTINGS')?>
+				</div>
+			
+					
+				<?php endif;?>
+					<?php echo $this->form->getLabel( 'template' ); ?>
+				
+					<?php echo $this->form->getInput( 'template' ); ?>						
+							
+					<?php echo $this->form->getLabel( 'published' ); ?>
+				
+					<?php echo $this->form->getInput( 'published' ); ?>
+				
+	
 						
-          </fieldset>                      
+          </fieldset>               
+		<?php echo JHtml::_('sliders.start','vd-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+		<?php echo JHtml::_('sliders.panel',JText::_('Menu Filter'), 'advanced-menus'); ?>          
+         <fieldset class="panelform">        
+         <?php foreach ( $this->form->getFieldset( 'menus') as $field ): ?>
+         		<?php echo $field->label; ?><br />
+         		<?php echo $field->input; ?><br />
+         <?php endforeach; ?>
+         </fieldset>
+		<?php echo JHtml::_('sliders.panel',JText::_('Access Level Inheritance'), 'advanced-accesslevel'); ?>          
+         <fieldset class="panelform">        
+         <?php foreach ( $this->form->getFieldset( 'accesslevels') as $field ): ?>
+         		<?php echo $field->label; ?><br />
+         		<?php echo $field->input; ?><br />
+         <?php endforeach; ?>
+         </fieldset>         
+		<?php echo JHtml::_('sliders.end'); ?>
         </div>
-        <div class="col width-30 fltrt">
+        	<div class="width-40 fltrt">
 			        
      		
-			<fieldset class="adminform">
+			<fieldset class="panelform">
 				<legend><?php echo JText::_( 'Advanced Parameters' ); ?></legend>
 				<table>				
 				<?php $fieldSets = $this->form->getFieldsets( 'params' );
 
-foreach ( $fieldSets as $name => $fieldset ): ?>				
+		foreach ( $fieldSets as $name => $fieldset ): 
+		    if(!in_array($name ,array('menus', 'accesslevels','translation'))) : 
+		     ?>				
 				<?php foreach ( $this->form->getFieldset( $name ) as $field ): ?>
 					<?php if ( $field->hidden ): ?>
 						<?php echo $field->input; ?>
@@ -80,6 +115,7 @@ foreach ( $fieldSets as $name => $fieldset ): ?>
 					</tr>
 				<?php endif; ?>
 				<?php endforeach; ?>
+			<?php endif; ?>				
 			<?php endforeach; ?>
 			</table>			
 			</fieldset>									
@@ -106,7 +142,8 @@ foreach ( $fieldSets as $name => $fieldset ): ?>
 			</table>			
 			</fieldset>									
 
-        </div>                   
+        </div>
+        <?php echo $this->form->getInput( 'viewlevel' ); ?>		        		
 		<input type="hidden" name="option" value="com_virtualdomains" />
 	    <input type="hidden" name="cid[]" value="<?php echo $this->item->id ?>" />
 		<input type="hidden" name="task" value="" />

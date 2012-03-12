@@ -31,9 +31,12 @@ JHTML::_('behavior.modal', 'a.modal');
           <th width="10"> <?php echo JText::_( 'NUM' ); ?> </th>
           <th width="10"> <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
           </th>
-          <th width="35%" class="title"><?php echo JHTML::_( 'grid.sort', 'Domain', 'a.domain', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-          <th  width="35%" class="title"><?php echo JHTML::_( 'grid.sort', 'Template', 'a.template', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+          <th width="29%" class="title"><?php echo JHTML::_( 'grid.sort', 'Domain', 'a.domain', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+          <th  width="29%" class="title"><?php echo JHTML::_( 'grid.sort', 'Template', 'a.template', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
           <th width="13%" class="title"><?php echo JHTML::_( 'grid.sort', 'Ordering', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+		  <th width="13%">
+					<?php echo JHtml::_('grid.sort', 'Default Domain', 'a.default', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		 </th>          
           <th width="13%" class="title"><?php echo JHTML::_( 'grid.sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
           <th width="13%" class="title"><?php echo JText::_('Preview');?> </th>
           <th width="1%" class="title"><?php echo JHTML::_( 'grid.sort', 'Id', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
@@ -78,6 +81,9 @@ if ( count( $this->items ) > 0 ):
           <td style="text-align:center"><span><?php echo $this->pagination->orderUpIcon( $i, true, 'orderup', 'Move Up', ( $this->lists['order'] == 'a.ordering' and $this->lists['order_Dir'] ==
             'asc' ) ); ?></span> <span><?php echo $this->pagination->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', ( $this->lists['order'] == 'a.ordering' and $this->lists['order_Dir'] ==
             'asc' ) ); ?></span></td>
+          <td class="center">
+					<?php echo JHtml::_('jgrid.isdefault', $row->home!='0', $i, '', $row->home!='1');?>
+			</td>            
           <td style="text-align:center"><?php echo $published ?></td>
           <?php $preViewModalHandlerLink= "http://". $this->escape( $row->domain );?>
           <td style="text-align:center"><a class="modal" title="<?php JText::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x: <?php echo $cParam->get('framewidth',400) ?>, y:<?php echo $cParam->get('frameheight',400) ?>}}"><?php echo JText::_('Preview')?></a></td>

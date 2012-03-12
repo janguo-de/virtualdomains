@@ -1,0 +1,1 @@
+ALTER TABLE #__virtualdomain ADD `home` TINYINT( 1 ) NOT NULL AFTER `domain`; 

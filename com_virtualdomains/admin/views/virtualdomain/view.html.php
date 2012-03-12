@@ -75,6 +75,7 @@ class VirtualdomainsViewVirtualdomain extends JView
         $db = &JFactory::getDBO();
         $uri = &JFactory::getURI();
         $user = &JFactory::getUser();
+        $document = JFactory::getDocument();
         $form = $this->get( 'Form' );
 
         $lists = array();
@@ -99,11 +100,36 @@ class VirtualdomainsViewVirtualdomain extends JView
         $paramFields = $this->get( 'ParamFields' );
         $this->assign( 'form', $form );
 
+        $code = $this->_getJs();
+        
+        $document->addScriptDeclaration($code); 
+        
         $this->assignRef( 'lists', $lists );
         $this->assignRef( 'editor', $editor );
         $this->assignRef( 'item', $item );
         $this->assignRef( 'paramFields', $paramFields );
         $this->assignRef( 'isNew', $isNew );
         parent::display( $tpl );
+    }
+    
+    private function _getJs() {
+    	$js = "
+    		function switchMenuMode () {
+     				var form = $('jform_params_menumode');
+     				if(form.value == 'show' || form.value == 'hide') {
+     					$('jform_params_menufilter').disabled=false;
+     				} else {
+     					$('jform_params_menufilter').disabled=true;
+    				}    		
+    		}
+    		
+    		window.addEvent('domready', function() {
+    			switchMenuMode (); 
+    			$('jform_params_menumode').addEvent('change',function(){
+					switchMenuMode (); 
+				});
+    		});
+    	";
+    	return $js;
     }
 } ?>

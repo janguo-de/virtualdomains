@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="1.6">
+	<name>Virtual Domains</name>
+	<author>mliebler, romacron</author>
+	<packagename>virtualdomains</packagename>
+	<version>0.5 Mccoy</version>
+	<url>http://www.janguo.de</url>
+	<packager>Michael Liebler</packager>
+	<packagerurl>http://www.janguo.de</packagerurl>
+	<description><![CDATA[
+	<h3>Virtualdomains</h3>
+<p><strong>Multi Domain Support for Joomla.</strong><br /></p>
+	<table class="adminlist" style="width:50%">
+		<tbody>
+		<tr class="row0">
+			<td class="key" colspan="2">Component</td>
+			 <td><strong>Installed</strong></td>
+			<td><img src="../media/media/images/success.png" alt="OK" /></td>
+			<td></td>
+		</tr>
+		<tr class="row1">
+			<td class="key" colspan="2">Plugin System - virtualdomains</td>
+			<td><strong>Installed (may be disabled)</strong></td>
+			<td><img src="../media/media/images/failed.png" alt="OK" /></td>
+			<td></td>
+		</tr>
+		<tr class="row0">
+			<td class="key" colspan="2">Help</td>
+			<td ><a href="http://help.janguo.de/vd/en-GB/index.html#03-04-Chekov-installation" target="_blank">Manual</a></td>			
+			<td><img src="../media/system/images/notice-info.png" alt="OK" /></td>
+		</tr>
+		
+		</tbody>		
+	</table>
+	<br />
+	<div>Please check <a href="index.php?option=com_plugins">Extensions->Plugin Manager</a> to enable  the <strong>Plugin <i>System - virtualdomains </i></strong>if necessary.</div>
+	<br />
+		]]></description>
+	<update>http://www.janguo.de</update>
+	<files folder="packages">
+		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>
+		<file type="plugin" client="site" id="virtualdomains" group="system">plg_virtualdomains.zip</file>				
+	</files>
+</extension>

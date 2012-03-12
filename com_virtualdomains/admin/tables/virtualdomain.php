@@ -88,7 +88,7 @@ class TableVirtualdomain extends JTable
 
 			$this->ordering = $this->getNextOrder();
 		}
-
+		
 		/** No www */		
 		if (strpos($this->domain,'www.') ===0) {
 			$this->domain = substr($this->domain,4);			

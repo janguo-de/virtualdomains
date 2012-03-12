@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS `#__virtualdomain` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain` varchar(200) NOT NULL,
+  `home` TINYINT( 1 ) NOT NULL,
   `menuid` int(11) NOT NULL,
   `template` varchar(100) NOT NULL,
+  `viewlevel` int(11) NOT NULL,
   `params` text NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',
   `checked_out` int(11) NOT NULL DEFAULT '0',
@@ -19,3 +21,9 @@ CREATE TABLE IF NOT EXISTS `#__virtualdomain_params` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE IF NOT EXISTS `#__virtualdomain_menu` (
+  `menu_id` int(11) NOT NULL,
+  `domain` varchar(200) NOT NULL,
+  PRIMARY KEY (`menu_id`,`domain`),
+  KEY `fk_jos_menu_has_virtualdomain_virtualdomain1` (`domain`)
+);

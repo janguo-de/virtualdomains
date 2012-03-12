@@ -2,7 +2,7 @@
 <extension type="package" version="1.6">
 	<name>Virtual Domains</name>
 	<packagename>virtualdomains</packagename>
-	<version>0.4 Chekov</version>
+	<version>1.0 McCoy</version>
 	<url>http://www.janguo.de</url>
 	<packager>Michael Liebler</packager>
 	<packagerurl>http://www.janguo.de</packagerurl>
