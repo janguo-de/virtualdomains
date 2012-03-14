@@ -17,13 +17,13 @@
 
     <li><a class="active" href="#00-Wiki">Beschreibung</a></li>
 
-    <li><a href="#01-04-Chekov-features">Neue Features</a></li>
+    <li><a href="#01-04-Mccoy-features">Neue Features</a></li>
 
-    <li><a href="#02-04-Chekov-requierements">Anforderungen</a></li>
+    <li><a href="#02-04-Mccoy-requierements">Anforderungen</a></li>
 
-    <li><a href="#03-04-Chekov-installation">Installation</a></li>
+    <li><a href="#03-04-Mccoy-installation">Installation</a></li>
 
-    <li><a href="#04-04-Chekov-configuration">Backend Handbuch</a>
+    <li><a href="#04-04-Mccoy-configuration">Backend Handbuch</a>
 	<ul class="submenu">
 	    <li><a href="#Virtualdomains-Manager">Virtualdomains Manager</a></li>
             <li><a href="#Details-Page">Domain Detailseite</a></li>
@@ -34,9 +34,9 @@
 	</ul>
     </li>
 
-    <li><a href="#05-04-Chekov-quickanddirty">Quick'nDirty</a></li>
+    <li><a href="#05-04-Mccoy-quickanddirty">Quick'nDirty</a></li>
 
-    <li><a href="#06-04-Chekov-restrictions">Einschränkungen</a></li>
+    <li><a href="#06-04-Mccoy-restrictions">Einschränkungen</a></li>
       <li><a href="#Appendix">Anhang</a>
       <ul class="submenu">
       			<li><a href="#Setup-a-Test-Environment-under-Windows">Testumgebung unter Windows</a></li>
@@ -53,72 +53,46 @@
 <div class="chapter" id="00-Wiki">
 <h1>Beschreibung<a href="#Wiki" class="wiki-anchor">&para;</a></h1>
 
-<p>Mit einer einzigen Joomla-Installation unterschiedliche Webseiten mit jeweils eigenständigem Design und Startseiteninhalt, eigenständiger (Standard-) Sprache und Menustruktur betreiben.</p>
+<p>Mit einer einzigen Joomla-Installation unterschiedliche Webseiten mit jeweils eigenständigem Design und Startseiteninhalt, und eigenständiger  Menustruktur betreiben.</p>
 
-	<p>Virtual Domains macht Joomla multidomainfähig und nimmt dabei keine Änderungen am Joomla Core vor. Mit wenigen Klicks  trägst du beliebig viele verfügbare Domains im Backend der Komponente ein und weist ihnen Eigenschaften zu.</p>
+	<p>Virtual Domains macht Joomla multidomainfähig und nimmt dabei keine Änderungen am Joomla Core und an den Datenbanken vor. Mit wenigen Klicks  trägst du beliebig viele verfügbare Domains im Backend der Komponente ein und weist ihnen Eigenschaften zu.</p>
 
-	<p>Es ist empfehlenswert, für jede Subdomain/Domain ein eigenes Template zu installieren. Bei den Templates könnten Eingriffe nötig sein.</p>
+	<p>Es ist empfehlenswert, für jede Subdomain/Domain ein eigenes Template zu installieren.</p>
 
 
-	<p><strong>Aktuelle Version:  0.4-Chekov </strong></p>
+	<p><strong>Aktuelle Version: 1.1-McCoy </strong></p>
 <hr />
 </div>
-<div class="chapter" id="01-04-Chekov-features">
-<a name="01-04-Chekov-features" />
+<div class="chapter" id="01-04-Mccoy-features">
+<a name="01-04-Mccoy-features" />
 
-<h1>Neue Features<a href="#04-Chekov-Features" class="wiki-anchor">&para;</a></h1>
+<h1>Neue Features<a href="#04-Mccoy-Features" class="wiki-anchor">&para;</a></h1>
 
 
 	<h2 id="Features-in-component">Features der Komponente<a href="#Features-in-component" class="wiki-anchor">&para;</a></h2>
 
-
 	<ul>
-	<li>Domainvorschau im Joomla Backend</li>
+		<li>Template Style pro Domain konfigurieren</li>
+	</ul>
+	
+	<ul>
+		<li>Content über Accesslevels einzelnen Domains zuweisen</li>
 	</ul>
 
-
-<blockquote>
-
-	<p><a href="#Virtualdomains-Backend-Preview" class="wiki-page new">So gehts</a></p>
-
-
-</blockquote>
-
 	<ul>
-	<li>Für größere  Flexibilität ohne Hardcoding eigene Parameter definieren</li>
-	</ul>
-
-
-<blockquote>
-
-	<p><a href="#Custom-parameters" class="wiki-page new">So gehts</a></p>
-
-
-</blockquote>
-
-	<ul>
-		<li>Domainspezifische Meta-Description und Meta-Keywords definieren</li>
-		<li>Domainspezifische Standardsprache festlegen</li>
-	</ul>
-
-
-	<h2 id="Features-in-plugin"> Features im Plugin<a href="#Features-in-plugin" class="wiki-anchor">&para;</a></h2>
-
-
-	<ul>
-	<li>Kürzere Ladezeiten der Domains</li>
+	<li>Menüpunkte je Domain verbergen/anzeigen</li>
 	</ul>
 
 <hr />
 </div>
-<div  class="chapter" id="02-04-Chekov-requierements">
+<div  class="chapter" id="02-04-Mccoy-requierements">
 
-<a name="02-04-Chekov-requierements" />
-<h1>Anforderungen (04-Chekov)<a href="#Requirements-04-Chekov" class="wiki-anchor">&para;</a></h1>
+<a name="02-04-Mccoy-requierements" />
+<h1>Anforderungen (1.1-McCoy)<a href="#Requirements-04-Mccoy" class="wiki-anchor">&para;</a></h1>
 
 
 	<ol>
-	<li>Joomla 1.5 oder 1.6</li>
+	<li>Joomla 1.6 oder höher</li>
 		<li>PHP 5.2.0 oder höher</li>
 		<li>Eine oder mehrere Serveraliase deiner Domain<br /> oder<br />  Zwei oder mehrere Virtuelle Hosts, die auf die gleich Document Root zeigen
 
@@ -130,8 +104,8 @@
 
 <hr />
 </div>
-<div class="chapter" id="03-04-Chekov-installation">
-<a name="03-04-Chekov-installation" />
+<div class="chapter" id="03-04-Mccoy-installation">
+<a name="03-04-Mccoy-installation" />
 <h1>Installation<a href="#Installation-04-Checkov" class="wiki-anchor">&para;</a></h1>
 
 
@@ -139,20 +113,20 @@
 	<li>Lade das VD-Paket für deine Joomla-Version von der <a href="http://redmine.janguo.de/projects/vd-main/files">Projektseite</a> herunter </li>
 		<li>Wähle im Joomla-Backend <em>Erweiterungen⇒Installieren/Deinstallieren</em> bzw. <em>Erweiterungen⇒Erweiterungsmanager</em>, klicke auf Hochladen, wähle das Paket aus deinem Download-Ordner und klicke auf <strong>Hochladen&#38;Installieren</strong>. <br />  Das Paket wird installiert und die Systemmeldung "Paket-Installation erfolgreich" wird angezeigt.</li>
 		<li>Wähle <em>Erweiterungen⇒Plugin-Manager</em>, filtere nach System Plugins und klicke auf den Titel der Spalte <strong>Reihenfolge</strong>, gib in der Zeile <strong>System - virtualdomains</strong>im Feld Reihenfolge die Ziffer <strong>1</strong>ein, um das das Plugin als erstes zu laden. Dies ist notwendig, damit das Routen korrekt funktioniert.</li>
-		<li>Klicke <strong>Status</strong>, um das Plugin zu aktivieren.</li>		
+		<li>Klicke auf <strong>Status</strong>, um das Plugin zu aktivieren.</li>		
 	</ol>
 
 
 </p>
 
 
-	<p>Du kannst nun deine weiteren Domains/Subdomains konfigurieren.  (<em>Komponenten⇒Virtualdomains</em>)</p>
+	<p>Du kannst nun deine Domains/Subdomains konfigurieren.  (<em>Komponenten⇒Virtualdomains</em>)</p>
 
 <hr />
 </div>
-<div class="chapter" id="04-04-Chekov-configuration">
-<a name="04-04-Chekov-configuration" />
-<h1>Backend Handbuch (1.0-McCoy)<a href="#Backend-Overview-04-Chekov" class="wiki-anchor">&para;</a></h1>
+<div class="chapter" id="04-04-Mccoy-configuration">
+<a name="04-04-Mccoy-configuration" />
+<h1>Backend Handbuch (1.0-McCoy)<a href="#Backend-Overview-04-Mccoy" class="wiki-anchor">&para;</a></h1>
 
 	<p><strong>Virtual Domains Menü</strong></p>
 
@@ -202,6 +176,7 @@
 	<ul>
 	<li><strong>Domain</strong>: Klicke auf den Link um eine Domain auf der <a href="#Details-Page" class="wiki-page">Detailseite</a> zu bearbeiten</li>
 		<li><strong>Vorschau</strong>:Zeige die Domain im Vorschau-Frame an und teste ob alles wie gewünscht funktioniert. (Du kannst Höhe und Breite in der  <a href="#Component-Configuration">Komponenten-Konfiguration </a>an die Einstellungen deines Monitors anpassen)</li>
+	<li><strong>Default Domain (wichtig! Nicht optional))</strong>: Klicke auf das Stern-Symbol, um die Domain als Default-Domain zu kennzeichnen. Diese Domain übernimmt ihre Eigenschaften aus der allgemeinen Joomla Konfiguration.</li>
 	</ul>
 
 
@@ -346,7 +321,7 @@ auf der du unterschiedliche Werte für jede Domain definieren kannst.</p>
 	<h3 id="Configuration-Description">Beschreibung<a href="#Configuration-Description" class="wiki-anchor">&para;</a></h3>
 
 
-	<p>Hier kannst du die Größe des Domain-Vorschau-Frames einstellen.</p>
+	<p>Hier kannst du das globale Verhalten in bezug auf Template-Styles und die Größe des Domain-Vorschau-Frames einstellen.</p>
 
 
 	<h3 id="Configuration-Screenshot">Screenshot<a href="#Configuration-Screenshot" class="wiki-anchor">&para;</a></h3>
@@ -354,8 +329,15 @@ auf der du unterschiedliche Werte für jede Domain definieren kannst.</p>
 
 	<p><a class="thumb" href="images/config.jpg"><img src="images/83.jpg" /></a>
 </p>
-
-
+	<h3 id="General-Options">General<a href="#General-Options" class="wiki-anchor">&para;</a></h3>
+	<strong>Template Styles</strong>: Bestimmt das Template-Style-Verhalten dieser Domain. Es können folgende Werte definiert werden.
+		<ul>
+			<li><strong>Globale Einstellung:</strong> Die Einstellung in den Optionen der Komponente wird verwendet</li>
+			<li><strong>VD überschreibt Joomla:</strong> Es wird immer der für diese Domain definierte Template-Style angezeigt.</li>
+			<li><strong>VD überschreibt den Startmenupunkt:</strong> Nur die Startseite dieser Domain wird im definierten Template-Style angezeigt.</li>
+			<li><strong>Joomlakonfiguration verwenden:</strong> Es wird in allen Fällen der in der Joomla-Konfiguration definierte Template-Style angezeigt.</li>
+		</ul>
+		
 	<h3 id="Preview-Options">Vorschau Optionen<a href="#Preview-Options" class="wiki-anchor">&para;</a></h3>
 
 
@@ -380,40 +362,28 @@ auf der du unterschiedliche Werte für jede Domain definieren kannst.</p>
 	<h3 id="Plugin-Description">Beschreibung<a href="#Plugin-Description" class="wiki-anchor">&para;</a></h3>
 
 
-	<p>Das VD Plugin überschreibt die Joomla Einstellungen gemäß deinen Definitionen im Virtualdomains Manager wenn die Webseite unter einer der konfigurierten Domains/Subdomains augerufen wird.<br />Du musst deine Standard-Domain in den Plugin Parametern definieren.</p>
+	<p>Das VD Plugin überschreibt die Joomla Einstellungen gemäß deinen Definitionen im Virtualdomains Manager wenn die Webseite unter einer der konfigurierten Domains/Subdomains augerufen wird.<br /></p>
 
 
-	<h3 id="Plugin-Screenshot">Screenshot<a href="#Plugin-Screenshot" class="wiki-anchor">&para;</a></h3>
 
-
-	<p><a class="thumb" href="images/vd-plugin.jpg"><img src="images/89.jpg" /></a>
-</p>
-
-
-	<h3 id="Plugin-Parameters">Plugin Parameters<a href="#Plugin-Parameters" class="wiki-anchor">&para;</a></h3>
-
-
-	<ul>
-	<li><strong>Standard Domain:</strong> Erfasse den Namen deiner Standard-Domain (erforderlich)</li>
-		<li><strong>Change only template:</strong> Verwende VD ausschließlich als Template-Switcher. Andere Einstellungen auf den Domain Detail-Seiten werden ignoriert.</li>
-	</ul>
 
 <hr />
 </div>
-<div  class="chapter" id="05-04-Chekov-quickanddirty">
-<a name="05-04-Chekov-quickanddirty" />
+<div  class="chapter" id="05-04-Mccoy-quickanddirty">
+<a name="05-04-Mccoy-quickanddirty" />
 <h1>Quick'n Dirty  Beispiel<a href="#Quickn-Dirty-Example" class="wiki-anchor">&para;</a></h1>
 
 
 	<h2 id="Introduction">Einführung<a href="#Introduction" class="wiki-anchor">&para;</a></h2>
 
 
-	<p>Vor allem zwei Eigenschaften ändert VD bei den zusätzlichen Domains:</p>
+	<p>Vor allem drei Eigenschaften ändert VD bei den zusätzlichen Domains:</p>
 
 
 	<ol>
 	<li>Das Erscheinungsbild: Der Domain wird ein alternatives Template zugewiesen.</li>
-		<li>Die Startseite: Entgegen der Einstellung in der Site-Konfiguration von Joomla wird der Domain ein alternativer Menupunkt als Startseite zugewiesen.</li>
+	<li>Die Startseite: Entgegen der Einstellung in der Site-Konfiguration von Joomla wird der Domain ein alternativer Menupunkt als Startseite zugewiesen.</li>
+	<li>Für jede Domain existiert eine eigene Zugriffsebene, der der Besucher temporär zugeordnet wird (in der Session). Der Zugriff (in der Regel die Anzeige) auf Elemente kann so für jede Domain geregelt werden.</li>
 	</ol>
 
 
@@ -430,38 +400,29 @@ auf der du unterschiedliche Werte für jede Domain definieren kannst.</p>
 	</ol>
 
 
-	<h4>Umsetzung</h4>
+	<h4>Umsetzung (Beispiel)</h4>
 
 
 	<ol>
 	<li>Lege die erforderlichen Menüpunkte im <strong>Menu Manager</strong> an.</li>
-		<li>Füge in der Datei "templateDetails.xml" im XML-Tag "positions" eine Position "first" hinzu, im Template 
-      'Beez' die Position 'second' und in beiden Templates eine Position 'company'. Stelle sicher, dass diese Positionen in der index.php des jeweiligen Templates aufgerufen werden und korrekt platziert sind  (z.B.:<strong><em> &lt;jdoc:include type="modules" name="first" /&gt;</em></strong>)</li>
-		<li>Weise im Joomla Backend unter Extensions → Modules
-	<ul>
-	    <li>dem Menu 'firstmenu' die Position 'first'  zu</li>
-		<li>dem Menu 'secondmenu' die Position 'second' zu</li>
-		<li>dem Menu 'Firma' die Position 'company' zu</li>
-	</ul>
-	</li>
-		<li>Definiere im Plugin virtualdomains define main.domain.tld als Standard-Domain.</li>
-		<li>Erstelle im Virtual Domains Manager den Eintrag second.domain.tld, konfiguriere dort das Template 'Beez' und definiere den Menüpunkt "News" als Home-Menüpunkt.</li>
+		<li>Erstelle im Virtual Domains Manager den Eintrag first.domain.tld speichere und klicke auf das Stern-Symbol in der Spalte <strong>Default Domain</strong>. first.domain.tld wird im in Joomla definierten Standard-Template angezeigt werden.</li>
+		<li>Erstelle den Eintrag  second.domain.tld, konfiguriere unterschiedliche Template-Styles und definiere den Menüpunkt "News" als Home-Menüpunkt.</li>
+		<li>Erstelle im Joomla Backend unter Extensions → Modules ein Menumodul für jede Domain, weise ihm die gleichnamige Zugriffseben der jeweiligen Domain und eine geeignete Templateposition zu.</li>
 	</ol>
 
 
-	<p>Jede Domain hat nun ein anderes Design und sowohl je ein Menu, das auf separate Inhalte verweist, als auch ein gemeinsames Menu mit gleichem Inhalt.</p>
+	<p>Jede Domain hat nun ein anderes Design und sowohl je ein Menu, das auf separate Inhalte verweist.</p>
 
 <hr />
 </div>
-<div  class="chapter" id="06-04-Chekov-restrictions">
-<a name="06-04-Chekov-restrictions" />
+<div  class="chapter" id="06-04-Mccoy-restrictions">
+<a name="06-04-Mccoy-restrictions" />
 
-<h1>Einschränkungen (04-Chekov)<a href="#Restrictions-04-Chekov" class="wiki-anchor">&para;</a></h1>
+<h1>Empfehlungen<a href="#Restrictions-04-Mccoy" class="wiki-anchor">&para;</a></h1>
 
 
 	<ul>
-	<li>VD separiert nicht wirklich die Inhalte der verschiedenen Domains voneinander.<br />    Wenn du zum Beispiel die Suche verwendest, wirst du Ergebnisse von allen Domains erhalten.<br /> Es ist in der aktuellen Version auch nicht möglich, alternative Startseiten-Beiträge für die zusätzlichen Domains zu definieren.</li>
-		<li>Konflikte mit Third-Party-Erweiterungen sind nicht auszuschließen, zumal dann nicht, wenn diese die Joomla-Api uumgehen. Du kannst das Risiko von Problemen vermindern, indem du das VD-Plugin an der ersten Stelle der System-Plugins positionierst.</li>
+		<li>Konflikte mit Third-Party-Erweiterungen sind nicht auszuschließen, zumal dann nicht, wenn diese die Joomla-Api umgehen. Daher sollte das  VD-Plugin an der ersten Stelle der System-Plugins positioniert werden.</li>
 	</ul>
 
 <hr />

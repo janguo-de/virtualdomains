@@ -327,9 +327,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		$menuItem = & $menu->getItem(( int )$curDomain->menuid );
 
-
 		$rewrite = (str_replace('/','',$_SERVER['REQUEST_URI'] ) == '');
-
 
 		$origHome = $this->getDefaultmenu();
 
