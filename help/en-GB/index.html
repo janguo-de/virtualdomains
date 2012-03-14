@@ -16,13 +16,13 @@
 
     <li><a class="active" href="#00-Wiki">Description</a></li>
 
-    <li><a href="#01-04-Chekov-features">New Features</a></li>
+    <li><a href="#01-04-Mccoy-features">New Features</a></li>
 
-    <li><a href="#02-04-Chekov-requierements">Requirements</a></li>
+    <li><a href="#02-04-Mccoy-requierements">Requirements</a></li>
 
-    <li><a href="#03-04-Chekov-installation">Installation</a></li>
+    <li><a href="#03-04-Mccoy-installation">Installation</a></li>
 
-    <li><a href="#04-04-Chekov-configuration">Backend Manual</a>
+    <li><a href="#04-04-Mccoy-configuration">Backend Manual</a>
 	<ul class="submenu">
 	    <li><a href="#Virtualdomains-Manager">Virtualdomains Manager</a></li>
             <li><a href="#Details-Page">Details Page</a></li>
@@ -33,9 +33,9 @@
 	</ul>
     </li>
 
-    <li><a href="#05-04-Chekov-quickanddirty">Quick'nDirty</a></li>
+    <li><a href="#05-04-Mccoy-quickanddirty">Quick'nDirty</a></li>
 
-    <li><a href="#06-04-Chekov-restrictions">Restrictions</a></li>
+    <li><a href="#06-04-Mccoy-restrictions">Restrictions</a></li>
        <li><a href="#Appendix">Appendix</a>
       <ul class="submenu">
       			<li><a href="#Setup-a-Test-Environment-under-Windows">Setup a test environment under Windows</a></li>
@@ -53,88 +53,63 @@
 <h1>Description<a href="#Wiki" class="wiki-anchor">&para;</a></h1>
 
 
-	<p>VD provides Multi-domain capability for Joomla without changing the Joomla core files. Simply register any number of additional available domains in the components backend and define their properties.</p>
+	<p>VD provides Multi-domain capability for Joomla without changing the Joomla core files or tables. Simply register any number of additional available domains in the components backend and define their properties.</p>
 
 
-	<p>You can run different web sites from a single Joomla installation with specific designs, (default) languages, home page content and navigation.</p>
+	<p>You can run different web sites from a single Joomla installation with specific designs, home page content and navigation.</p>
 
 
-	<p>Installation of a separate template per subdomain/domain is recommended. An adaptation of the templates might be necessary.</p>
+	<p>Installation of a separate template per subdomain/domain is recommended. </p>
 
 
 	<p><strong>Current Version</strong>:</p>
 
 
-	<h2 id="04-Chekov">0.4-Chekov<a href="#04-Chekov" class="wiki-anchor">&para;</a></h2>
+	<h2 id="04-Mccoy">1.1-McCoy<a href="#04-Mccoy" class="wiki-anchor">&para;</a></h2>
 
 
 	<ul>
-	<li><a href="#01-04-Chekov-features" class="wiki-page">New Features</a></li>
-		<li><a href="#02-04-Chekov-requierements" class="wiki-page">Requirements</a></li>
-		<li><a href="#03-04-Chekov-installation" class="wiki-page">Installation</a></li>
-		<li><a href="#04-04-Chekov-configuration" class="wiki-page">Backend Manual</a></li>
-		<li><a href="#05-04-Chekov-quickanddirty" class="wiki-page">Quick'nDirty Example</a></li>
-		<li><a href="#06-04-Chekov-restrictions" class="wiki-page">Restrictions</a></li>
+	<li><a href="#01-04-Mccoy-features" class="wiki-page">New Features</a></li>
+		<li><a href="#02-04-Mccoy-requierements" class="wiki-page">Requirements</a></li>
+		<li><a href="#03-04-Mccoy-installation" class="wiki-page">Installation</a></li>
+		<li><a href="#04-04-Mccoy-configuration" class="wiki-page">Backend Manual</a></li>
+		<li><a href="#05-04-Mccoy-quickanddirty" class="wiki-page">Quick'nDirty Example</a></li>
+		<li><a href="#06-04-Mccoy-restrictions" class="wiki-page">Restrictions</a></li>
 	</ul>
 
 <hr />
 </div>
-<div class="chapter" id="01-04-Chekov-features">
-<a name="01-04-Chekov-features" />
+<div class="chapter" id="01-04-Mccoy-features">
+<a name="01-04-Mccoy-features" />
 
-<h1>0.4 Chekov Features<a href="#04-Chekov-Features" class="wiki-anchor">&para;</a></h1>
+<h1>0.4 Mccoy Features<a href="#04-Mccoy-Features" class="wiki-anchor">&para;</a></h1>
 
 
 	<h2 id="Features-in-component">Features in component<a href="#Features-in-component" class="wiki-anchor">&para;</a></h2>
 
 
 	<ul>
-	<li>preview in Joomla Backend</li>
+		<li>Configuring Template Style per Domain</li>
+	</ul>
+	
+	<ul>
+		<li>Assigning content to each domain via access levels</li>
 	</ul>
 
-
-<blockquote>
-
-	<p><a href="#Virtualdomains-Backend-Preview" class="wiki-page new">virtualdomains Backend Preview howto</a></p>
-
-
-</blockquote>
-
 	<ul>
-	<li>flexible Custom Parameters defining for more flexibility with and without hardcoding</li>
-	</ul>
-
-
-<blockquote>
-
-	<p><a href="#Custom-parameters" class="wiki-page new">virtualdomains custom parameters howto</a></p>
-
-
-</blockquote>
-
-	<ul>
-	<li>Domain specific Meta-Description and Meta-Keywords</li>
-		<li>Domain specific default language</li>
-	</ul>
-
-
-	<h2 id="Features-in-plugin">Features in plugin<a href="#Features-in-plugin" class="wiki-anchor">&para;</a></h2>
-
-
-	<ul>
-	<li>Faster Domain allocation</li>
+	<li>Hide/show menu items per domain</li>
 	</ul>
 
 <hr />
 </div>
-<div  class="chapter" id="02-04-Chekov-requierements">
+<div  class="chapter" id="02-04-Mccoy-requierements">
 
-<a name="02-04-Chekov-requierements" />
-<h1>Requirements (04-Chekov)<a href="#Requirements-04-Chekov" class="wiki-anchor">&para;</a></h1>
+<a name="02-04-Mccoy-requierements" />
+<h1>Requirements (1.1-Mccoy)<a href="#Requirements-04-Mccoy" class="wiki-anchor">&para;</a></h1>
 
 
 	<ol>
-	<li>Is Compatible with Joomla 1.5 and 1.6</li>
+	<li>Joomla 1.6 or higher</li>
 		<li>Php-version min 5.2.0</li>
 		<li>1 or more Server Aliases for your domain<br />  or<br />  2 or more virtual hosts, pointing to the same document root
 
@@ -146,30 +121,28 @@
 
 <hr />
 </div>
-<div class="chapter" id="03-04-Chekov-installation">
-<a name="03-04-Chekov-installation" />
-<h1>Installation (04-Checkov)<a href="#Installation-04-Checkov" class="wiki-anchor">&para;</a></h1>
+<div class="chapter" id="03-04-Mccoy-installation">
+<a name="03-04-Mccoy-installation" />
+<h1>Installation (1.1 McCoy)<a href="#Installation-04-Mccoy" class="wiki-anchor">&para;</a></h1>
 
 
 	<ol>
 	<li>Download Virtualdomains for your Joomla Version</li>
 		<li>From the Joomla backend select <em>Extensions⇒Install/Uninstall</em> / <em>Extensions⇒Extension Manager</em>, click the upload button, select the package from your download folder and click <strong>Upload &#38; Install</strong>. <br />  The package will be installed and the Message "Installing package was successful." will be shown.</li>
-		<li>Select <em>Extensions⇒Plugin-Manager</em>, filter for System Plugins and click on <strong>System - Virtualdomains</strong>, to edit the plugins parameters.</li>
-		<li>Replace the entry for "Standard Domain" with your domain and click <strong>Save</strong>.</li>
+		<li>Select <em>Extensions⇒Plugin-Manager</em>, filter for System Plugins click on column <strong>Ordering</strong>, enter number <strong>1</strong> at the row <strong>System - Virtualdomains</strong>, to load this plugins as first. This is necessery for correct routing.</li>
+		<li>Click on <strong>State</strong> to activate the plugin.</li>
 	</ol>
 
-
-	<p><a class="thumb" href="images/vd-plugin.jpg"><img src="images/87.jpg" /></a>
 </p>
 
 
-	<p>You can setup now your additional domains/subdomains (<em>Components⇒Virtualdomains</em>)</p>
+	<p>You can setup now your domains/subdomains (<em>Components⇒Virtualdomains</em>)</p>
 
 <hr />
 </div>
-<div class="chapter" id="04-04-Chekov-configuration">
-<a name="04-04-Chekov-configuration" />
-<h1>Backend Overview (04-Chekov)<a href="#Backend-Overview-04-Chekov" class="wiki-anchor">&para;</a></h1>
+<div class="chapter" id="04-04-Mccoy-configuration">
+<a name="04-04-Mccoy-configuration" />
+<h1>Backend Overview (04-Mccoy)<a href="#Backend-Overview-04-Mccoy" class="wiki-anchor">&para;</a></h1>
 
 
 	<p>Joomla Virtualdomains Backend Overview</p>
@@ -223,6 +196,7 @@
 	<ul>
 	<li><strong>Domain</strong>: Open the link to edit the domain on the <a href="#Details-Page" class="wiki-page">Details Page</a></li>
 		<li><strong>Preview</strong>: Show the domain in the preview frame and test if it works. (Define height and width in the <a href="#Component-Configuration">Component Configuration</a>)</li>
+	<li><strong>Default Domain (important! not optional)</strong>:  Click the star icon, to mark the domain as default. This domain gets its properties from common Joomla configuration.</li>
 	</ul>
 
 
@@ -238,7 +212,7 @@
 	<h3 id="Details-Screenshot">Details Screenshot<a href="#Details-Screenshot" class="wiki-anchor">&para;</a></h3>
 
 
-	<p><a class="thumb" href="images/vd-details.jpg"><img src="images/81.jpg" /></a>
+	<p><a class="thumb" href="images/vd-details.jpg"><img src="images/vd-details.jpg" /></a>
 </p>
 
 
@@ -256,12 +230,32 @@
 
 
 	<ul>
-	<li><strong>Template</strong>: Defines the template for this domain .</li>
+	<li><strong>Template</strong>: Defines the template style for this domain .</li>
 	</ul>
 
+	<ul>
+	<li><strong>Home menu item translation</strong>: If you run a multi language site, you may optiona define translations of the start menu item, which are only valid for this domain .</li>
+	</ul>
 
 	<ul>
-	<li><strong>Language Name</strong>: The default language (Joomla 1.5 requires JoomFish).</li>
+	<li><strong>Menu filtering</strong>: Optionally choose menu items to be shown/hidden for this domain.</li>
+	</ul>
+
+	<ul>
+	<li><strong>Inheritaton of access levels</strong>: Optionally choose one or more domains, whose access levels will inherit the domain you are editing.<br />Note: To each domain is assigned an access level with the same name. This makes it possible to make available categories, modules or other content just for a certain domain. </li>
+	</ul>
+	<h3 id="Parameters">Parameter<a href="#Parameters" class="wiki-anchor">&para;</a></h3>
+	<p><a class="thumb" href="images/vd-params.jpg"><img src="images/vd-params.jpg" /></a>
+
+	<ul>
+	<li><strong>Template Styles</strong>: Defines the template-style behavior of this domain. The following values can be defined:
+		<ul>
+			<li><strong>Global Settings:</strong> Uses settings from the components options</li>
+			<li><strong>VD overrides Joomla:</strong> Show allways the defined template-style .</li>
+			<li><strong>VD overrides the start menu item:</strong> Only the startpage will be shown with the defined template style.</li>
+			<li><strong>Use Joomla configuration:</strong> Template style setting will have no effect..</li>
+		</ul>
+	</li>
 	</ul>
 
 
@@ -348,7 +342,7 @@
 	<h3 id="Configuration-Description">Configuration Description<a href="#Configuration-Description" class="wiki-anchor">&para;</a></h3>
 
 
-	<p>Configure dimensions of the preview frame</p>
+	<p>Configure the global behavor of template style definitions. Set the dimensions of the preview frame.</p>
 
 
 	<h3 id="Configuration-Screenshot">Configuration Screenshot<a href="#Configuration-Screenshot" class="wiki-anchor">&para;</a></h3>
@@ -361,14 +355,23 @@
 	<h3 id="Preview-Options">Preview Options<a href="#Preview-Options" class="wiki-anchor">&para;</a></h3>
 
 
-	<p>Configure the dimensions of the preview frame. Customize it with your default/own Monitor settings, if required.</p>
+	<p>Set the dimensions of the preview frame. Customize it with your default/own Monitor settings, if required.</p>
 
 
 	<ul>
 	<li><strong>Frame Width</strong>: The width of the Preview Window </li>
 		<li><strong>Frame Height</strong>: The height of the Preview Window</li>
 	</ul>
+	<h3 id="General-Options">General<a href="#General-Options" class="wiki-anchor">&para;</a></h3>
 
+
+	<p>Control the global template-style behavior of this domain. The following values can be defined:</p>
+		<ul>
+			<li><strong>Global Settings:</strong> Uses settings from the components options</li>
+			<li><strong>VD overrides Joomla:</strong> Show allways the defined template-style .</li>
+			<li><strong>VD overrides the start menu item:</strong> Only the startpage will be shown with the defined template style.</li>
+			<li><strong>Use Joomla configuration:</strong> Template style setting will have no effect..</li>
+		</ul>
 
 	<h2 id="Plugin">Plugin<a href="#Plugin" class="wiki-anchor">&para;</a></h2>
 
@@ -382,40 +385,28 @@
 	<h3 id="Plugin-Description">Plugin Description<a href="#Plugin-Description" class="wiki-anchor">&para;</a></h3>
 
 
-	<p>The VD Plugin rewrites the joomla settings according your definitions, if your site is called under one of the configured domains/subdomains. <br />You must define your default domain in the plugins settings.</p>
+	<p>The VD Plugin rewrites the joomla settings according your definitions, if your site is called under one of the configured domains/subdomains.</p>
 
-
-	<h3 id="Plugin-Screenshot">Plugin Screenshot<a href="#Plugin-Screenshot" class="wiki-anchor">&para;</a></h3>
-
-
-	<p><a class="thumb" href="images/vd-plugin.jpg"><img src="images/89.jpg" /></a>
 </p>
 
 
-	<h3 id="Plugin-Parameters">Plugin Parameters<a href="#Plugin-Parameters" class="wiki-anchor">&para;</a></h3>
-
-
-	<ul>
-	<li><strong>Standard Domain:</strong> Enter the name of your default domain (mandatory)</li>
-		<li><strong>Change only template:</strong> Use VD as temlplate switcher only. Other settings in the domain details page will be ignored.</li>
-	</ul>
-
 <hr />
 </div>
-<div  class="chapter" id="05-04-Chekov-quickanddirty">
-<a name="05-04-Chekov-quickanddirty" />
+<div  class="chapter" id="05-04-Mccoy-quickanddirty">
+<a name="05-04-Mccoy-quickanddirty" />
 <h1>Quick'n Dirty Example<a href="#Quickn-Dirty-Example" class="wiki-anchor">&para;</a></h1>
 
 
 	<h2 id="Introduction">Introduction<a href="#Introduction" class="wiki-anchor">&para;</a></h2>
 
 
-	<p>There are two main properties that VD changes for the additional domains:</p>
+	<p>There are three main properties that VD changes for the additional domains:</p>
 
 
 	<ol>
 	<li>The appearance: to the domain is assigned a different template</li>
 		<li>The Home: Instead of the start menu item configured in Joomla, the domain uses an alternative menu item.</li>
+		<li>For each domain a special access level will be created, which is the visitor temporary assigned to. So the access to elements can be controled for each domain.</li>
 	</ol>
 
 
@@ -426,7 +417,7 @@
 
 
 	<ol>
-	<li>Domain main.domain.tld starts with the menu item "Home" and the template ja_purity is assigned. (Say Home is part of the menu "firstmenu").  </li>
+	<li>Domain main.domain.tld starts with the menu item "Home" and the template atomic is assigned. (Say Home is part of the menu "firstmenu").  </li>
 		<li>Domain second.domain.tld starts with the menu item "News" and the template 'Beez' is assigned. (Say "News" menu item is the blog view of the category "News" and part of the menu "secondmenu").  </li>
 		<li>Both domains should show the menu "Company". (Let's say Company contains various links to learn more about our company).</li>
 	</ol>
@@ -436,17 +427,10 @@
 
 
 	<ol>
-	<li>Add the required menu items.</li>
-		<li>In the template ja_purity define in the file "templateDetails.xml" at the section "positions" a position "first", in the template 'Beez' define a position 'second' and in both templates a position 'company'. Make sure that the positions are called by the index.php of the templates and are located at the right place (eg: &lt;jdoc:include type="modules" name="first" /&gt;)</li>
-		<li>Under Extensions> Modules assign
-	<ul>
-	<li>to the menu 'firstmenu' the position 'first'</li>
-		<li>to the menu 'secondmenu' the position 'second'</li>
-		<li>to the menu 'Company' the position company</li>
-	</ul>
-	</li>
-		<li>In the plugin virtualdomains define main.domain.tld as the default domain.</li>
-		<li>In the Virtual Domains Manager add the second.domain.tld as item, assign the the template 'Beez' and the menu item "News" as point of start.</li>
+	<li>Add the required menues and menu items.</li>
+		<li>In the VD Manager create an entry for first.domain.tld and click on the star icon to make it the default domain. first.domain.tld will be shown with the standard joomla template style atomic</li>
+		<li>Now create second.domain.tld as item, configure the beez template as template style and define  the menu item "News" as point of start.</li>
+		<li>Create a new menu module for second domain and define second.domain.tld as access level. Define first.domain.tld as access level for an other menu module.</li>
 	</ol>
 
 
@@ -454,15 +438,14 @@
 
 <hr />
 </div>
-<div  class="chapter" id="06-04-Chekov-restrictions">
-<a name="06-04-Chekov-restrictions" />
+<div  class="chapter" id="06-04-Mccoy-restrictions">
+<a name="06-04-Mccoy-restrictions" />
 
-<h1>Restrictions (04-Chekov)<a href="#Restrictions-04-Chekov" class="wiki-anchor">&para;</a></h1>
+<h1>Restrictions (04-Mccoy)<a href="#Restrictions-04-Mccoy" class="wiki-anchor">&para;</a></h1>
 
 
-	<ul>
-	<li>VD doesn't really separate the domains content. <br />   E.g. if you use the search form, you will get the stuff of all your domains. <br />   You also can't explicitly define frontpage articles for the additional domains.</li>
-		<li>Third party extensions may conflict with VD. You can reduce the risk by placing the VD plugin in the first place of the system plugins.</li>
+	<ul>	
+		<li>Third party extensions may conflict with VD. Therefore the VD plugin should be placed in the first place of the system plugins.</li>
 	</ul>
 
 <hr />
