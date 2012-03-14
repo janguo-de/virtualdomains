@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
@@ -131,18 +132,17 @@
 </div>
 <div class="chapter" id="03-04-Chekov-installation">
 <a name="03-04-Chekov-installation" />
-<h1>Installation (04-Checkov)<a href="#Installation-04-Checkov" class="wiki-anchor">&para;</a></h1>
+<h1>Installation<a href="#Installation-04-Checkov" class="wiki-anchor">&para;</a></h1>
 
 
 	<ol>
 	<li>Lade das VD-Paket für deine Joomla-Version von der <a href="http://redmine.janguo.de/projects/vd-main/files">Projektseite</a> herunter </li>
 		<li>Wähle im Joomla-Backend <em>Erweiterungen⇒Installieren/Deinstallieren</em> bzw. <em>Erweiterungen⇒Erweiterungsmanager</em>, klicke auf Hochladen, wähle das Paket aus deinem Download-Ordner und klicke auf <strong>Hochladen&#38;Installieren</strong>. <br />  Das Paket wird installiert und die Systemmeldung "Paket-Installation erfolgreich" wird angezeigt.</li>
-		<li>Wähle <em>Erweiterungen⇒Plugin-Manager</em>, ffiltere nach System Plugins und klicke auf den Eintrag <strong>System - Virtualdomains</strong>, um die Plugin-Parameter zu definieren.</li>
-		<li>Ersetze den Eintrag für "Standard Domain" mit deinem eigenen Domainnamen und klicke auf <strong>Speichern</strong>.</li>
+		<li>Wähle <em>Erweiterungen⇒Plugin-Manager</em>, filtere nach System Plugins und klicke auf den Titel der Spalte <strong>Reihenfolge</strong>, gib in der Zeile <strong>System - virtualdomains</strong>im Feld Reihenfolge die Ziffer <strong>1</strong>ein, um das das Plugin als erstes zu laden. Dies ist notwendig, damit das Routen korrekt funktioniert.</li>
+		<li>Klicke <strong>Status</strong>, um das Plugin zu aktivieren.</li>		
 	</ol>
 
 
-	<p><a class="thumb" href="images/vd-plugin.jpg"><img src="images/87.jpg" /></a>
 </p>
 
 
@@ -152,7 +152,7 @@
 </div>
 <div class="chapter" id="04-04-Chekov-configuration">
 <a name="04-04-Chekov-configuration" />
-<h1>Backend Handbuch (04-Chekov)<a href="#Backend-Overview-04-Chekov" class="wiki-anchor">&para;</a></h1>
+<h1>Backend Handbuch (1.0-McCoy)<a href="#Backend-Overview-04-Chekov" class="wiki-anchor">&para;</a></h1>
 
 	<p><strong>Virtual Domains Menü</strong></p>
 
@@ -217,7 +217,7 @@
 	<h3 id="Details-Screenshot">Screenshot<a href="#Details-Screenshot" class="wiki-anchor">&para;</a></h3>
 
 
-	<p><a class="thumb" href="images/vd-details.jpg"><img src="images/81.jpg" /></a>
+	<p><a class="thumb" href="images/vd-details.jpg"><img src="images/vd-details.jpg" /></a>
 </p>
 
 
@@ -235,15 +235,39 @@
 
 
 	<ul>
-	<li><strong>Template</strong>: Definiere ein Template für diese Domain.</li>
+	<li><strong>Template</strong>: Definiere ein Template Style für diese Domain.</li>
+	</ul>
+
+	<ul>
+	<li><strong>Freigabe</strong>: Domain wird verwendet.</li>
+	</ul>
+
+	<ul>
+	<li><strong>Home Menüpunkt Übersetzung</strong>: Wenn deine Seite mehrsprachig ist, kannst du hier optional eine nur in dieser Domain gültige Übersetzung des Start-Menüpunkts eingeben.</li>
 	</ul>
 
 
 	<ul>
-	<li><strong>Sprache</strong>: Die Standard-Sprache (Setzt bei Joomla 1.5 JoomFish voraus).</li>
+	<li><strong>Menüfilter</strong>: Wähle optional Menüpunkte, die in dieser Domain angezeigt/nicht angezeigt werden sollen.</li>
 	</ul>
 
+	<ul>
+	<li><strong>Vererbung von Zugriffsebenen</strong>: Wähle optional eine oder mehrere Domains, deren Zugriffsrechte die aktuell bearbeitete Domain erben soll.<br />Hinweis: Jede Domain wird einer gleichnamigen Zugriffsebene zugeordnet. Dies ermöglicht z.B. Kategorien, Module oder andere Inhalte nur in bestimmten Domains verfügbar zu machen. </li>
+	</ul>
+	<h3 id="Parameters">Parameter<a href="#Parameters" class="wiki-anchor">&para;</a></h3>
+	<p><a class="thumb" href="images/vd-params.jpg"><img src="images/vd-params.jpg" /></a>
 
+	<ul>
+	<li><strong>Template Styles</strong>: Bestimmt das Template-Style-Verhalten dieser Domain. Es können folgende Werte definiert werden.
+		<ul>
+			<li><strong>Globale Einstellung:</strong> Die Einstellung in den Optionen der Komponente wird verwendet</li>
+			<li><strong>VD überschreibt Joomla:</strong> Es wird immer der für diese Domain definierte Template-Style angezeigt.</li>
+			<li><strong>VD überschreibt den Startmenupunkt:</strong> Nur die Startseite dieser Domain wird im definierten Template-Style angezeigt.</li>
+			<li><strong>Joomlakonfiguration verwenden:</strong> Es wird in allen Fällen der in der Joomla-Konfiguration definierte Template-Style angezeigt.</li>
+		</ul>
+	</li>
+	</ul>
+	
 	<ul>
 	<li><strong>Meta Description</strong>: Eine alternative Meta Description im Kopf des HTMl-Dokuments.</li>
 	</ul>
@@ -257,12 +281,6 @@
 	<ul>
 	<li><strong>Custom Parameters</strong>: Erfasse die Werte für Parameter, die du im <a href="#Parameters-Manager" >Parametermanager</a>von VD konfiguriert hast .</li>
 	</ul>
-
-
-	<p><strong>Hinweis:</strong> Gib hier nicht deine Standard-Domain ein. Sie ist im VD-Plugin (<em>*Erweiterungen->Plugins->System - Virtualdomains</em>).  einzutragen. Für sie gelten die allgemeinen Joomla-Einstellungen.</p>
-
-
-	<p><strong>Hinweis:</strong> Manche Leute verwenden VD als Template-Switcher. Dafür gibt es den Parameter "Change only template" in den VD-Plugin-Einstellungen. Wenn dort die Option "Yes" gewählt ist, wird nur die Einstellung für <strong>Template</strong> wirksam.</p>
 
 
 	<h2 id="Parameters-Manager">Parameter Manager<a href="#Parameters-Manager" class="wiki-anchor">&para;</a></h2>
