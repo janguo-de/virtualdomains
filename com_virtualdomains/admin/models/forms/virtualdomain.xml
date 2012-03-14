@@ -74,7 +74,17 @@
 			description="menuid_Desc"
 			class="inputbox"
 			size="15"/>						
-								
+		
+		<field
+			name="template_style_id"
+			type="templatestyle"
+			label="Template"
+			description="template_Desc"
+			filter="int"
+			class="inputbox">
+			<option value="0">JOPTION_USE_DEFAULT</option>
+		</field>
+										
 		<field
 			id="template"
 			name="template"

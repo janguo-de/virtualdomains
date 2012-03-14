@@ -50,25 +50,32 @@ function submitbutton(task)
          		</div>
 
 
-				<div class="width-45 fltlft"> 				
+				<div class="width-55 fltlft"> 				
 			
 					<?php echo $this->form->getLabel( 'menuid' ); ?>
 				<?php if($this->item->home != 1):?>	
 					<?php echo $this->form->getInput( 'menuid' ); ?>
 					<?php else: ?>
-					<?php echo JText::_('JOOMLA_SETTINGS')?>
+					<?php echo JText::_('JOOMLA_SETTINGS')?><br />
+					<div class="clr"></div>
+				<?php endif;?>					
 				</div>
-			
-					
-				<?php endif;?>
-					<?php echo $this->form->getLabel( 'template' ); ?>
-				
-					<?php echo $this->form->getInput( 'template' ); ?>						
+				<div class="width-60 fltlft">
+					<?php
+					  $formname = version_compare(JVERSION,'1.5','gt') ? 'template_style_id' : 'template';
+					?>						
+					<?php echo $this->form->getLabel( $formname ); ?>
+					<?php if($this->item->home != 1):?>				
+					<?php echo $this->form->getInput( $formname ); ?>
+					<?php else: ?>
+					<?php echo JText::_('JOOMLA_SETTINGS')?>
+					<div class="clr"></div>					
+					<?php endif; ?>																
 							
 					<?php echo $this->form->getLabel( 'published' ); ?>
 				
 					<?php echo $this->form->getInput( 'published' ); ?>
-				
+				</div>				
 	
 						
           </fieldset>               

@@ -37,6 +37,9 @@ class TableVirtualdomain extends JTable
 	/** @var  params  **/
 	public $params = null;
 
+	/** @var  template_style_id  **/
+	public $template_style_id = null;		
+	
 	/** @var  ordering  **/
 	public $ordering = null;
 

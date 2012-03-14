@@ -75,6 +75,10 @@ class VirtualdomainsModelVirtualdomain extends VirtualdomainsModel
          */
         
         $db = JFactory::getDbo();
+		if(version_compare(JVERSION,'1.5','gt')) {
+        	$db->setQuery('Select template from #__template_styles where id = '.(int) $data['template_style_id']);        	
+        	$data['template'] = $db->loadResult(); 
+		}
 
         // Bind the form fields to the table
         if ( !$row->bind( $data ) )
