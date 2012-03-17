@@ -1,24 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <updates>
-   <update>
-      <name>VirtualDomains</name>
-      <description>VirtualDomains Component</description>
-      <element>com_virtualdomains</element>
-      <type>component</type>
-      <version>0.4-chekov</version>
- 
-      <infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki</infourl>
-      <downloads>
-         <downloadurl type="full" format="zip">http://redmine.janguo.de/attachments/download/95/pkg_virtualdomains-0.4-chekov-j1.6-r53.zip</downloadurl>
-      </downloads>
-      <tags>
-         <tag>multiple-sites</tag>
-      </tags>
- 
-      <maintainer>Janguo, Romacron</maintainer>
-      <maintainerurl>http://janguo.de</maintainerurl>
-      <section>multiple-sites</section>
-      <targetplatform name="joomla" version="1.6" />
-   </update>
+	<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Component</description>
+		<element>com_virtualdomains</element>
+		<type>component</type>
+		<version>0.4-chekov</version>
 
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://redmine.janguo.de/attachments/download/95/pkg_virtualdomains-0.4-chekov-j1.6-r53.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
+	<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Component</description>
+		<element>com_virtualdomains</element>
+		<type>component</type>
+		<version>0.4-chekov-r67</version>
+
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://redmine.janguo.de/attachments/download/107/pkg_virtualdomains-0.4-chekov-j1.6-r67.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
+	<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Component</description>
+		<element>com_virtualdomains</element>
+		<type>component</type>
+		<version>0.4-chekov-r72</version>
+
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://zappa.janguo.de/attachments/download/123/pkg_virtualdomains-0.4-chekov-j1.6-r72.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
+	<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Component</description>
+		<element>com_virtualdomains</element>
+		<type>component</type>
+		<version>0.4-chekov-r74</version>
+
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://zappa.janguo.de/attachments/download/123/pkg_virtualdomains-0.4-chekov-j1.6-r74.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
+	<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Component</description>
+		<element>com_virtualdomains</element>
+		<type>component</type>
+		<version>0.4.77-chekov</version>
+
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://vd.janguo.de/attachments/download/135/pkg_virtualdomains-0.4-chekov-j1.6-r77.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
+	<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Component</description>
+		<element>com_virtualdomains</element>
+		<type>component</type>
+		<version>0.4.98-chekov</version>
+
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://vd.janguo.de/attachments/download/163/pkg_virtualdomains-0.4-chekov-j1.6-r98.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
+	<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Package</description>
+		<element>com_virtualdomains</element>
+		<type>package</type>
+		<version>1.1.0 McCoy</version>
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://vd.janguo.de/attachments/download/293/pkg_virtualdomains-1.1-mccoy-j1.6-r142.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
+	<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Package</description>
+		<element>com_virtualdomains</element>
+		<type>package</type>
+		<version>1.1.1 McCoy</version>
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://vd.janguo.de/attachments/download/293/pkg_virtualdomains-1.1-mccoy-j1.6-r142.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
 </updates>   

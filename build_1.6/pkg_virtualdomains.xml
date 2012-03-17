@@ -2,7 +2,7 @@
 <extension type="package" version="1.6">
 	<name>Virtual Domains</name>
 	<packagename>virtualdomains</packagename>
-	<version>1.1.0 McCoy</version>
+	<version>1.1.1 McCoy</version>
 	<url>http://www.janguo.de</url>
 	<packager>Michael Liebler</packager>
 	<packagerurl>http://www.janguo.de</packagerurl>
@@ -25,7 +25,7 @@
 		</tr>
 		<tr class="row0">
 			<td class="key" colspan="2">Help</td>
-			<td ><a href="http://help.janguo.de/vd/en-GB/index.html#03-04-Chekov-installation" target="_blank">Manual</a></td>			
+			<td ><a href="http://help.janguo.de/vd/en-GB/index.html#03-04-Mccoy-installation" target="_blank">Manual</a></td>			
 			<td><img src="../media/system/images/notice-info.png" alt="OK" /></td>
 		</tr>
 		

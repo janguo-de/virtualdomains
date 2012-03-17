@@ -1,1 +1,1 @@
-ALTER TABLE #__virtualdomain ADD template_style_id INT(11) NOT NULL AFTER `template`; 
+ALTER TABLE #__virtualdomain ADD viewlevel int(11) NOT NULL AFTER `template`;
