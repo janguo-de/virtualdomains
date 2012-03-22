@@ -130,7 +130,7 @@ class plgSystemVirtualdomains extends JPlugin
 		{
 			$this->setActions();
 		}
-
+		$this->setJoomfishLang();
 		//set the template
 		if ( $currentDomain->template )
 		{
@@ -187,7 +187,7 @@ class plgSystemVirtualdomains extends JPlugin
 			$curDomain->template = null;
 			$curDomain->menuid = null;
 		}
-
+        
 		$this->_checkHome($curDomain);
 
 		//override style?
@@ -353,8 +353,6 @@ class plgSystemVirtualdomains extends JPlugin
 		$menu->setActive( $curDomain->menuid );
 		$this->setRequest( 'Itemid', $curDomain->menuid );
 
-		$this->setJoomfishLang();
-
 		//rewrite the uri
 		$link = $menulink . "&Itemid=" . $curDomain->menuid;
 
@@ -498,13 +496,14 @@ class plgSystemVirtualdomains extends JPlugin
 	private function setJoomfishLang()
 	{
 		//There is no JoomFish for now :-(
-		return;
+
 		if ( !$this->_hostparams->get( 'language' ) )
 		{
 			return;
 		}
 		$lang = new vdLanguage();
 		$lang_code = $this->_hostparams->get( 'language' );
+		
 		$lang->setDefault($this->_hostparams->get( 'language' ));
 		$lang = JFactory::getLanguage();
 		$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
@@ -520,8 +519,9 @@ class plgSystemVirtualdomains extends JPlugin
 		$cookie_path 	= $conf->get('config.cookie_path', '/');
 		setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 		// set the request var
-		JRequest::setVar('language',$lang_code);
-		$this->setRequest( 'lang', $sef );
+		JRequest::setVar('language',$lang_code,'post');
+		$this->setRequest( 'lang', $lang_code );
+		$_POST['lang'] = $lang_code ;
 		$this->setRequest( 'language', $this->_hostparams->get( 'language' ));
 	}
 
