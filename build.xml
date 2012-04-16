@@ -14,6 +14,7 @@
   		</delete>
 	</target>
 
+
 	<target name="build-all">
 		<phingcall target="clean" />
 		<phingcall target="build" />
