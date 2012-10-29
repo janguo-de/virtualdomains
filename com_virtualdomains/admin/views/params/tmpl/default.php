@@ -4,12 +4,12 @@ defined('_JEXEC') or die('Restricted access');
 
   JToolBarHelper::title( JText::_( 'Params' ), 'generic.png' );
   JToolBarHelper::deleteList();
-  JToolBarHelper::editListX();
-  JToolBarHelper::addNewX();
+  JToolBarHelper::editList();
+  JToolBarHelper::addNew();
   VirtualdomainsHelper::helpIcon('Parameters-Manager');
 ?>
 
-<form action="index.php?option=com_virtualdomains&amp;view=params" method="post" name="adminForm">
+<form action="index.php?option=com_virtualdomains&amp;view=params" method="post" id="adminForm" name="adminForm">
 	<table>
 		<tr>
 			<td align="left" width="100%">

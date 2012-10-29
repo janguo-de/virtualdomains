@@ -32,18 +32,18 @@ class JFormFieldTemplates extends JFormField {
 	protected function getInput()
 	{
 		$jv = new JVersion();
-		$tBaseDir = JPATH_SITE.DS.'templates';
+		$tBaseDir = JPATH_SITE.'/templates';
 		$trows = array();
 		
 		if ($jv->RELEASE > 1.5) {
 			
-			require_once( JPATH_BASE.DS.'components'.DS.'com_templates'.DS.'helpers'.DS.'templates.php' );
+			require_once( JPATH_BASE.'/components'.'/com_templates/helpers/templates.php' );
   			$trows =TemplatesHelper::getTemplateOptions("0");
 			$html  = JHTML::_('select.genericlist', $trows, $this->name, 'class="inputbox"', 'value', 'text', $this->value );
 						
 		} else {
 			
-			require_once( JPATH_BASE.DS.'components'.DS.'com_templates'.DS.'helpers'.DS.'template.php' );					
+			require_once( JPATH_BASE.'/components'.'/com_templates/helpers/template.php' );					
 			$trows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
 			$html  = JHTML::_('select.genericlist', $trows, $this->name, 'class="inputbox"', 'directory', 'directory', $this->value );
 			

@@ -71,6 +71,8 @@ class JFormFieldVdAccessLevel extends JFormFieldList
 	
 	protected function getOptions() {
 		
+		$options = array();
+		
 		$db		= JFactory::getDbo();
 		
 		$query = "SELECT GROUP_CONCAT( DISTINCT `viewlevel`
@@ -81,19 +83,22 @@ class JFormFieldVdAccessLevel extends JFormFieldList
 						GROUP BY published";
 		$db->setQuery($query );
 
-		$vdlevels = $db->loadResult();
 		
-		$query	= $db->getQuery(true);
+		$vdlevels = $db->loadResult();
 
-		$query->select('a.id AS value, a.title AS text');
-		$query->from('#__viewlevels AS a');
-		$query->group('a.id');
-		$query->order('a.ordering ASC');
-		$query->order('`title` ASC');
-		$query->where('id IN ('.$vdlevels.')');
-		// Get the options.
-		$db->setQuery($query);
-		$options = $db->loadObjectList();
+		if($vdlevels) { 
+			$query	= $db->getQuery(true);
+
+			$query->select('a.id AS value, a.title AS text');
+			$query->from('#__viewlevels AS a');
+			$query->group('a.id');
+			$query->order('a.ordering ASC');
+			$query->order('`title` ASC');
+			$query->where('id IN ('.$vdlevels.')');
+			// Get the options.
+			$db->setQuery($query);
+			$options = $db->loadObjectList();
+		}
 		return $options;
 
 		

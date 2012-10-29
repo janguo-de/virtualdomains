@@ -18,7 +18,7 @@ jimport( 'joomla.application.component.controller' );
  * @package Virtualdomains   
  * @subpackage Controllers
  */
-class VirtualdomainsController extends JController
+class VirtualdomainsController extends JControllerLegacy
 {
 
     protected $_viewname = 'item';

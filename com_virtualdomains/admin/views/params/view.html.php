@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 
  
-class VirtualdomainsViewParams  extends JView {
+class VirtualdomainsViewParams  extends JViewLegacy {
 
 	public function display($tpl = null) 
 	{
@@ -79,7 +79,11 @@ class VirtualdomainsViewParams  extends JView {
 		//get the item
 		$item	=& $this->get('item');
 		
-		$form->bind($item);
+	     if(!version_compare(JVERSION,'3.0','lt')) {
+        	$form->bind(JArrayHelper::fromObject($item));
+        } else {
+        	$form->bind($item);
+        }      
 		
 		$isNew		= ($item->id < 1);			
 

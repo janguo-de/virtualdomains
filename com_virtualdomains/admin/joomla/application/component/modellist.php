@@ -8,7 +8,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'query.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/query.php');
 	 
 /**
  * Model class for handling lists of items.

@@ -68,7 +68,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 
 		//--Set the installation path
 		if ( ! empty($pname) && ! empty($pgroup)) {
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$pgroup);
+			$this->parent->setPath('extension_root', JPATH_ROOT.'/plugins/'.$pgroup);
 		} else {
 			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('No plugin file specified'));
 			return false;

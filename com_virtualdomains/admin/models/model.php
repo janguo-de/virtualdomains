@@ -11,9 +11,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
-require_once ( JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'query.php' );
+require_once ( JPATH_COMPONENT_ADMINISTRATOR . '/helpers/query.php' );
 
-class VirtualdomainsModel extends JModel
+class VirtualdomainsModel extends JModelLegacy
 {
 
     /**
@@ -199,7 +199,7 @@ class VirtualdomainsModel extends JModel
         // Get the form.
 
         $form = $this->_getForm( $name, 'form', array( 'control' => 'jform' ) );
-        JFormHelper::addRulePath( JPATH_COMPONENT_ADMINISTRATOR . DS . 'models' . DS . 'rules' );
+        JFormHelper::addRulePath( JPATH_COMPONENT_ADMINISTRATOR . '/models/rules' );
         // Check for an error.
         if ( JError::isError( $form ) )
         {
@@ -247,8 +247,8 @@ class VirtualdomainsModel extends JModel
 
         JLoader::import( 'joomla.form.form', $alt_libdir );
 
-        JForm::addFormPath( JPATH_COMPONENT_ADMINISTRATOR . DS . 'models' . DS . 'forms' );
-        JForm::addFieldPath( JPATH_COMPONENT_ADMINISTRATOR . DS . 'models' . DS . 'fields' );
+        JForm::addFormPath( JPATH_COMPONENT_ADMINISTRATOR . '/models/forms' );
+        JForm::addFieldPath( JPATH_COMPONENT_ADMINISTRATOR . '/models/fields' );
 
         $form = JForm::getInstance( $name, $xml, $options, false );
         // Check for an error.

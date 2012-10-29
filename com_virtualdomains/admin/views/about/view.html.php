@@ -26,7 +26,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Virtual Domains
  * @since 1.0
  */
-class virtualdomainsViewAbout extends JView
+class virtualdomainsViewAbout extends JViewLegacy
 {
 	function display($tpl = null)
 	{

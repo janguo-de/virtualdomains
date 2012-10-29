@@ -19,7 +19,7 @@ jimport('joomla.application.component.view');
  */
 
 
-class VirtualdomainsViewHomes extends JView
+class VirtualdomainsViewHomes extends JViewLegacy
 {
 	protected $form;
 	protected $item;

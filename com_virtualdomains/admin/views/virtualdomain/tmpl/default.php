@@ -6,15 +6,15 @@ JToolbarHelper::preferences( 'com_virtualdomains',500,500,'CONFIG PARAMETER' );
 JToolBarHelper::publishList();
 JToolBarHelper::unpublishList();
 JToolBarHelper::deleteList();
-JToolBarHelper::editListX();
-JToolBarHelper::addNewX();
+JToolBarHelper::editList();
+JToolBarHelper::addNew();
 VirtualdomainsHelper::helpIcon('Virtualdomains-Manager');
 
 
 JHTML::_('behavior.modal', 'a.modal');
  ?>
 <style>.romacron {height:100%; width:100%;left:10%!important; top:10%!important;}</style>
-<form action="index.php?option=com_virtualdomains&amp;view=virtualdomain" method="post" name="adminForm">
+<form action="index.php?option=com_virtualdomains&amp;view=virtualdomain" method="post" name="adminForm" id="adminForm">
   <table>
     <tr>
       <td align="left" width="100%"><?php echo JText::_( 'Filter' ); ?>:
