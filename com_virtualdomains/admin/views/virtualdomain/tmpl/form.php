@@ -54,8 +54,7 @@ Joomla.submitbutton = function(task) {
 					<?php echo $this->form->getLabel( 'domain' ); ?>
 				   <?php if (version_compare(JVERSION, '3.0', 'ge')): ?> 
 					<div class="controls">
-					<?php endif; ?>
-						
+					<?php endif; ?>						
 						<?php echo $this->form->getInput( 'domain' ); ?>
 					<?php if (version_compare(JVERSION, '3.0', 'ge')): ?>	
 				    </div>
@@ -65,19 +64,27 @@ Joomla.submitbutton = function(task) {
 				</div>
 				<div class="width-45 span6 fltrt"> 			   
          		<?php foreach ( $this->form->getFieldset( 'translation') as $field ): ?>
-         			<?php echo $field->label; ?><br />
-         			<?php echo $field->input; ?><br />
+         		<div class="control-group">	
+         			<?php echo $field->label; ?> 
+					<div class="controls">					
+         			<?php echo $field->input; ?>
+         			</div>
+         		</div>	
          		<?php endforeach; ?>
          		</div>
 
 
-				<div class="span8 fltlft"> 				
-			
+				<div class="<?php if(version_compare(JVERSION, '3.0', 'lt')): ?>width-45 <?php endif;?>span8 fltlft"> 				
+					<div class="control-group">											
 					<?php echo $this->form->getLabel( 'menuid' ); ?>
+					<div class="controls">
 				<?php if($this->item->home != 1):?>	
+				
 					<?php echo $this->form->getInput( 'menuid' ); ?>
 					<?php else: ?>
 					<?php echo JText::_('JOOMLA_SETTINGS')?><br />
+					</div>
+					</div>
 					<div class="clr clearfix"></div>
 				<?php endif;?>					
 				</div>
