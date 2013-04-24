@@ -10,21 +10,34 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <form action="index.php?option=com_virtualdomains&amp;view=params" method="post" id="adminForm" name="adminForm">
-	<table>
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-			</td>
-			<td nowrap="nowrap">
-  				
-			</td>
-		</tr>		
-	</table>
+		<div id="filter-bar" class="btn-toolbar">
+		<table class="table">
+			<tr>
+				<td align="left" width="100%">
+					<div class="filter-search btn-group pull-left">
+						<label for="filter_search" class="element-invisible"><?php echo JText::_( 'Filter' ); ?>:</label>
+						<input type="text" name="search" id="search"
+							value="<?php echo $this->lists['search']; ?>" class="text_area"
+							onchange="document.adminForm.submit();" />
+						<button class="btn" onclick="this.form.submit();">
+							<?php echo JText::_( 'Go' ); ?>
+							<i class="icon-search"></i>
+						</button>
+						<button class="btn"
+							onclick="document.getElementById('search').value='';this.form.submit();">
+							<?php echo JText::_( 'Reset' ); ?>
+							<i class="icon-remove"></i>
+						</button>
+					</div>
+				</td>
+
+				<td nowrap="nowrap"><?php echo $this->lists['state']; ?></td>
+			</tr>
+		</table>
+	</div>
+	
 <div id="editcell">
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<thead>
 			<tr>
 				<th width="5">

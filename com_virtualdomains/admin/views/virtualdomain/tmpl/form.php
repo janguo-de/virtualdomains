@@ -25,7 +25,7 @@ VirtualdomainsHelper::helpIcon('Details-Page');
 
 <script language="javascript" type="text/javascript">
 
-<?php  if(version_compare(JVERSION, '3.0', 'lt')) : ?>
+<?php  if(version_compare(JVERSION, '2.5', 'lt')) : ?>
 	
 function submitbutton(task)
 {
@@ -75,15 +75,12 @@ Joomla.submitbutton = function(task) {
 
 
 				<div class="<?php if(version_compare(JVERSION, '3.0', 'lt')): ?>width-45 <?php endif;?>span8 fltlft"> 				
-					<div class="control-group">											
+					<div class="control-group">	
 					<?php echo $this->form->getLabel( 'menuid' ); ?>
-					<div class="controls">
 				<?php if($this->item->home != 1):?>	
-				
 					<?php echo $this->form->getInput( 'menuid' ); ?>
 					<?php else: ?>
 					<?php echo JText::_('JOOMLA_SETTINGS')?><br />
-					</div>
 					</div>
 					<div class="clr clearfix"></div>
 				<?php endif;?>					
@@ -99,10 +96,16 @@ Joomla.submitbutton = function(task) {
 					<?php echo JText::_('JOOMLA_SETTINGS')?>
 					<div class="clr"></div>					
 					<?php endif; ?>																
-							
+					<div class="control-group">			
 					<?php echo $this->form->getLabel( 'published' ); ?>
-				
+				   <?php if (version_compare(JVERSION, '3.0', 'ge')): ?> 
+					<div class="controls">
+					<?php endif; ?>					
 					<?php echo $this->form->getInput( 'published' ); ?>
+					<?php if (version_compare(JVERSION, '3.0', 'ge')): ?>	
+				    </div>
+				    <?php endif; ?>					
+					</div>
 				</div>				
 	
 						

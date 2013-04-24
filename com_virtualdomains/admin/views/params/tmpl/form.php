@@ -21,8 +21,8 @@ if (!$edit) {
 
 <script language="javascript" type="text/javascript">
 
+<?php  if(version_compare(JVERSION, '2.5', 'lt')) : ?>
 
-	
 function submitbutton(task)
 {
     var form = document.adminForm;
@@ -30,6 +30,14 @@ function submitbutton(task)
 		submitform(task);
 	}
 }
+<?php else: ?>
+Joomla.submitbutton = function(task) {
+	if (task == 'cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+		Joomla.submitform(task, document.getElementById('adminForm'));
+	}
+}
+<?php endif; ?>
+
 </script>
 
 	 	<form method="post" action="index.php" id="adminForm" name="adminForm">
