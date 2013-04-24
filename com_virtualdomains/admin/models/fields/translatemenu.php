@@ -33,7 +33,7 @@ class JFormFieldTranslateMenu extends JFormField
 		$lang = JFactory::getLanguage();
 		$langs = $lang->getKnownLanguages();
         $class = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
-		$html ="<table>";
+		$html ="<table class='table table-striped'>";
 
 					
 		foreach($langs  as $lang) {

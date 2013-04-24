@@ -22,9 +22,10 @@
 			type="text"
 			required="true"
 			validate="host"
-			label="Host_Name"
+			label="Host_Name"			
 			description="hostname_Desc"
-			class="inputbox"
+			class="inputbox input-xlarge"
+			labelclass="control-label"
 			size="40"/>						
 													
 		<field
@@ -32,6 +33,7 @@
 			name="published"
 			type="list"
 			class="inputbox"
+			labelclass="control-label"
 			default="1"
 			size="1"
 			label="JField_Published_Label"
@@ -71,6 +73,7 @@
 			type="menuitem"
 			required="false"
 			label="Menuid"
+			labelclass="control-label"
 			description="menuid_Desc"
 			class="inputbox"
 			size="15"/>						
@@ -79,6 +82,7 @@
 			name="template_style_id"
 			type="templatestyle"
 			label="Template"
+			labelclass="control-label"
 			description="template_Desc"
 			filter="int"
 			class="inputbox">
@@ -89,6 +93,7 @@
 			id="template"
 			name="template"
 			type="templates"
+			labelclass="control-label"
 			required="false"
 			label="Template"
 			description="template_Desc"

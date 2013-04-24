@@ -1,5 +1,5 @@
 <?php /**
-* @version		$Id: virtualdomains.php 10381 2008-06-01 03:35:53Z mliebler $
+* @version		$Id: virtualdomains.php 13 2013-03-30 00:14:57Z michel $
 * @package		Virtualdomains
 * @subpackage	plug_virtualdomains
 * @copyright	Copyright (C) 2008 - 2009 Open Source Matters. All rights reserved.
@@ -105,7 +105,10 @@ class plgSystemVirtualdomains extends JPlugin
 
 		// Set Meta Data
 		$this->_hostparams = $currentDomain ->params;
-
+		
+		if(isset($currentDomain ->Team_ID) && $currentDomain ->Team_ID) $GLOBALS['Team_ID'] = $currentDomain ->Team_ID;
+		
+		
 		$config = &JFactory::getConfig();
 
 		if ( is_object( $this->_hostparams ) )
@@ -140,7 +143,11 @@ class plgSystemVirtualdomains extends JPlugin
 			}			
 		}
 		
-	
+		$user->set('virtualdomain_id',$currentDomain->id);
+		//put this to the session
+		$session = JFactory::getSession();
+		$session->set('user', $user);
+		
 
 		$this->filterMenus($currentDomain ->menuid);
 	}
@@ -270,7 +277,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		//its clear: we are not at home
 		if(!$curDomain->isHome) return;
-
+		
 		if($mode_sef) {
 			$route	= $uri->getPath();
 			$route_lowercase = JString::strtolower($route);
@@ -375,7 +382,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$_SERVER['REQUEST_URI'] = $this->_getBase() . $link;
 		$_SERVER['PHP_SELF'] = $this->_getBase() . $parse['path'];
 		$_SERVER['SCRIPT_NAME'] = $this->_getBase() . $parse['path'];
-		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['DOCUMENT_ROOT'] . DS . preg_replace( '#[/\\\\]+#', DS, $parse['path'] );
+		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['DOCUMENT_ROOT'] . '/'. preg_replace( '#[/\\\\]+#', '/', $parse['path'] );		
 
 		//set userdefined actions
 		$this->setActions( 1 );

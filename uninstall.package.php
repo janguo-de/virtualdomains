@@ -7,7 +7,7 @@
 
 /**
  * @version $Id$
- * @package    virtualdomains
+ * @package    jimtawl
  * @subpackage Base
  * @author     EasyJoomla {@link http://www.easy-joomla.org Easy-Joomla.org}
  * @author     Michael Liebler {@link http://www.janguo.de}
@@ -204,7 +204,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
  $rows = 0;
 ?>
 
-<h2>virtualdomains Removal</h2>
+<h2>Jimtawl Removal</h2>
 <table class="adminlist">
 	<thead>
 		<tr>
@@ -219,7 +219,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 	</tfoot>
 	<tbody>
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo 'virtualdomains '.JText::_('Component'); ?></td>
+			<td class="key" colspan="2"><?php echo 'Jimtawl '.JText::_('Component'); ?></td>
 			<td><img src="images/publish_g.png" alt="OK" /><strong><?php echo JText::_('Removed'); ?></strong></td>
 		</tr>
 <?php if (count($status->modules)) : ?>

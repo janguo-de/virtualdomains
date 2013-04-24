@@ -9,6 +9,8 @@ $text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
 JToolBarHelper::title( JText::_( 'Virtualdomain' ) . ': <small><small>[ ' . $text . ' ]</small></small>' );
 JToolBarHelper::apply();
 JToolBarHelper::save();
+$leftcolClass = (version_compare(JVERSION, '3.0', 'lt')) ? 'width-60' : 'span8';
+$rightcolClass = (version_compare(JVERSION, '3.0', 'lt')) ? 'width-40' : 'span3'; 
 if ( !$edit )
 {
     JToolBarHelper::cancel();
@@ -23,7 +25,7 @@ VirtualdomainsHelper::helpIcon('Details-Page');
 
 <script language="javascript" type="text/javascript">
 
-
+<?php  if(version_compare(JVERSION, '3.0', 'lt')) : ?>
 	
 function submitbutton(task)
 {
@@ -32,17 +34,36 @@ function submitbutton(task)
 		submitform(task);
 	}
 }
+<?php else: ?>
+Joomla.submitbutton = function(task) {
+	if (task == 'cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+		Joomla.submitform(task, document.getElementById('adminForm'));
+	}
+}
+<?php endif; ?>
 </script>
 
 	 	<form method="post" action="index.php" id="adminForm" name="adminForm">
-	 	<div class="col width-60 fltlft">
+	<div class="row-fluid">
+		<!-- Begin Content -->
+		<div class="span10 form-horizontal">	 	
+	 	<div class="col <?php echo $leftcolClass; ?> fltlft pull-left">
 		  <fieldset class="adminform">
 			<legend><?php echo JText::_( 'Details' ); ?></legend>
-							
-				<?php echo $this->form->getLabel( 'domain' ); ?>
-				
-				<?php echo $this->form->getInput( 'domain' ); ?>
-				<div class="width-45  fltrt"> 			   
+				<div class="control-group">			
+					<?php echo $this->form->getLabel( 'domain' ); ?>
+				   <?php if (version_compare(JVERSION, '3.0', 'ge')): ?> 
+					<div class="controls">
+					<?php endif; ?>
+						
+						<?php echo $this->form->getInput( 'domain' ); ?>
+					<?php if (version_compare(JVERSION, '3.0', 'ge')): ?>	
+				    </div>
+				    <?php endif; ?>
+				</div>
+				<div class="clearfix">
+				</div>
+				<div class="width-45 span6 fltrt"> 			   
          		<?php foreach ( $this->form->getFieldset( 'translation') as $field ): ?>
          			<?php echo $field->label; ?><br />
          			<?php echo $field->input; ?><br />
@@ -50,17 +71,17 @@ function submitbutton(task)
          		</div>
 
 
-				<div class="width-55 fltlft"> 				
+				<div class="span8 fltlft"> 				
 			
 					<?php echo $this->form->getLabel( 'menuid' ); ?>
 				<?php if($this->item->home != 1):?>	
 					<?php echo $this->form->getInput( 'menuid' ); ?>
 					<?php else: ?>
 					<?php echo JText::_('JOOMLA_SETTINGS')?><br />
-					<div class="clr"></div>
+					<div class="clr clearfix"></div>
 				<?php endif;?>					
 				</div>
-				<div class="width-60 fltlft">
+				<div class="width-60 span6 pull-left fltlft">
 					<?php
 					  $formname = version_compare(JVERSION,'1.5','gt') ? 'template_style_id' : 'template';
 					?>						
@@ -97,7 +118,7 @@ function submitbutton(task)
          </fieldset>         
 		<?php echo JHtml::_('sliders.end'); ?>
         </div>
-        	<div class="width-40 fltrt">
+        	<div class="<?php echo $rightcolClass; ?>  fltrt">
 			        
      		
 			<fieldset class="panelform">
@@ -149,6 +170,8 @@ function submitbutton(task)
 			</table>			
 			</fieldset>									
 
+        </div>
+        </div>
         </div>
         <?php echo $this->form->getInput( 'viewlevel' ); ?>		        		
 		<input type="hidden" name="option" value="com_virtualdomains" />
