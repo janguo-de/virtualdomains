@@ -140,7 +140,15 @@
 			<option
 				value="0">
 				JFIELD_OVERRIDE_NO</option>
-		 </field>											
+		 </field>			
+			<field
+				name="metatitle"
+				type="text"
+				class="inputbox"				
+				default=""
+				label="MetaTitle"
+				description="Params_Metatitle_Desc">
+			</field>			 								
 			<field
 				name="metadesc"
 				type="textarea"

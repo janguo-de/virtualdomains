@@ -80,7 +80,15 @@ class VirtualdomainsController extends JControllerLegacy
     {
         $this->save();
     }
-
+    /**
+     *store the item and open new page
+     *
+     */
+    
+    public function saveandnew()
+    {
+    	$this->save();
+    }
     /**
      * stores the item
      */
@@ -109,7 +117,11 @@ class VirtualdomainsController extends JControllerLegacy
             case 'apply':
                 $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname . '&task=edit&cid[]=' . $model->getId();
                 break;
-
+            
+            case 'saveandnew':
+                	$link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname . '&task=edit';
+                	break;
+                
             case 'save':
             default:
                 $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname;

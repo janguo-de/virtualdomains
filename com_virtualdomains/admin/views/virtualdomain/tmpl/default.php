@@ -1,13 +1,19 @@
 <?php // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
+$lang = JFactory::getLanguage()->getTag();
+if($lang != 'de-DE') {
+	$lang = 'en-GB';
+}
+$help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Virtualdomains-Manager';
 JToolBarHelper::title( JText::_( 'Virtual Domains' ), 'generic.png' );
-JToolbarHelper::preferences( 'com_virtualdomains',500,500,'CONFIG PARAMETER' );
+JToolBarHelper::addNew();
+JToolBarHelper::editList();
 JToolBarHelper::publishList();
 JToolBarHelper::unpublishList();
 JToolBarHelper::deleteList();
-JToolBarHelper::editList();
-JToolBarHelper::addNew();
+JToolbarHelper::preferences( 'com_virtualdomains',500,500,'CONFIG PARAMETER' );
+
+JToolBarHelper::help('#', false, $help_url);
 VirtualdomainsHelper::helpIcon('Virtualdomains-Manager');
 
 
@@ -24,10 +30,13 @@ JHTML::_('behavior.modal', 'a.modal');
 						<input type="text" name="search" id="search"
 							value="<?php echo $this->lists['search']; ?>" class="text_area"
 							onchange="document.adminForm.submit();" />
+					</div>	
+					<div class="btn-group pull-left">								
 						<button class="btn" onclick="this.form.submit();">
 							<?php echo JText::_( 'Go' ); ?>
 							<i class="icon-search"></i>
 						</button>
+
 						<button class="btn"
 							onclick="document.getElementById('search').value='';this.form.submit();">
 							<?php echo JText::_( 'Reset' ); ?>
@@ -49,7 +58,7 @@ JHTML::_('behavior.modal', 'a.modal');
           </th>
           <th width="29%" class="title"><?php echo JHTML::_( 'grid.sort', 'Domain', 'a.domain', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
           <th  width="29%" class="title"><?php echo JHTML::_( 'grid.sort', 'Template', 'a.template', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-          <th width="13%" class="title"><?php echo JHTML::_( 'grid.sort', 'Ordering', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+          <th width="13%" class="title"><?php echo JText::_('HOST_CHECK');?></th>
 		  <th width="13%">
 					<?php echo JHtml::_('grid.sort', 'Default Domain', 'a.default', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 		 </th>          
@@ -94,9 +103,7 @@ if ( count( $this->items ) > 0 ):
             <a <?php echo $onclick; ?>href="<?php echo $link; ?>"><?php echo $row->domain; ?></a>
             <?php endif; ?></td>
           <td><?php echo $row->template ?></td>
-          <td style="text-align:center"><span><?php echo $this->pagination->orderUpIcon( $i, true, 'orderup', 'Move Up', ( $this->lists['order'] == 'a.ordering' and $this->lists['order_Dir'] ==
-            'asc' ) ); ?></span> <span><?php echo $this->pagination->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', ( $this->lists['order'] == 'a.ordering' and $this->lists['order_Dir'] ==
-            'asc' ) ); ?></span></td>
+          <td style="text-align:center"><span data-host="<?php echo $row->domain; ?>" class="hostcheck"></span></td>
           <td class="center">
 					<?php echo JHtml::_('jgrid.isdefault', $row->home!='0', $i, '', $row->home!='1');?>
 			</td>            

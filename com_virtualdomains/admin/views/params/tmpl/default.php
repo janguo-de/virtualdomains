@@ -19,6 +19,8 @@ defined('_JEXEC') or die('Restricted access');
 						<input type="text" name="search" id="search"
 							value="<?php echo $this->lists['search']; ?>" class="text_area"
 							onchange="document.adminForm.submit();" />
+						</div>	
+						<div class="btn-group pull-left">	
 						<button class="btn" onclick="this.form.submit();">
 							<?php echo JText::_( 'Go' ); ?>
 							<i class="icon-search"></i>
@@ -31,7 +33,6 @@ defined('_JEXEC') or die('Restricted access');
 					</div>
 				</td>
 
-				<td nowrap="nowrap"><?php echo $this->lists['state']; ?></td>
 			</tr>
 		</table>
 	</div>

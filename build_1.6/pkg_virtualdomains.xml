@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="1.6">
+<extension type="package" method="upgrade" version="1.6">
 	<name>Virtual Domains</name>
 	<packagename>virtualdomains</packagename>
-	<version>1.1.1 McCoy</version>
+	<version>1.2.1 McCoy</version>
 	<url>http://www.janguo.de</url>
 	<packager>Michael Liebler</packager>
 	<packagerurl>http://www.janguo.de</packagerurl>
@@ -19,8 +19,8 @@
 		</tr>
 		<tr class="row1">
 			<td class="key" colspan="2">Plugin System - virtualdomains</td>
-			<td><strong>Installed (may be disabled)</strong></td>
-			<td><img src="../media/media/images/failed.png" alt="OK" /></td>
+			<td><strong>Installed</strong></td>
+			<td><img src="../media/media/images/success.png" alt="OK" /></td>
 			<td></td>
 		</tr>
 		<tr class="row0">
@@ -37,7 +37,7 @@
 		]]></description>
 	<update>http://janguo.de/vd/update/vd-update.xml</update>
 	<files folder="packages">
-		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>
 		<file type="plugin" id="virtualdomains" group="system">plg_virtualdomains.zip</file>
+		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>		
 	</files>
 </extension>

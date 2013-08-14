@@ -1,7 +1,7 @@
 <?php /**
  * @version		$Id:virtualdomain.php 1 2010-09-24 23:14:34Z  $
  * @package		Virtualdomain
- * @subpackage 	Tables
+ * @subpackage 	Views
  * @copyright	Copyright (C) 2010, . All rights reserved.
  * @license #
  */
@@ -24,6 +24,13 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
             $this->_displayForm( $tpl );
             return;
         }
+        $doc = JFactory::getDocument();
+        if(version_compare(JVERSION, '3.0', 'lt')) {
+        	$doc->addScript('components/com_virtualdomains/assets/js/jquery.min.js');
+        } else {
+        	JHtml::_('jquery.framework');
+        }
+        $doc->addScript('components/com_virtualdomains/assets/js/hostcheck.js');
         $context = 'com_virtualdomains' . '.' . strtolower( $this->getName() ) . '.list.';
         $filter_state = $app->getUserStateFromRequest( $context . 'filter_state', 'filter_state', '', 'word' );
         $filter_order = $app->getUserStateFromRequest( $context . 'filter_order', 'filter_order', $this->get( 'DefaultFilter' ), 'cmd' );
@@ -49,7 +56,6 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
         // search filter
         $lists['search'] = $search;
         $items = $this->get( 'Data' );
-
         //pagination
         $pagination = &$this->get( 'Pagination' );
 
@@ -71,7 +77,9 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
 
         JLoader::import( 'joomla.form.formvalidator', $alt_libdir );
         JHTML::stylesheet( 'fields.css', 'administrator/components/com_virtualdomains/assets/' );
-
+        if(version_compare(JVERSION, '3', 'lt')) {
+        	JHTML::stylesheet( 'bootstrap-forms.css', 'administrator/components/com_virtualdomains/assets/' );
+        }
         $db = &JFactory::getDBO();
         $uri = &JFactory::getURI();
         $user = &JFactory::getUser();

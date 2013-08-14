@@ -18,6 +18,9 @@ class VirtualdomainsViewParams  extends JViewLegacy {
 	public function display($tpl = null) 
 	{
 		$app = &JFactory::getApplication('');
+		if(version_compare(JVERSION, '3', 'lt')) {
+			JHTML::stylesheet( 'bootstrap-forms.css', 'administrator/components/com_virtualdomains/assets/' );
+		}
 		
 		if ($this->getLayout() == 'form') {
 		

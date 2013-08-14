@@ -27,17 +27,18 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
     public function __construct( $config = array() )
     {
         VirtualdomainsHelper::addSubmenu($this->_viewname );	
-    	parent::__construct( $config );
+    	parent::__construct( $config );    	
         JRequest::setVar( 'view', $this->_viewname );
 
     }
 
+    
     /**
      * VirtualdomainsControllerVirtualdomain::cancel()
      * Cancels the Editing Form
      * @return void
      */
-    function cancel()
+    public function cancel()
     {
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
@@ -163,7 +164,11 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
             case 'apply':
                 $link = 'index.php?option=com_virtualdomains&view=virtualdomain.&task=edit&cid[]=' . $model->getId();
                 break;
-
+            
+            case 'saveandnew':
+                $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname . '&task=edit';
+               	break;
+                
             case 'save':
             default:
                 $link = 'index.php?option=com_virtualdomains&view=virtualdomain';

@@ -115,15 +115,15 @@ class plgSystemVirtualdomains extends JPlugin
 		{
 			if ( trim( $this->_hostparams->get( 'metadesc' ) ) )
 			{
-				$config->setValue( 'config.MetaDesc', $this->_hostparams->get( 'metadesc' ) );
+				$config->set( 'MetaDesc', $this->_hostparams->get( 'metadesc' ) );
 			}
 			if ( trim( $this->_hostparams->get( 'keywords' ) ) )
 			{
-				$config->setValue( 'config.MetaKeys', $this->_hostparams->get( 'keywords' ) );
+				$config->set( 'MetaKeys', $this->_hostparams->get( 'keywords' ) );
 			}
 			if ( trim( $this->_hostparams->get( 'metatitle' ) ) )
 			{
-				$config->setValue( 'config.sitename', $this->_hostparams->get( 'metatitle' ) );
+				$config->set( 'sitename', $this->_hostparams->get( 'metatitle' ) );
 			}
 
 		}

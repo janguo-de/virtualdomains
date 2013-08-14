@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension version="1.6" type="plugin" client="site" group="system">
+<extension version="1.6" type="plugin" method="upgrade" client="site" group="system">
 	<name>System - virtualdomains</name>
 	<creationDate>March 2011</creationDate>	
 	<author>Michael Liebler</author>
@@ -7,18 +7,12 @@
 	<authorUrl>www.janguo.de</authorUrl>
 	<copyright>Copyright (C) 2008 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.5</version>
+	<version>1.7</version>
 	<description>Run virtual domains with different contents from a single Joomla! instance</description>
 	<files>
-		<filename plugin="virtualdomains">virtualdomains.php</filename>
+		<filename plugin="virtualdomains">virtualdomains.php</filename>	
 	</files>
-	<params>
-		<param name="std_domain" type="text" default="www.mydomain.tld" label="Default Domain" description="The Default Domain" />
-		<param name="noreroute" type="radio" default="" label="Change only template" description="Use Virtual Domains as template switcher only">
-			<option value="">No, point to a menu item</option>
-			<option value="1">Yes, only template</option>
-		</param>	
-	</params>
+	 <scriptfile>plugin.install.php</scriptfile>
 	<config>
 		<fields>
 		</fields>
