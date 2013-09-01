@@ -183,7 +183,7 @@
 		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
 		</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://vd.janguo.de/attachments/download/64/pkg_virtualdomains-1.2.1-mccoy-j2.5-r155.zip
+			<downloadurl type="full" format="zip">http://vd.janguo.de/redmine/attachments/download/69/pkg_virtualdomains-1.2.2-mccoy-j2.5-r157.zip
 			</downloadurl>
 		</downloads>
 		<tags>
@@ -193,6 +193,27 @@
 		<maintainer>Janguo, Romacron</maintainer>
 		<maintainerurl>http://janguo.de</maintainerurl>
 		<section>multiple-sites</section>
-		<targetplatform name="joomla" version="3.0" />
+		<targetplatform name="joomla" version="2.5" />
+	</update>
+		<update>
+		<name>VirtualDomains</name>
+		<description>VirtualDomains Package</description>
+		<element>com_virtualdomains</element>
+		<type>package</type>
+		<version>1.2.3-mccoy</version>
+		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://vd.janguo.de/redmine/attachments/download/69/pkg_virtualdomains-1.2.2-mccoy-j2.5-r157.zip
+			</downloadurl>
+		</downloads>
+		<tags>
+			<tag>multiple-sites</tag>
+		</tags>
+
+		<maintainer>Janguo, Romacron</maintainer>
+		<maintainerurl>http://janguo.de</maintainerurl>
+		<section>multiple-sites</section>
+		<targetplatform name="joomla" version="2.5" />
 	</update>	
 </updates>   

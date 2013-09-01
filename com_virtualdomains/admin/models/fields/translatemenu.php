@@ -1,22 +1,24 @@
-<?php /**
- * @date		$Date$
- * @revision    $Rev$
- * @id 			$Id$
- * @version		!j 1.6 Series com_virtualdomains $
- * @package		com_virtualdomains Webmaster
- * @copyright	Copyright © 2010 - All rights reserved.
- * @author		michael liebler
- * @authorMail	michael-liebler@janguo.de
- * @website		http://www.janguo.de
- *
- * @description Shows The Form with Costom Parameter KEYs
- * This is the KEY Pattern
- * The settet Keys can be used at every VD form.
- * Note: only possible Keys will be set
- * 
- */
+<?php
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+/**
+* @date		$Date$
+* @revision    $Rev$
+* @id 			$Id$
+* @version		$Id$
+* @package		Virtualdomain
+* @subpackage 	Models
+* @author     	Michael Liebler {@link http://www.janguo.de}
+* @copyright	Copyright (C) 2008 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Virtualdomains is free software. This version may have been modified pursuant to the
+* GNU General Public License, and as distributed it includes or is derivative
+* of works licensed under the GNU General Public License or other free or open
+* source software licenses. See COPYRIGHT.php for copyright notices and
+* details.
+*/
+ 
 
 class JFormFieldTranslateMenu extends JFormField
 {

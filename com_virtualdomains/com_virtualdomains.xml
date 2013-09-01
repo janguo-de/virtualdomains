@@ -7,7 +7,7 @@
 	<authorUrl>http://www.janguo.de</authorUrl>
 	<copyright>Copyright (C) 2010  Open Source Matters. All rights reserved.</copyright>	
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.1.1</version>
+	<version>1.2.3-mccoy</version>
 	<description>Multi Domain Support for Joomla</description>
 	<install>
 		<sql>
@@ -24,7 +24,9 @@
 			<schemapath type="mysql">sql/updates</schemapath>
 		</schemas>
 	</update>	
-	<files>
+	<files folder="site">
+		<filename>virtualdomains.php</filename>		
+		<filename>index.html</filename>
 	</files>	
 	<scriptfile>install.script.php</scriptfile>
 	<administration>

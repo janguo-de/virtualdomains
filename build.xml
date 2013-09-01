@@ -25,7 +25,7 @@
 		<echo msg="Building package for Joomla 1.6" />
 		<mkdir dir="packages" />
 		<copy file="build_1.6/com_virtualdomains.xml" tofile="com_virtualdomains/com_virtualdomains.xml" overwrite="true"/>		
-		<copy file="build_1.6/install.script.php" tofile="com_virtualdomains/install.script.php" overwrite="true"/>
+		
 		<zip destfile="packages/com_virtualdomains.zip" basedir="com_virtualdomains" />
 		<zip destfile="packages/plg_virtualdomains.zip" basedir="plg_virtualdomains" />
 
@@ -38,7 +38,7 @@
 			</fileset>
 		</zip>
 		<delete file="pkg_virtualdomains.xml" />
-		<delete file="com_virtualdomains/install.script.php" />
+		
 		<delete dir="packages" includeemptydirs="true" />
 	</target>
 	

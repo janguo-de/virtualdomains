@@ -84,45 +84,64 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
         $uri = &JFactory::getURI();
         $user = &JFactory::getUser();
         $document = JFactory::getDocument();
-        $form = $this->get( 'Form' );
+        $this->form = $this->get( 'Form' );
 
-        $lists = array();
+        $this->lists = array();
 
-        $editor = &JFactory::getEditor();
 
         //get the item
-        $item = &$this->get( 'item' );
+        $this->item = &$this->get( 'item' );
         
         if(!version_compare(JVERSION,'3.0','lt')) {
-        	$form->bind(JArrayHelper::fromObject($item));
+        	$this->form->bind(JArrayHelper::fromObject($this->item));
         } else {
-        	$form->bind($item);
+        	$this->form->bind($this->item);
         }      
 
-        $isNew = ( $item->id < 1 );
+        $this->isNew = ( $this->item->id < 1 );
 
         // Edit or Create?
-        if ( $isNew )
+        if ( $this->isNew )
         {
             // initialise new record
-            $item->published = 1;
+            $this->item->published = 1;
         }
-
-        $lists['published'] = JHTML::_( 'select.booleanlist', 'published', 'class="inputbox"', $item->published );
-
-        $paramFields = $this->get( 'ParamFields' );
-        $this->assign( 'form', $form );
+        $this->paramFields = $this->get( 'ParamFields' );
+        $this->lists['published'] = JHTML::_( 'select.booleanlist', 'published', 'class="inputbox"', $this->item->published );
 
         $code = $this->_getJs();
         
         $document->addScriptDeclaration($code); 
-        
-        $this->assignRef( 'lists', $lists );
-        $this->assignRef( 'editor', $editor );
-        $this->assignRef( 'item', $item );
-        $this->assignRef( 'paramFields', $paramFields );
-        $this->assignRef( 'isNew', $isNew );
+		$this->_tabs();
         parent::display( $tpl );
+    }
+    
+    private function _tabs() {
+    	$this->tabs = array();
+    	if(version_compare(JVERSION,'3.0','lt')) {    		
+    		$this->tabsstart = JHtml::_('tabs.start','vd-sliders-'.$this->item->id, array('useCookie'=>1));
+    		$this->tabsend = JHtml::_('tabs.end');
+    		$this->endtab = "";
+    		$this->tabs['details'] = JHtml::_('tabs.panel',JText::_('Details'), 'details');
+    		$this->tabs['siteconfig'] = JHtml::_('tabs.panel',JText::_('Main Config'), 'advanced-config');
+			$this->tabs['menufilter'] = JHtml::_('tabs.panel',JText::_('Menu_Filter'), 'advanced-menus');
+			$this->tabs['accesslevels'] = JHtml::_('tabs.panel',JText::_('Access_Level_Inheritance'), 'advanced-accesslevel');
+			$this->tabs['translation'] = JHtml::_('tabs.panel',JText::_('Translation'), 'advanced-translation');			
+			$this->tabs['custom-params'] = JHtml::_('tabs.panel',JText::_( 'Custom Parameters' ), 'custom-params');
+    		
+    	} else {
+    		$this->tabsstart = JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details'));
+    		$this->tabsend = JHtml::_('bootstrap.endTabSet');
+    		$this->endtab = JHtml::_('bootstrap.endTab');
+    		$this->tabs['details'] = JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('Details'));
+    		$this->tabs['siteconfig'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-config', JText::_('Site_Config'));
+    		$this->tabs['menufilter'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-menus', JText::_('Menu_Filter'));    		
+    		$this->tabs['accesslevels'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-accesslevel', JText::_('Access_Level_Inheritance'));
+    		$this->tabs['translation'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-translation', JText::_('Translation'));    		
+    		$this->tabs['custom-params'] = JHtml::_('bootstrap.addTab', 'myTab', 'custom-params', JText::_( 'Custom Parameters' ));
+
+    	}
+    	
     }
     
     private function _getJs() {

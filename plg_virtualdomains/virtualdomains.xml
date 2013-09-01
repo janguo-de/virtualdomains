@@ -7,7 +7,7 @@
 	<authorUrl>www.janguo.de</authorUrl>
 	<copyright>Copyright (C) 2008 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<version>1.7</version>
+	<version>1.2.3-mccoy</version>
 	<description>Run virtual domains with different contents from a single Joomla! instance</description>
 	<files>
 		<filename plugin="virtualdomains">virtualdomains.php</filename>	

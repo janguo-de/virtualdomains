@@ -1,4 +1,6 @@
 <?php
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 /**
  * @version		$Id$:homes.php ressource.php $LastChangeRevision$ $LastChangeDate$ $LastChangedBy$ $
  * @package		Jimtawl

@@ -17,6 +17,7 @@
 			label="Name"
 			description="name_Desc"
 			class="inputbox"
+			labelclass="control-label"
 			size="40"/>						
 
 		<field
@@ -25,6 +26,7 @@
 			type="radio"			
 			label="PARAMS_HOME_ONLY"
 			description="PARAMS_HOME_ONLY_DESC"
+			labelclass="control-label"
 			class="inputbox">
 			<option
 				value="0">
@@ -39,6 +41,7 @@
 			name="action"
 			type="list"
 			class="inputbox"
+			labelclass="control-label"
 			default="1"
 			size="1"
 			label="JField_Action_Label"

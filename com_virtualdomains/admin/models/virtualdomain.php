@@ -1,11 +1,14 @@
-  <?php /**
+  <?php 
+  defined( '_JEXEC' ) or die( 'Restricted access' );
+/**
  * @version		$Id:virtualdomain.php  1 2010-10-23 15:29:07Z  $
  * @package		Virtualdomains
  * @subpackage 	Models
- * @copyright	Copyright (C) 2010, . All rights reserved.
- * @license #
+ * @copyright	Copyright (C) 2008 - 2013 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
+
 /**
  * VirtualdomainsModelVirtualdomain 
  * @author 

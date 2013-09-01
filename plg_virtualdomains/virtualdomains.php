@@ -40,7 +40,7 @@ class plgSystemVirtualdomains extends JPlugin
 	 * @param	object	$subject The object to observe
 	 * @param 	array   $config  An array that holds the plugin configuration
 	 * @since	1.0
-	 */
+	*/
 	public function plgSystemVirtualdomains( &$subject, $config )
 	{
 		$this->_db = JFactory::getDBO();
@@ -101,14 +101,18 @@ class plgSystemVirtualdomains extends JPlugin
 		$viewlevels =  (array) $currentDomain ->params->get('access');
 
 		$viewlevels[] = $currentDomain ->viewlevel;
+
+		vdJAccess::addAuthorisedViewLevels($user->get('id'), $viewlevels);
+
 		$vdUser->addAuthLevel($viewlevels);
+
 
 		// Set Meta Data
 		$this->_hostparams = $currentDomain ->params;
-		
+
 		if(isset($currentDomain ->Team_ID) && $currentDomain ->Team_ID) $GLOBALS['Team_ID'] = $currentDomain ->Team_ID;
-		
-		
+
+
 		$config = &JFactory::getConfig();
 
 		if ( is_object( $this->_hostparams ) )
@@ -140,14 +144,14 @@ class plgSystemVirtualdomains extends JPlugin
 			JRequest::setVar( 'template', $currentDomain ->template );
 			if( $currentDomain ->template_style_id ) {
 				JRequest::setVar( 'templateStyle', $currentDomain ->template_style_id );
-			}			
+			}
 		}
-		
+
 		$user->set('virtualdomain_id',$currentDomain->id);
 		//put this to the session
 		$session = JFactory::getSession();
 		$session->set('user', $user);
-		
+
 
 		$this->filterMenus($currentDomain ->menuid);
 	}
@@ -165,7 +169,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$db = JFactory::getDbo();
 		$db->setQuery(
 				"SELECT * FROM #__virtualdomain
-				  WHERE `domain` = ".$db->Quote($this->_curhost )			
+				WHERE `domain` = ".$db->Quote($this->_curhost )
 		);
 
 		$curDomain = $db->loadObject();
@@ -194,7 +198,7 @@ class plgSystemVirtualdomains extends JPlugin
 			$curDomain->template = null;
 			$curDomain->menuid = null;
 		}
-        
+
 		$this->_checkHome($curDomain);
 
 		//override style?
@@ -247,8 +251,7 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	private function _checkHome(&$curDomain) {
 
-		$menu = & JMenu::getInstance('site',array());
-			
+		$menu = & JMenu::getInstance('site',array());			
 
 		$menuItem = & $menu->getItem(( int ) $curDomain->menuid );
 			
@@ -257,7 +260,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$router = $app->getRouter();
 			
 		$uri = JURI::getInstance();
-		
+
 		$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
 
 		$origHome = $this->getDefaultmenu();
@@ -277,7 +280,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		//its clear: we are not at home
 		if(!$curDomain->isHome) return;
-		
+
 		if($mode_sef) {
 			$route	= $uri->getPath();
 			$route_lowercase = JString::strtolower($route);
@@ -289,7 +292,7 @@ class plgSystemVirtualdomains extends JPlugin
 				$curDomain->isHome = true;
 			} else {
 				$items = array_reverse($menu->getMenu());
-		
+
 				$found = false;
 					
 				foreach ($items as $item) {
@@ -347,9 +350,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		$menulink = $menuItem->link;
 
-
 		$this->_switchMenu( $menu,$menuItem );
-
 
 		//do nothing, if we are not on frontpage
 		if ( !$curDomain->isHome )
@@ -375,14 +376,14 @@ class plgSystemVirtualdomains extends JPlugin
 
 			$this->_request = array_merge( $request, $this->_request );
 			$parse['query'] = JURI::buildQuery( $this->_request );
-				
+
 			//rewrite some server environment vars to fool joomla
 			$_SERVER['QUERY_STRING'] = $parse['query'];
 		}
 		$_SERVER['REQUEST_URI'] = $this->_getBase() . $link;
 		$_SERVER['PHP_SELF'] = $this->_getBase() . $parse['path'];
 		$_SERVER['SCRIPT_NAME'] = $this->_getBase() . $parse['path'];
-		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['DOCUMENT_ROOT'] . '/'. preg_replace( '#[/\\\\]+#', '/', $parse['path'] );		
+		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['DOCUMENT_ROOT'] . '/'. preg_replace( '#[/\\\\]+#', '/', $parse['path'] );
 
 		//set userdefined actions
 		$this->setActions( 1 );
@@ -453,7 +454,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		$nohome = & $menu->getDefault();
 		if($nohome !== 0)
-		$nohome->home = null;
+			$nohome->home = null;
 		$newhome->home = 1;
 		$menu->setDefault( $newhome->id);
 		//$menu->setActive($newhome);
@@ -481,20 +482,7 @@ class plgSystemVirtualdomains extends JPlugin
 		return $path;
 	}
 
-	public static function explodeQuery($sUrl) {
-		$aUrl = parse_url($sUrl);
-		$aUrl['query_params'] = array();
-		$aPairs = explode('&', $aUrl['query']);
-		//DU::show($aPairs);
-		foreach($aPairs as $sPair) {
-			if (trim($sPair) == '') {
-				continue;
-			}
-			list($sKey, $sValue) = explode('=', $sPair);
-			$aUrl['query_params'][$sKey] = urldecode($sValue);
-		}
-		return $aUrl;
-	}
+	
 	/**
 	 *
 	 * Sets the lang Variable, if not set by Joomfish
@@ -510,7 +498,7 @@ class plgSystemVirtualdomains extends JPlugin
 		}
 		$lang = new vdLanguage();
 		$lang_code = $this->_hostparams->get( 'language' );
-		
+
 		$lang->setDefault($this->_hostparams->get( 'language' ));
 		$lang = JFactory::getLanguage();
 		$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
@@ -561,10 +549,11 @@ class vdMenuFilter extends JMenu {
 	 */
 
 	function filterMenues($params, $default) {
+		//Menu filter settings for current domain
 		$filter = $params->get( 'menumode' );
-
 		$items = $params->get( 'menufilter' );
 		$translatations = $params->get( 'translatemenu' );
+		
 		$lang =  JFactory::getLanguage()->getTag() ;
 
 		//Get the instance
@@ -578,8 +567,7 @@ class vdMenuFilter extends JMenu {
 			$menu->setDefault($default);
 		}
 
-		//if(!$filter) return;
-		//Check every item
+		//Check each item
 		foreach($menu->_items  as $item) {
 			//Translate if translation available
 			if ($item->home) {
@@ -604,9 +592,12 @@ class vdMenuFilter extends JMenu {
 	}
 }
 
+/**
+ * Dummy JLanguage class
+ */
 class vdLanguage extends JLanguage {
 
-	function setDefault($lang) {
+	public function setDefault($lang) {
 		$refresh = & JFactory::getLanguage();
 		$refresh->metadata['tag'] = $lang;
 
@@ -619,6 +610,56 @@ class vdLanguage extends JLanguage {
 /**
  *
  * Dummy User Class
+ * Override viewlevels
+ * @author michel
+ *
+ */
+class vdJAccess extends JAccess {
+
+	public static function addAuthorisedViewLevels($userId, $viewlevels)
+	{
+
+			
+		if (class_exists('JComponentHelper'))
+		{
+			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+		}
+		else
+		{
+			$guestUsergroup = 1;
+		}
+
+		// Get a database object.
+		$db = JFactory::getDbo();
+
+		// Build the base query.
+		$query = $db->getQuery(true)
+		->select('id, rules')
+		->from($db->quoteName('#__viewlevels'));
+
+		// Set the query for execution.
+		$db->setQuery($query);
+
+		// Build the view levels array.
+		foreach ($db->loadAssocList() as $level)
+		{
+			$rules = (array) json_decode($level['rules']);
+
+			//The magic: guest usergroup must never be configured in database and is now added dynamically
+			if(in_array($level['id'], $viewlevels) &! in_array($guestUsergroup, $rules)) {
+				$rules[] = $guestUsergroup;
+
+			}
+			self::$viewLevels[$level['id']] = $rules;
+
+		}			
+	}
+}
+
+/**
+ *
+ * Dummy User Class
+ * Override authlevels
  * @author michel
  *
  */
@@ -635,27 +676,28 @@ class vdUser extends JUser {
 	 *
 	 * @param array $viewlevels
 	 */
-	function addAuthLevel($viewlevels) {
+	public function addAuthLevel($viewlevels) {
 		//No access levels assigned to this domain? return...
+
 		if(!count($viewlevels)) return;
 		//is the user not logged in
+
+		$user = JFactory::getUser();
+
 		if(!$this->id) {
-			//we give him minimum public accesslevel and make him a guest
-			$user = new JUser();
 			$user->guest = 1;
-			$user->_authLevels[] = 1;
-		} else {
-			//prepare users accesslevel
-			$user = new JUser($this->id);
-			$user->_authLevels=  JAccess:: getAuthorisedViewLevels($user->id);
+
 		}
+		$user->_authLevels=  $user->getAuthorisedViewLevels();
 
 		//Now add all access levels assigned to this domain
 		foreach($viewlevels as $viewlevel) {
-			if($viewlevel)
-			$user->_authLevels[] = $viewlevel;
-		}
+			if($viewlevel && !in_array($viewlevel, $user->_authLevels)) {
+				$user->_authLevels[] = (int) $viewlevel;
 
+			}
+		}
+			
 		//put this to the session
 		$session = JFactory::getSession();
 		$session->set('user', $user);

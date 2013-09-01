@@ -1,4 +1,6 @@
 <?php
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 /**
  * @version		$Id: jgrid.php 13274 2009-10-22 07:55:21Z severdia $
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

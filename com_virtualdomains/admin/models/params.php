@@ -4,8 +4,8 @@
 * @version		$Id:params.php  1 2010-11-14 17:12:07Z  $
 * @package		Virtualdomain
 * @subpackage 	Models
-* @copyright	Copyright (C) 2010, . All rights reserved.
-* @license #
+* @copyright	Copyright (C) 2008 - 2010 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 */
  defined('_JEXEC') or die('Restricted access');
 /**

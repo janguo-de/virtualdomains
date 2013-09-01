@@ -6,6 +6,7 @@
  * @package		com_virtualdomains Webmaster
  * @copyright	Copyright © 2010 - All rights reserved.
  * @author		romacron
+ * @license		GNU/GPL, see LICENSE.php
  * @authorMail	info@romacron.de
  * @website		http://www.romacron.de
  *

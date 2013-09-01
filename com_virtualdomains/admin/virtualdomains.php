@@ -3,9 +3,9 @@
  * @version sulu-1.0
  * @package    joomla
  * @subpackage Virtualdomains
- * @author	   	
- *  @copyright  	Copyright (C) 2010, . All rights reserved.
- *  @license 
+ * @author	   	Michael Liebler
+ * @copyright	Copyright (C) 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 //--No direct access

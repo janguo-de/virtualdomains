@@ -2,9 +2,9 @@
  * @version		$Id:Model.php 1 2010-10-23Z  $
  * @package		Virtualdomains
  * @subpackage 	Models
- * @copyright	Copyright (C) 2010, . All rights reserved.
- * @author      Michael Liebler
- * @license #
+ * @copyright	Copyright (C) 2008 - 2013 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * @author      Michael Liebler 
  */
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
