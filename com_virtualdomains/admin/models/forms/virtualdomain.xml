@@ -142,7 +142,46 @@
 			<option
 				value="0">
 				JFIELD_OVERRIDE_NO</option>
-		 </field>			
+		 </field>
+		 	
+		 	
+			<field
+				name="sitename"
+				type="text"
+				class="inputbox"	
+				labelclass="control-label"			
+				default=""
+				label="CONFIG_SITENAME"
+				description="CONFIG_SITENAME_DESC">
+			</field>
+			<field
+				name="list_limit"
+				type="text"
+				class="inputbox"	
+				labelclass="control-label"			
+				default=""
+				label="CONFIG_LIST_LIMIT"
+				description="CONFIG_LIST_LIMIT_DESC">
+			</field>
+			<field
+				name="mailfrom"
+				type="text"
+				class="inputbox"	
+				labelclass="control-label"			
+				default=""
+				label="CONFIG_MAILFROM"
+				description="CONFIG_MAILFROM_DESC">
+			</field>
+			<field
+				name="fromname"
+				type="text"
+				class="inputbox"	
+				labelclass="control-label"			
+				default=""
+				label="CONFIG_FROMNAME"
+				description="CONFIG_FROMNAME_DESC">
+			</field>
+		 	
 			<field
 				name="metatitle"
 				type="text"

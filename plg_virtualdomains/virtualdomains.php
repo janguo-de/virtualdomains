@@ -111,7 +111,8 @@ class plgSystemVirtualdomains extends JPlugin
 		$this->_hostparams = $currentDomain ->params;
 
 		if(isset($currentDomain ->Team_ID) && $currentDomain ->Team_ID) $GLOBALS['Team_ID'] = $currentDomain ->Team_ID;
-
+		
+		//Override Global Config
 
 		$config = &JFactory::getConfig();
 
@@ -127,9 +128,25 @@ class plgSystemVirtualdomains extends JPlugin
 			}
 			if ( trim( $this->_hostparams->get( 'metatitle' ) ) )
 			{
-				$config->set( 'sitename', $this->_hostparams->get( 'metatitle' ) );
+				$config->set( 'metatitle', $this->_hostparams->get( 'metatitle' ) );
 			}
-
+			if ( trim( $this->_hostparams->get( 'sitename' ) ) )
+			{
+				$config->set( 'sitename', $this->_hostparams->get( 'sitename' ) );
+			}
+			if ( trim( $this->_hostparams->get( 'list_limit' ) ) )
+			{
+				$config->set( 'list_limit', $this->_hostparams->get( 'list_limit' ) );
+			}
+			if ( trim( $this->_hostparams->get( 'fromname' ) ) )
+			{
+				$config->set( 'fromname', $this->_hostparams->get( 'fromname' ) );
+			}
+			if ( trim( $this->_hostparams->get( 'mailfrom' ) ) )
+			{
+				$config->set( 'mailfrom', $this->_hostparams->get( 'mailfrom' ) );
+			}
+			
 		}
 
 		//Set the route, if necessary
