@@ -21,7 +21,24 @@
 			<option
 				value="0">
 				JFIELD_OVERRIDE_NO</option>
-		</field>		
+		</field>
+		<field
+			id="denyadminaccess"
+			name="denyadminaccess"
+			type="list"
+			class="inputbox"
+			default="0"
+			size="1"
+			label="JFIELD_FULLACCESSBACKEND_LABEL"
+			description="JFIELD_FULLACCESSBACKEND_DESC">
+			<option
+				value="1">
+				JYES</option>
+			<option
+				value="0">
+				JNO</option>							
+		</field>
+				
 </fieldset>
 	<fieldset
 		name="PREVIEW OPTIONS"

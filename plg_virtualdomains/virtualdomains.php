@@ -74,9 +74,16 @@ class plgSystemVirtualdomains extends JPlugin
 		$db = &JFactory::getDBO();
 		$user = &JFactory::getUser();
 
+		$conf = JComponentHelper::getParams('com_virtualdomains');
+		
 		if ( $app->isAdmin() )
 		{
-			return; // Dont run in backend
+
+			if(!$conf->get('denyadminaccess', 0)) {
+				//Full access for all users in backend
+				$this->_fullAccess();
+			}
+			return; // Dont do anymore in backend
 		}
 
 
@@ -91,7 +98,6 @@ class plgSystemVirtualdomains extends JPlugin
 		//TODO: Since default domain is found in the table, some things are to proceed...
 		//let joomla do its work, if its the main domain
 		if ($currentDomain === null) return;
-
 
 		$user = &JFactory::getUser();
 
@@ -111,8 +117,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$this->_hostparams = $currentDomain ->params;
 
 		if(isset($currentDomain ->Team_ID) && $currentDomain ->Team_ID) $GLOBALS['Team_ID'] = $currentDomain ->Team_ID;
-		
-		//Override Global Config
+
 
 		$config = &JFactory::getConfig();
 
@@ -128,25 +133,9 @@ class plgSystemVirtualdomains extends JPlugin
 			}
 			if ( trim( $this->_hostparams->get( 'metatitle' ) ) )
 			{
-				$config->set( 'metatitle', $this->_hostparams->get( 'metatitle' ) );
+				$config->set( 'sitename', $this->_hostparams->get( 'metatitle' ) );
 			}
-			if ( trim( $this->_hostparams->get( 'sitename' ) ) )
-			{
-				$config->set( 'sitename', $this->_hostparams->get( 'sitename' ) );
-			}
-			if ( trim( $this->_hostparams->get( 'list_limit' ) ) )
-			{
-				$config->set( 'list_limit', $this->_hostparams->get( 'list_limit' ) );
-			}
-			if ( trim( $this->_hostparams->get( 'fromname' ) ) )
-			{
-				$config->set( 'fromname', $this->_hostparams->get( 'fromname' ) );
-			}
-			if ( trim( $this->_hostparams->get( 'mailfrom' ) ) )
-			{
-				$config->set( 'mailfrom', $this->_hostparams->get( 'mailfrom' ) );
-			}
-			
+
 		}
 
 		//Set the route, if necessary
@@ -164,16 +153,43 @@ class plgSystemVirtualdomains extends JPlugin
 			}
 		}
 
-		$user->set('virtualdomain_id',$currentDomain->id);
-		//put this to the session
-		$session = JFactory::getSession();
-		$session->set('user', $user);
 
 
 		$this->filterMenus($currentDomain ->menuid);
 	}
 
-
+	/**
+	 * Give access on all domains
+	 */
+	
+	private function _fullAccess() {
+		
+		// Needed for searching articles on backend, 
+		// thanks to Javi
+		$db = JFactory::getDbo();
+		$db->setQuery("SELECT * FROM #__virtualdomain");
+		$user = JFactory::getUser();
+		$allDomains = $db->loadObjectList();
+		
+		if ($error = $db->getErrorMsg())
+		{
+			JError::raiseWarning(500, $error);
+			return false;
+		}
+		
+		$vdUser = new vdUser($user->get('id'));
+		
+		foreach($allDomains as $domain) {
+			$viewlevels[] = $domain ->viewlevel;
+			$vdUser->addAuthLevel($viewlevels);
+		}
+	}
+	
+	/**
+	 * Get domains data from database
+	 * @return object|NULL <mixed, NULL>
+	 */
+	
 	private function _getCurrentDomain() {
 			
 		static $instance;
@@ -207,8 +223,6 @@ class plgSystemVirtualdomains extends JPlugin
 		$router = JSite::getRouter();
 
 		$uri = JURI::getInstance();
-
-
 			
 		// Standard Domain uses Joomla settings
 		if($curDomain->home == 1) {
@@ -236,7 +250,10 @@ class plgSystemVirtualdomains extends JPlugin
 		return $instance;
 	}
 
-
+	/**
+	 * Get default home menu item 
+	 * @return _defaultmenu <object| NULL>
+	 */
 	private function getDefaultmenu() {
 		static $_defaultmenu;
 		if(!empty($_defaultmenu)) return $_defaultmenu;
@@ -269,24 +286,16 @@ class plgSystemVirtualdomains extends JPlugin
 	private function _checkHome(&$curDomain) {
 
 		$menu = & JMenu::getInstance('site',array());			
-
 		$menuItem = & $menu->getItem(( int ) $curDomain->menuid );
 			
-		$app = JFactory::getApplication();
-			
-		$router = $app->getRouter();
-			
+		$app = JFactory::getApplication();			
+		$router = $app->getRouter();			
 		$uri = JURI::getInstance();
-
 		$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
 
-		$origHome = $this->getDefaultmenu();
-			
-		$curDomain->isHome = false;
-			
+		$origHome = $this->getDefaultmenu();			
+		$curDomain->isHome = false;			
 		$curDomain->query_link = $router->parse( clone ( $uri ) );
-
-
 		$curDomain->activeItemId  = ( int )$curDomain->query_link['Itemid'];
 			
 		//do nothing, if we are not on frontpage
@@ -351,11 +360,9 @@ class plgSystemVirtualdomains extends JPlugin
 		}
 
 		$menu = & JMenu::getInstance('site',array());
-
 		$menuItem = & $menu->getItem(( int )$curDomain->menuid );
-
 		$rewrite = (str_replace('/','',$_SERVER['REQUEST_URI'] ) == '');
-
+		
 		$origHome = $this->getDefaultmenu();
 
 
@@ -626,7 +633,7 @@ class vdLanguage extends JLanguage {
 
 /**
  *
- * Dummy User Class
+ * Dummy JAccess class
  * Override viewlevels
  * @author michel
  *

@@ -195,25 +195,27 @@
 		<section>multiple-sites</section>
 		<targetplatform name="joomla" version="2.5" />
 	</update>
-		<update>
-		<name>VirtualDomains</name>
-		<description>VirtualDomains Package</description>
+	<update>
+		<name>virtual-domains</name>
+		<description>Virtual Domains</description>
 		<element>com_virtualdomains</element>
 		<type>package</type>
-		<version>1.2.3-mccoy</version>
-		<infourl title="VirtualDomains URL">http://redmine.janguo.de/projects/vd-main/wiki
+		<version>1.2-mccoy</version>
+		<infourl title="Joomla 2.5 1.2.3-mccoy">http://janguo.de/lang-de/joomla-25-higher/1-2-mccoy.html
 		</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://vd.janguo.de/redmine/attachments/download/69/pkg_virtualdomains-1.2.2-mccoy-j2.5-r157.zip
+			<downloadurl type="full" format="zip">http://redmine.janguo.de/redmine/attachments/download/70/pkg_virtualdomains-1.2.3-mccoy-j2.5-r159.zip
 			</downloadurl>
 		</downloads>
 		<tags>
-			<tag>multiple-sites</tag>
+			<tag>stable</tag>
 		</tags>
-
-		<maintainer>Janguo, Romacron</maintainer>
-		<maintainerurl>http://janguo.de</maintainerurl>
-		<section>multiple-sites</section>
+		<maintainer>Janguo.de</maintainer>
+		<maintainerurl>http://janguo.de/</maintainerurl>
+		<section>Updates</section>
 		<targetplatform name="joomla" version="2.5" />
-	</update>	
+		<client>administrator</client>
+		<folder />
+	</update>
+</updates>
 </updates>   
