@@ -113,7 +113,7 @@ defined('_JEXEC') or die('Restricted access');
   ?>
 	<tr>
 		<td colspan="12">
-			<?php echo JText::_( 'There are no items present' ); ?>
+			<?php echo JText::_( 'There_are_no_items_present' ); ?>
 		</td>
 	</tr>
 	<?php

@@ -11,7 +11,7 @@ JToolBarHelper::editList();
 JToolBarHelper::publishList();
 JToolBarHelper::unpublishList();
 JToolBarHelper::deleteList();
-JToolbarHelper::preferences( 'com_virtualdomains',500,500,'CONFIG PARAMETER' );
+JToolbarHelper::preferences( 'com_virtualdomains',500,500,'CONFIG_PARAMETER' );
 
 JToolBarHelper::help('#', false, $help_url);
 VirtualdomainsHelper::helpIcon('Virtualdomains-Manager');
@@ -60,7 +60,7 @@ JHTML::_('behavior.modal', 'a.modal');
           <th  width="29%" class="title"><?php echo JHTML::_( 'grid.sort', 'Template', 'a.template', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
           <th width="13%" class="title"><?php echo JText::_('HOST_CHECK');?></th>
 		  <th width="13%">
-					<?php echo JHtml::_('grid.sort', 'Default Domain', 'a.default', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					<?php echo JHtml::_('grid.sort', 'Default_Domain', 'a.default', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 		 </th>          
           <th width="13%" class="title"><?php echo JHTML::_( 'grid.sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
           <th width="13%" class="title"><?php echo JText::_('Preview');?> </th>
@@ -116,7 +116,7 @@ if ( count( $this->items ) > 0 ):
         endfor;
         else: ?>
         <tr>
-          <td colspan="12"><?php echo JText::_( 'There are no items present' ); ?></td>
+          <td colspan="12"><?php echo JText::_( 'There_are_no_items_present' ); ?></td>
         </tr>
         <?php endif; ?>
       </tbody>

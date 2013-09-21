@@ -187,7 +187,7 @@ class VirtualdomainsControllerHomes extends VirtualdomainsController
         $db = &JFactory::getDBO();
         $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
         JArrayHelper::toInteger( $cid );
-        $msg = JText::_('Items removed from the list of home items' );
+        $msg = JText::_('Items_removed_from_the_list_of_home_items' );
         $msgtype = "";
         $items = JRequest::getVar( 'jform', array(), 'post', 'array' );
         if ( count( $cid ) < 1 )

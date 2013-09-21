@@ -1,62 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset
-		name="GENERAL"
-		label="GENERAL">
-		<field
-			id="override"
-			name="override"
-			type="list"
-			class="inputbox"
-			default="2"
-			size="1"
-			label="JFIELD_VDOVERRIDE_TEMPLATESTYLES_LABEL"
+	<fieldset name="general" label="GENERAL" description="GENERAL">
+		<field id="override" name="override" type="list" class="inputbox"
+			default="2" size="1" label="JFIELD_VDOVERRIDE_TEMPLATESTYLES_LABEL"
 			description="JFIELD_VDOVERRIDE_TEMPLATESTYLES_Desc">
-			<option
-				value="2">
-				JFIELD_OVERRIDE_YES</option>
-			<option
-				value="1">
-				JFIELD_OVERRIDE_HOME</option>				
-			<option
-				value="0">
-				JFIELD_OVERRIDE_NO</option>
+			<option value="2">
+				JFIELD_OVERRIDE_YES
+			</option>
+			<option value="1">
+				JFIELD_OVERRIDE_HOME
+			</option>
+			<option value="0">
+				JFIELD_OVERRIDE_NO
+			</option>
 		</field>
-		<field
-			id="denyadminaccess"
-			name="denyadminaccess"
-			type="list"
-			class="inputbox"
-			default="0"
-			size="1"
-			label="JFIELD_FULLACCESSBACKEND_LABEL"
+		<field id="denyadminaccess" name="denyadminaccess" type="list"
+			class="inputbox" default="0" size="1" label="JFIELD_FULLACCESSBACKEND_LABEL"
 			description="JFIELD_FULLACCESSBACKEND_DESC">
-			<option
-				value="1">
-				JYES</option>
-			<option
-				value="0">
-				JNO</option>							
+			<option value="1">
+				JYES
+			</option>
+			<option value="0">
+				JNO
+			</option>
 		</field>
-				
-</fieldset>
-	<fieldset
-		name="PREVIEW OPTIONS"
-		label="PREVIEW OPTIONS"
-		description="PREVIEW OPTIONS">
-	<field
-			name="framewidth" 
-			type="text"
-			default="600"
-			label="FRAMEWIDTH"
-			description="FRAMEWIDTH_DESC"
-		/>
-	<field
-			name="frameheight" 
-			type="text"
-			default="400"
-			label="FRAMEHEIGHT"
-			description="FRAMEHEIGHT_DESC"
-		/>				
-	</fieldset>		
+
+	</fieldset>
+	<fieldset name="PREVIEW_OPTIONS" label="PREVIEW_OPTIONS"
+		description="PREVIEW_OPTIONS">
+		<field name="framewidth" type="text" default="600" label="FRAMEWIDTH"
+			description="FRAMEWIDTH_DESC" />
+		<field name="frameheight" type="text" default="400" label="FRAMEHEIGHT"
+			description="FRAMEHEIGHT_DESC" />
+	</fieldset>
 </config>

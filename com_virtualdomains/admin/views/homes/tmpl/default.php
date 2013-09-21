@@ -26,7 +26,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 JToolBarHelper::title( JText::_( 'Home Items' ), 'generic.png' );
 JToolBarHelper::apply();
 JToolBarHelper::addNewX();
-JToolBarHelper::deleteList(JText::_('VD_UNHOME_MESSAGE'),'unhome','remove from homes');
+JToolBarHelper::deleteList(JText::_('VD_UNHOME_MESSAGE'),'unhome','remove_from_homes');
 
 ?>
 

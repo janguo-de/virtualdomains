@@ -118,25 +118,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		if(isset($currentDomain ->Team_ID) && $currentDomain ->Team_ID) $GLOBALS['Team_ID'] = $currentDomain ->Team_ID;
 
-
-		$config = &JFactory::getConfig();
-
-		if ( is_object( $this->_hostparams ) )
-		{
-			if ( trim( $this->_hostparams->get( 'metadesc' ) ) )
-			{
-				$config->set( 'MetaDesc', $this->_hostparams->get( 'metadesc' ) );
-			}
-			if ( trim( $this->_hostparams->get( 'keywords' ) ) )
-			{
-				$config->set( 'MetaKeys', $this->_hostparams->get( 'keywords' ) );
-			}
-			if ( trim( $this->_hostparams->get( 'metatitle' ) ) )
-			{
-				$config->set( 'sitename', $this->_hostparams->get( 'metatitle' ) );
-			}
-
-		}
+		$this->_setConfig();
 
 		//Set the route, if necessary
 		if ( !$this->_reRoute( $currentDomain , $uri ) )
@@ -156,6 +138,29 @@ class plgSystemVirtualdomains extends JPlugin
 
 
 		$this->filterMenus($currentDomain ->menuid);
+	}
+	
+	private function _setConfig() {
+		$config = &JFactory::getConfig();
+		
+		$options = array('MetaDesc', 'sitename', 'list_limit', 'mailfrom', 'fromname');
+		
+		if ( is_object( $this->_hostparams ) )
+		{
+			if ( trim( $this->_hostparams->get( 'keywords' ) ) )
+			{
+				$config->set( 'MetaKeys', $this->_hostparams->get( 'keywords' ) );
+			}
+						
+			foreach($options as $option) {
+				if ( trim( $this->_hostparams->get( strtolower($option) ) ) )
+				{
+					$config->set( $option, $this->_hostparams->get( strtolower($option) ) );
+				}
+					
+			}
+		}
+		
 	}
 
 	/**
@@ -536,7 +541,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$conf = JFactory::getConfig();
 		$cookie_domain 	= $conf->get('config.cookie_domain', '');
 		$cookie_path 	= $conf->get('config.cookie_path', '/');
-		setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+		setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 		// set the request var
 		JRequest::setVar('language',$lang_code,'post');
 		$this->setRequest( 'lang', $lang_code );

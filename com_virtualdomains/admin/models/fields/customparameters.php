@@ -74,7 +74,7 @@ class JFormFieldCustomparameters extends JFormField
         }
         $paramsHtml .= "</div>";
 
-        $paramsHtml .= "<a href=\"javascript:void(null);\" onclick=\"vd.add_key();\">" . JText::_( 'ADD PARAMS FIELD' ) . "</a>";
+        $paramsHtml .= "<a href=\"javascript:void(null);\" onclick=\"vd.add_key();\">" . JText::_( 'ADD_PARAMS_FIELD' ) . "</a>";
         $paramsHtml .= '<p id="vd_key_pattern">
               <div style="display:none" id="remove_pattern"><a class="jgrid"  href="javascript:void(null);" title="' . JText::_( 'REMOVE' ) .
             '" onclick="vd.remove_key(this);"><span class="state unpublish"/><span class="text">' . JText::_( 'REMOVE' ) . '</span></span></a></div>';
