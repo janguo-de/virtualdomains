@@ -70,9 +70,9 @@ class plgSystemVirtualdomains extends JPlugin
 		$this->_hostparams = null;
 
 
-		$app = &JFactory::getApplication();
-		$db = &JFactory::getDBO();
-		$user = &JFactory::getUser();
+		$app = JFactory::getApplication();
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 
 		$conf = JComponentHelper::getParams('com_virtualdomains');
 		
@@ -99,7 +99,7 @@ class plgSystemVirtualdomains extends JPlugin
 		//let joomla do its work, if its the main domain
 		if ($currentDomain === null) return;
 
-		$user = &JFactory::getUser();
+		$user = JFactory::getUser();
 
 
 		$vdUser = new vdUser($user->get('id'));
@@ -141,7 +141,7 @@ class plgSystemVirtualdomains extends JPlugin
 	}
 	
 	private function _setConfig() {
-		$config = &JFactory::getConfig();
+		$config = JFactory::getConfig();
 		
 		$options = array('MetaDesc', 'sitename', 'list_limit', 'mailfrom', 'fromname');
 		
@@ -435,7 +435,7 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	private function setActions( $home = 0 )
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery( 'Select * From #__virtualdomain_params Where 1' );
 		$result = $db->loadObjectList();
 
