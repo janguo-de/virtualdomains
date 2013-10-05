@@ -70,9 +70,9 @@ class plgSystemVirtualdomains extends JPlugin
 		$this->_hostparams = null;
 
 
-		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
-		$user = JFactory::getUser();
+		$app = &JFactory::getApplication();
+		$db = &JFactory::getDBO();
+		$user = &JFactory::getUser();
 
 		$conf = JComponentHelper::getParams('com_virtualdomains');
 		
@@ -88,10 +88,12 @@ class plgSystemVirtualdomains extends JPlugin
 
 
 		$uri = JURI::getInstance();
-
+		
+		if(JRequest::getVar('option') == 'com_virtualdomains') {
+			$this->hostCheck();
+		}
 
 		$this->_curhost = str_replace( 'www.', '', $uri->getHost() );
-
 
 		$currentDomain = $this->_getCurrentDomain();
 
@@ -99,7 +101,7 @@ class plgSystemVirtualdomains extends JPlugin
 		//let joomla do its work, if its the main domain
 		if ($currentDomain === null) return;
 
-		$user = JFactory::getUser();
+		$user = &JFactory::getUser();
 
 
 		$vdUser = new vdUser($user->get('id'));
@@ -140,8 +142,24 @@ class plgSystemVirtualdomains extends JPlugin
 		$this->filterMenus($currentDomain ->menuid);
 	}
 	
+	/**
+	 * Return the host check on backend request
+	 */
+
+	private function hostCheck() {
+		$host = $_SERVER['HTTP_HOST'];
+		$data = json_encode(array('hostname'=>$host));
+		ob_clean();
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+		header('content-type: application/json; charset=utf-8');
+		header("access-control-allow-origin: *");
+		echo json_encode($data);
+		exit;
+	}
+	
 	private function _setConfig() {
-		$config = JFactory::getConfig();
+		$config = &JFactory::getConfig();
 		
 		$options = array('MetaDesc', 'sitename', 'list_limit', 'mailfrom', 'fromname');
 		
@@ -435,7 +453,7 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	private function setActions( $home = 0 )
 	{
-		$db = JFactory::getDBO();
+		$db = &JFactory::getDBO();
 		$db->setQuery( 'Select * From #__virtualdomain_params Where 1' );
 		$result = $db->loadObjectList();
 
@@ -515,16 +533,25 @@ class plgSystemVirtualdomains extends JPlugin
 	/**
 	 *
 	 * Sets the lang Variable, if not set by Joomfish
+	 * Works now for Joomla language feature too
 	 */
 
 	private function setJoomfishLang()
 	{
-		//There is no JoomFish for now :-(
+		// default language is not set
 
 		if ( !$this->_hostparams->get( 'language' ) )
 		{
 			return;
 		}
+		
+		//Joomla Language selection is active?  do nothing
+		$joomlacookie = JRequest::getVar( JApplication::getHash('language'), null, "COOKIE" );
+		if($joomlacookie) {
+			return;
+		} 
+		
+		
 		$lang = new vdLanguage();
 		$lang_code = $this->_hostparams->get( 'language' );
 
@@ -538,6 +565,7 @@ class plgSystemVirtualdomains extends JPlugin
 		{
 			return;
 		}
+		
 		$conf = JFactory::getConfig();
 		$cookie_domain 	= $conf->get('config.cookie_domain', '');
 		$cookie_path 	= $conf->get('config.cookie_path', '/');
