@@ -66,7 +66,9 @@ class plgSystemVirtualdomains extends JPlugin
 	{
 
 		jimport('joomla.user.authentication');
-		jimport('joomla.application.router');
+		if(version_compare(JVERSION, '3.2', 'lt')) {
+			jimport('joomla.application.router');
+		}
 		$this->_hostparams = null;
 
 
