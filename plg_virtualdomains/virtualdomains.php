@@ -146,9 +146,15 @@ class plgSystemVirtualdomains extends JPlugin
 	 * Return the host check on backend request
 	 */
 
-	private function hostCheck() {
-		$host = $_SERVER['HTTP_HOST'];
+private function hostCheck() {
+		$app = JFactory::getApplication();
+		// Joomla 3.2 will throw an error, if language filter is set
+		if(method_exists($app, 'setLanguageFilter')) {
+			$app->setLanguageFilter(false);
+		}		
+		$host = $_SERVER['HTTP_HOST'];		
 		$data = json_encode(array('hostname'=>$host));
+		
 		ob_clean();
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
