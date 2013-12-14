@@ -60,7 +60,7 @@ JHTML::_('behavior.modal', 'a.modal');
           <th  width="29%" class="title"><?php echo JHTML::_( 'grid.sort', 'Template', 'a.template', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
           <th width="13%" class="title"><?php echo JText::_('HOST_CHECK');?></th>
 		  <th width="13%">
-					<?php echo JHtml::_('grid.sort', 'Default_Domain', 'a.default', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					<?php echo JHtml::_('grid.sort', 'Default_Domain', 'a.home', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 		 </th>          
           <th width="13%" class="title"><?php echo JHTML::_( 'grid.sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
           <th width="13%" class="title"><?php echo JText::_('Preview');?> </th>
