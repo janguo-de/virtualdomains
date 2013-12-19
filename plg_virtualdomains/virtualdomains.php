@@ -97,6 +97,20 @@ class plgSystemVirtualdomains extends JPlugin
 
 		$this->_curhost = str_replace( 'www.', '', $uri->getHost() );
 
+		// Cachebuster
+		if (!empty($app->registeredurlparams))
+		{
+			$registeredurlparams = $app->registeredurlparams;
+		}
+		else
+		{
+			$registeredurlparams = new stdClass;
+		}
+		
+		$registeredurlparams->vdcachbuster = 'WORD';				
+		$app->registeredurlparams = $registeredurlparams;		
+		$app->input->set('vdcachbuster',$this->_curhost);
+		
 		$currentDomain = $this->_getCurrentDomain();
 
 		//TODO: Since default domain is found in the table, some things are to proceed...
