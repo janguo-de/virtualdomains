@@ -21,6 +21,8 @@
 
     <li><a href="#02-04-Mccoy-requierements">Anforderungen</a></li>
 
+	<li><a href="#02-05-Mccoy-domains">Domains Setup</a></li>
+
     <li><a href="#03-04-Mccoy-installation">Installation</a></li>
 
     <li><a href="#04-04-Mccoy-configuration">Backend Handbuch</a>
@@ -104,6 +106,31 @@
 
 <hr />
 </div>
+<div class="chapter" id="02-05-Mccoy-domains">
+<a name="02-05-Mccoy-domains" />
+	<h1>Domains Setup </h1>
+	<p>Damit VD funktionieren kann musst du bei der Einrichtung deiner zusätzlichen Domains folgende Regeln beachten:</p>
+	<p>
+		<ol>
+			<li><strong>Gleicher Server:</strong><br />
+			<p>Alle Domains müssen auf dem selben Server liegen und unter gleicher IP-Adresse erreichbar sein</p>	
+			</li>
+			<li><strong>Gleicher Ordner:</strong><br />
+			<p>Der Webserver muss für alle Domains auf den gleichen Ordner zeigen, den Ordner in dem dein Joomla installiert ist</p>
+			</li>
+			<li><strong>Keine Umleitung</strong><br />
+			<p>Es darf keine Umleitung wie z.B. per .htaccess oder eine Frameumleitung verwendet werden.</p>	
+			</li>
+		</ol>
+	</p>
+	<p>Es ist nahezu unmöglich ein konkretes Vorgehen zu beschreiben, da es eine Vielzahl unterschiedlicher Administrationstools für Webhosting gibt. Auch die Bezeichnungen unterscheiden sich. Häufig wird der Begriff Addon-Domain für die benötigte Konfiguration der Domains verwendet.</p>
+	<p>Zur Veranschaulichung des zu erzielenden Ergebnisses dient die folgende Grafik.</p>
+	<p><strong><i>Hintergrund:</i></strong>
+		Ein Webserver verwendet sogenannte Virtual Host Container. Das sind einfache Textdateien, die die Konfiguration einer Domain beschreiben. Eine der wichtigsten Einstellungen ist der Ordner deiner Webseite. 
+		In vielen Fällen hat jede Domain ihren eigenen Ordner. Für unser Ziel ist es jedoch nötig, das alle Domains den selben Ordner verwenden. Wir benötigen also nur einen einzigen Virtual Host Container, in dem die zusätzlichen Domains als "ServerAlias" aufgelistet sind. 
+	</p>
+	<img src="images/redirection.png" />
+</div>
 <div class="chapter" id="03-04-Mccoy-installation">
 <a name="03-04-Mccoy-installation" />
 <h1>Installation<a href="#Installation-04-Checkov" class="wiki-anchor">&para;</a></h1>
@@ -126,7 +153,7 @@
 </div>
 <div class="chapter" id="04-04-Mccoy-configuration">
 <a name="04-04-Mccoy-configuration" />
-<h1>Backend Handbuch (1.0-McCoy)<a href="#Backend-Overview-04-Mccoy" class="wiki-anchor">&para;</a></h1>
+<h1>Backend Handbuch (1.2-McCoy)<a href="#Backend-Overview-04-Mccoy" class="wiki-anchor">&para;</a></h1>
 
 	<p><strong>Virtual Domains Menü</strong></p>
 

@@ -19,7 +19,7 @@
     <li><a href="#01-04-Mccoy-features">New Features</a></li>
 
     <li><a href="#02-04-Mccoy-requierements">Requirements</a></li>
-
+	<li><a href="#02-05-Mccoy-domains">Domains Setup</a></li>
     <li><a href="#03-04-Mccoy-installation">Installation</a></li>
 
     <li><a href="#04-04-Mccoy-configuration">Backend Manual</a>
@@ -117,6 +117,30 @@
 	<p>Learn more about <a id="a-ServerAliases" href="#ServerAliases" class="wiki-page">Server Aliases</a></p>
 
 <hr />
+</div>
+<div class="chapter" id="02-05-Mccoy-domains">
+<a name="02-05-Mccoy-domains" />
+	<h1>Domains Setup </h1>
+	<p>To make VD work, note the following rules for the setup of your additional domains:</p>
+	<p>
+		<ol>
+			<li><strong>Same server:</strong><br />
+			<p>Each domain must reside on the same server and must be accessible from the same IP</p>	
+			</li>
+			<li><strong>Same folder:</strong><br />
+			<p>The webserver must point each domain to the same folder</p>
+			</li>
+			<li><strong>No redirection</strong><br />
+			<p>To achieve that goal, you must not use a redirection like .htaccess oder by frame.</p>	
+			</li>
+		</ol>
+	</p>
+	<p>It's almost impossible to explain the procedure of the setup, because there are a lot of different administration tools for webhosting. Also the terms for the desired feature differs. Frequently the term "addon-domain" is used.</p>
+	<p>The following graphic illustrates the result to be achieved.</p>
+	<p><strong><i>Background:</i></strong>
+		A webserver uses so called virtual host containers. These are simple text files containing the settings of a host/domain. One of the most important settings is the folder of your website. In many cases each domain has it's own folder. For this goal a separate virtual host container will be created. But we have to point the all our domains to same server and same folder. We need a single virtual host container where the additional domains are "Server Aliases" 
+	</p>
+	<img src="images/redirection.png" />
 </div>
 <div class="chapter" id="03-04-Mccoy-installation">
 <a name="03-04-Mccoy-installation" />
