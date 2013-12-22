@@ -62,7 +62,7 @@ class VirtualdomainsControllerHomes extends VirtualdomainsController
      * Cancels the Editing Form
      * @return void
      */
-    function cancel()
+    public function cancel()
     {
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
@@ -80,7 +80,7 @@ class VirtualdomainsControllerHomes extends VirtualdomainsController
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
         $app = JFactory::getApplication();
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
 
         $post = JRequest::getVar( 'jform', array(), 'post', 'array' );
          
@@ -153,7 +153,7 @@ class VirtualdomainsControllerHomes extends VirtualdomainsController
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
         $app = JFactory::getApplication();
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
 
         $post = JRequest::getVar( 'jform', array(), 'post', 'array' );
 		
@@ -178,13 +178,13 @@ class VirtualdomainsControllerHomes extends VirtualdomainsController
     }
     
 
- function unhome()
+ public function unhome()
     {
 
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
 
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
         $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
         JArrayHelper::toInteger( $cid );
         $msg = JText::_('Items_removed_from_the_list_of_home_items' );

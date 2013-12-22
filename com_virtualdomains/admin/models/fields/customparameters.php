@@ -37,7 +37,7 @@ class JFormFieldCustomparameters extends JFormField
 
     protected function getInput()
     {
-        $doc = &JFactory::getDocument();
+        $doc = JFactory::getDocument();
 
         /**
          * file doesn't exists 
@@ -45,7 +45,7 @@ class JFormFieldCustomparameters extends JFormField
          */
         $doc->addScript( JURI::base() . 'components/com_virtualdomains/assets/js/params16.js' );
 
-        $cParams = &JComponentHelper::getParams( 'com_virtualdomains' );
+        $cParams = JComponentHelper::getParams( 'com_virtualdomains' );
 
         $k = $cParams->get( 'costomParameterKey' );
 

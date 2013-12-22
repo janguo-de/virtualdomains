@@ -97,11 +97,9 @@ if ( count( $this->items ) > 0 ):
         <tr class="<?php echo "row$k"; ?>">
           <td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?>.</td>
           <td><?php echo $checked ?></td>
-          <td><?php if ( JTable::isCheckedOut( $this->user->get( 'id' ), $row->checked_out ) ):
-            echo $row->domain;
-        else: ?>
+          <td>        
             <a <?php echo $onclick; ?>href="<?php echo $link; ?>"><?php echo $row->domain; ?></a>
-            <?php endif; ?></td>
+           </td>
           <td><?php echo $row->template ?></td>
           <td style="text-align:center"><span data-host="<?php echo $row->domain; ?>" class="hostcheck"></span></td>
           <td class="center">

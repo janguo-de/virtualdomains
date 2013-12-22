@@ -16,7 +16,7 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
 
     public function display( $tpl = null )
     {
-        $app = &JFactory::getApplication( '' );
+        $app = JFactory::getApplication( '' );
 
         if ( $this->getLayout() == 'form' )
         {
@@ -39,12 +39,12 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
         $search = JString::strtolower( $search );
 
         // Get data from the model
-        $items = &$this->get( 'Data' );
-        $total = &$this->get( 'Total' );
-        $pagination = &$this->get( 'Pagination' );
+        $items = $this->get( 'Data' );
+        $total = $this->get( 'Total' );
+        $pagination = $this->get( 'Pagination' );
         
         /*component parameters @romacron*/
-        $cParams = &JComponentHelper::getParams( 'com_virtualdomains' );
+        $cParams = JComponentHelper::getParams( 'com_virtualdomains' );
         $this->assign( 'cParams', $cParams );
 
         //create the lists
@@ -57,9 +57,9 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
         $lists['search'] = $search;
         $items = $this->get( 'Data' );
         //pagination
-        $pagination = &$this->get( 'Pagination' );
+        $pagination = $this->get( 'Pagination' );
 
-        $this->assignRef( 'user', JFactory::getUser() );
+        $this->assign( 'user', JFactory::getUser() );
         $this->assign( 'lists', $lists );
         $this->assign( 'items', $items );
         $this->assign( 'total', $total );
@@ -80,9 +80,9 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
         if(version_compare(JVERSION, '3', 'lt')) {
         	JHTML::stylesheet( 'bootstrap-forms.css', 'administrator/components/com_virtualdomains/assets/' );
         }
-        $db = &JFactory::getDBO();
-        $uri = &JFactory::getURI();
-        $user = &JFactory::getUser();
+        $db = JFactory::getDBO();
+        $uri = JFactory::getURI();
+        $user = JFactory::getUser();
         $document = JFactory::getDocument();
         $this->form = $this->get( 'Form' );
 
@@ -90,7 +90,7 @@ class VirtualdomainsViewVirtualdomain extends JViewLegacy
 
 
         //get the item
-        $this->item = &$this->get( 'item' );
+        $this->item = $this->get( 'item' );
         
         if(!version_compare(JVERSION,'3.0','lt')) {
         	$this->form->bind(JArrayHelper::fromObject($this->item));

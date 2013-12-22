@@ -50,7 +50,7 @@ class VirtualdomainsController extends JControllerLegacy
     /*
     * Overloaded Method display
     */
-    function display()
+    public function display($cachable = false, $urlparams = array())
     {
 
         switch ( $this->getTask() )
@@ -74,7 +74,7 @@ class VirtualdomainsController extends JControllerLegacy
                 }
                 break;
         }
-        parent::display();
+        parent::display($cachable, $urlparams);
     }
 
     /**
@@ -82,7 +82,7 @@ class VirtualdomainsController extends JControllerLegacy
      *
      */
 
-    function apply()
+    public function apply()
     {
         $this->save();
     }
@@ -103,7 +103,7 @@ class VirtualdomainsController extends JControllerLegacy
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
 
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
 
         $post = JRequest::getVar( 'jform', array(), 'post', 'array' );
         $cid = JRequest::getVar( 'cid', array( 0 ), 'post', 'array' );
@@ -146,7 +146,7 @@ class VirtualdomainsController extends JControllerLegacy
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
 
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
         $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
         JArrayHelper::toInteger( $cid );
         $msg = JText::_( $this->_itemname . ' deleted' );

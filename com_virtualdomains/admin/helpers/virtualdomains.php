@@ -56,14 +56,14 @@ class VirtualdomainsHelper
 		
 		$chapter = ($chapter) ? "#".$chapter : "";
 		
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		
 		if ($jv->RELEASE > 1.5) {
 			$text	= JText::_('JTOOLBAR_HELP');
 		} else {
 			$text = JText::_('Help');
 		}
-		$bar = & JToolBar::getInstance('toolbar');
+		$bar = JToolBar::getInstance('toolbar');
 	
 		//strip extension
 		$icon	= 'icon-32-help';

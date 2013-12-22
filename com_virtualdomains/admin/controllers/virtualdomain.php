@@ -64,18 +64,18 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
      */
     public function edit()
     {
-        $document = &JFactory::getDocument();
+        $document = JFactory::getDocument();
 
         $viewType = $document->getType();
         $viewType = $document->getType();
         $viewName = JRequest::getCmd( 'view', $this->_viewname );
 
-        $view = &$this->getView( $viewName, $viewType );
+        $view = $this->getView( $viewName, $viewType );
         $view->setLayout( 'form' );
         $cid = JRequest::getVar( 'cid', array( 0 ), 'get', 'array' );
         $id = $cid[0];
         
-        $model = &$this->getModel( $this->_viewname );
+        $model = $this->getModel( $this->_viewname );
         
         if ( $id > 0 )
         {
@@ -113,7 +113,7 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'Invalid Token' );
         $app = JFactory::getApplication();
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
 
         $post = JRequest::getVar( 'jform', array(), 'post', 'array' );
         $cid = JRequest::getVar( 'cid', array( 0 ), 'post', 'array' );

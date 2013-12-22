@@ -87,7 +87,7 @@ class VirtualdomainsModel extends JModelLegacy
     {
         parent::__construct( $config );
 
-        $app = &JFactory::getApplication( 'administrator' );
+        $app = JFactory::getApplication( 'administrator' );
         // Guess the option from the class name (Option)Model(View).
         if ( empty( $this->option ) )
         {
@@ -194,7 +194,7 @@ class VirtualdomainsModel extends JModelLegacy
         }
 
         // Initialize variables.
-        $app = &JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         // Get the form.
 
@@ -273,7 +273,7 @@ class VirtualdomainsModel extends JModelLegacy
 
     public function getItem()
     {
-        $item = &$this->getTable();
+        $item = $this->getTable();
         $item->load( $this->_id );
         if ( isset( $item->params ) )
         {
@@ -297,7 +297,7 @@ class VirtualdomainsModel extends JModelLegacy
      */
     public function delete( $cid )
     {
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
         $query = 'DELETE FROM ' . $this->_default_table . ' WHERE id ' . $this->_multiDbCondIfArray( $cid );
         $db->setQuery( $query );
 
@@ -362,7 +362,7 @@ class VirtualdomainsModel extends JModelLegacy
      */
     public function publish( $cid = array(), $publish = 1 )
     {
-        $user = &JFactory::getUser();
+        $user = JFactory::getUser();
         if ( count( $cid ) )
         {
             JArrayHelper::toInteger( $cid );
@@ -388,7 +388,7 @@ class VirtualdomainsModel extends JModelLegacy
      */
     public function saveorder( $cid, $order )
     {
-        $row = &$this->getTable();
+        $row = $this->getTable();
         $groupings = array();
         // update ordering values
         for ( $i = 0; $i < count( $cid ); $i++ )
@@ -417,7 +417,7 @@ class VirtualdomainsModel extends JModelLegacy
      */
     public function move( $direction )
     {
-        $row = &$this->getTable();
+        $row = $this->getTable();
         if ( !$row->load( $this->_id ) )
         {
             $this->setError( $this->_db->getErrorMsg() );
@@ -450,7 +450,7 @@ class VirtualdomainsModel extends JModelLegacy
     {
         if ( $this->_id )
         {
-            $item = &$this->getTable();
+            $item = $this->getTable();
             if ( !$item->checkin( $this->_id ) )
             {
                 $this->setError( $this->_db->getErrorMsg() );
@@ -474,11 +474,11 @@ class VirtualdomainsModel extends JModelLegacy
             // Make sure we have a user id to checkout the vendor with
             if ( is_null( $uid ) )
             {
-                $user = &JFactory::getUser();
+                $user = JFactory::getUser();
                 $uid = $user->get( 'id' );
             }
             // Lets get to it and checkout the thing...
-            $item = &$this->getTable();
+            $item = $this->getTable();
             if ( !$item->checkout( $uid, $this->_id ) )
             {
                 $this->setError( $this->_db->getErrorMsg() );
@@ -540,7 +540,7 @@ class VirtualdomainsModel extends JModelLegacy
     protected function _buildContentOrderBy()
     {
 
-        $app = &JFactory::getApplication( 'administrator' );
+        $app = JFactory::getApplication( 'administrator' );
         $context = $option . '.' . strtolower( $this->getName() ) . '.list.';
         $filter_order = $app->getUserStateFromRequest( $context . 'filter_order', 'filter_order', $this->_default_filter, 'cmd' );
         $filter_order_Dir = $app->getUserStateFromRequest( $context . 'filter_order_Dir', 'filter_order_Dir', '', 'word' );
@@ -558,7 +558,7 @@ class VirtualdomainsModel extends JModelLegacy
     protected function _buildContentWhere()
     {
 
-        $app = &JFactory::getApplication( 'administrator' );
+        $app = JFactory::getApplication( 'administrator' );
         $context = $this->option . '.' . strtolower( $this->getName() ) . '.list.';
         $search = $app->getUserStateFromRequest( $context . 'search', 'search', '', 'string' );
 

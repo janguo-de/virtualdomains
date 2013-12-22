@@ -23,7 +23,7 @@ class VirtualdomainsViewParams  extends JViewLegacy {
 
 	public function display($tpl = null) 
 	{
-		$app = &JFactory::getApplication('');
+		$app = JFactory::getApplication('');
 		if(version_compare(JVERSION, '3', 'lt')) {
 			JHTML::stylesheet( 'bootstrap-forms.css', 'administrator/components/com_virtualdomains/assets/' );
 		}
@@ -41,9 +41,9 @@ class VirtualdomainsViewParams  extends JViewLegacy {
 		$search = JString :: strtolower($search);
 		
 		// Get data from the model
-		$items = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$items = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 			
 
 		// search filter
@@ -55,9 +55,9 @@ class VirtualdomainsViewParams  extends JViewLegacy {
 		$lists['order'] =$filter_order;
 				
 		//pagination
-		$pagination = & $this->get( 'Pagination' );
+		$pagination = $this->get( 'Pagination' );
 		
-		$this->assignRef('user', JFactory :: getUser());
+		$this->assign('user', JFactory :: getUser());
 		$this->assign('lists', $lists);	
 		$this->assign('items', $items);		
 		$this->assign('total', $total);
@@ -76,17 +76,17 @@ class VirtualdomainsViewParams  extends JViewLegacy {
 		JLoader::import('joomla.form.formvalidator', $alt_libdir);		
 		JHTML::stylesheet( 'fields.css', 'administrator/components/com_virtualdomains/assets/' );
 
-		$db			=& JFactory::getDBO();
-		$uri 		=& JFactory::getURI();
-		$user 		=& JFactory::getUser();
+		$db			= JFactory::getDBO();
+		$uri 		= JFactory::getURI();
+		$user 		= JFactory::getUser();
 		$form		= $this->get('Form');
 		
 		$lists = array();
 
-		$editor = & JFactory :: getEditor();
+		$editor = JFactory :: getEditor();
 
 		//get the item
-		$item	=& $this->get('item');
+		$item	=$this->get('item');
 		
 	     if(!version_compare(JVERSION,'3.0','lt')) {
         	$form->bind(JArrayHelper::fromObject($item));
@@ -106,10 +106,10 @@ class VirtualdomainsViewParams  extends JViewLegacy {
 		
 	 	$this->assign('form', $form);
 	 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('editor', $editor);
-		$this->assignRef('item', $item);
-		$this->assignRef('isNew', $isNew);
+		$this->assign('lists', $lists);
+		$this->assign('editor', $editor);
+		$this->assign('item', $item);
+		$this->assign('isNew', $isNew);
 	
 		parent::display($tpl);
 	}

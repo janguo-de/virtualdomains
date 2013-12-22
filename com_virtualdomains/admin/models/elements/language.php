@@ -39,7 +39,7 @@ class JElementLanguage extends JElement
 		
 		$prefix = $mainframe->getCfg('dbprefix');
 
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$class = "inputbox";
 		if(!in_array($prefix.'languages', $db->getTableList())) {
