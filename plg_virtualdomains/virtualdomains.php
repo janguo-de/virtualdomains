@@ -302,7 +302,7 @@ private function hostCheck() {
 	private function getDefaultmenu() {
 		static $_defaultmenu;
 		if(!empty($_defaultmenu)) return $_defaultmenu;
-		$menu = & JMenu::getInstance('site',array());
+		$menu = JMenu::getInstance('site',array());
 		$_defaultmenu = $menu->getDefault();
 		$db = JFactory::getDbo();
 		//fallback
@@ -330,8 +330,8 @@ private function hostCheck() {
 	 */
 	private function _checkHome(&$curDomain) {
 
-		$menu = & JMenu::getInstance('site',array());			
-		$menuItem = & $menu->getItem(( int ) $curDomain->menuid );
+		$menu = JMenu::getInstance('site',array());			
+		$menuItem = $menu->getItem(( int ) $curDomain->menuid );
 			
 		$app = JFactory::getApplication();			
 		$router = $app->getRouter();			
@@ -404,8 +404,8 @@ private function hostCheck() {
 			return false;
 		}
 
-		$menu = & JMenu::getInstance('site',array());
-		$menuItem = & $menu->getItem(( int )$curDomain->menuid );
+		$menu = JMenu::getInstance('site',array());
+		$menuItem = $menu->getItem(( int )$curDomain->menuid );
 		$rewrite = (str_replace('/','',$_SERVER['REQUEST_URI'] ) == '');
 		
 		$origHome = $this->getDefaultmenu();
@@ -521,7 +521,7 @@ private function hostCheck() {
 	private function _switchMenu( & $menu, &$newhome )
 	{
 
-		$nohome = & $menu->getDefault();
+		$nohome = $menu->getDefault();
 		if($nohome !== 0)
 			$nohome->home = null;
 		$newhome->home = 1;
@@ -636,7 +636,7 @@ class vdMenuFilter extends JMenu {
 		$lang =  JFactory::getLanguage()->getTag() ;
 
 		//Get the instance
-		$menu = & parent::getInstance('site',array());
+		$menu = parent::getInstance('site',array());
 			
 		//Set all defaults on default
 		//TODO: Allow language specific home items
