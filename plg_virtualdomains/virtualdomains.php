@@ -677,11 +677,11 @@ class vdMenuFilter extends JMenu {
 class vdLanguage extends JLanguage {
 
 	public function setDefault($lang) {
-		$refresh = & JFactory::getLanguage();
+		$refresh = JFactory::getLanguage();
 		$refresh->metadata['tag'] = $lang;
 
 		$refresh->default	= $lang;
-		$new = & JFactory::getLanguage();
+		$new = JFactory::getLanguage();
 
 	}
 }
