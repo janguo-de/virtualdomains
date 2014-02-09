@@ -350,7 +350,7 @@ private function hostCheck() {
 		}
 
 		// may be we are routed to a component by a form
-		$option = $input->get('option');
+		$option = $app->input->get('option');
 		if($option && ($menuItem->component != $option )) {
 			$curDomain->isHome = false;
 		}
