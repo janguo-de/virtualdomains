@@ -349,6 +349,12 @@ private function hostCheck() {
 			$curDomain->isHome = true;
 		}
 
+		// may be we are routed to a component by a form
+		$option = $input->get('option');
+		if($option && ($menuItem->component != $option )) {
+			$curDomain->isHome = false;
+		}
+				
 		//its clear: we are not at home
 		if(!$curDomain->isHome) return;
 
