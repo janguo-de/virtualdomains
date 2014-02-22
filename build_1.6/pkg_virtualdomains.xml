@@ -25,6 +25,12 @@
 			<td></td>
 		</tr>
 		<tr class="row0">
+			<td class="key" colspan="2">Module - VD Language Switcher</td>
+			<td><strong>Installed</strong></td>
+			<td><img src="../media/media/images/success.png" alt="OK" /></td>
+			<td></td>
+		</tr>		
+		<tr class="row1">
 			<td class="key" colspan="2">Help</td>
 			<td ><a href="http://help.janguo.de/vd/en-GB/index.html#03-04-Mccoy-installation" target="_blank">Manual</a></td>			
 			<td><img src="../media/system/images/notice-info.png" alt="OK" /></td>
@@ -34,11 +40,13 @@
 	</table>
 	<br />
 	<div>Please check <a href="index.php?option=com_plugins">Extensions->Plugin Manager</a> to enable  the <strong>Plugin <i>System - virtualdomains </i></strong>if necessary.</div>
+	<div>For Multilanguage Sites it is required to replace Joomlas Language switcher module with &quot;VD Language switcher&quot;.</div>
 	<br />
 		]]></description>
 	<update>http://janguo.de/vd/update/vd-update.xml</update>
 	<files folder="packages">
 		<file type="plugin" id="virtualdomains" group="system">plg_virtualdomains.zip</file>
-		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>		
+		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>
+		<file type="module" id="mod_vdlanguage" client="site">mod_vdlanguage.zip</file>		
 	</files>
 </extension>

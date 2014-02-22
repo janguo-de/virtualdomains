@@ -22,12 +22,13 @@
 	</target>
 
 	<target name="build">
-		<echo msg="Building package for Joomla 1.6" />
+		<echo msg="Building package" />
 		<mkdir dir="packages" />
 		<copy file="build_1.6/com_virtualdomains.xml" tofile="com_virtualdomains/com_virtualdomains.xml" overwrite="true"/>		
 		
 		<zip destfile="packages/com_virtualdomains.zip" basedir="com_virtualdomains" />
 		<zip destfile="packages/plg_virtualdomains.zip" basedir="plg_virtualdomains" />
+		<zip destfile="packages/mod_vdlanguage.zip" basedir="mod_vdlanguage" />
 
 		<copy file="build_1.6/pkg_virtualdomains.xml" tofile="pkg_virtualdomains.xml" overwrite="true"/>
 		
@@ -41,23 +42,5 @@
 		
 		<delete dir="packages" includeemptydirs="true" />
 	</target>
-	
-	<target name="build-15">
-		<echo msg="Building package for Joomla 1.5." />
-		<copy file="build_1.5/com_virtualdomains.xml" tofile="com_virtualdomains/com_virtualdomains.xml" overwrite="true"/>
-		<copy file="install.package.php" tofile="com_virtualdomains/install.package.php" overwrite="true"/>
-		<mkdir dir="com_virtualdomains/plg_virtualdomains" />
-		<copy todir="com_virtualdomains/plg_virtualdomains"  overwrite="true">
-		  <fileset dir="plg_virtualdomains">
-		    <include name="**/*.*" />
-		  </fileset>
-		</copy>
-		<copy file="uninstall.package.php" tofile="com_virtualdomains/uninstall.package.php" overwrite="true"/>		
-		<zip destfile="${package}-${vd.version}-j2.5-r${revisionx}.zip" basedir="com_virtualdomains" />		
-		<delete file="com_virtualdomains/install.package.php" />
-		<delete file="com_virtualdomains/uninstall.package.php" />
-		<delete dir="com_virtualdomains/plg_virtualdomains" includeemptydirs="true" />		
-		<delete dir="packages" includeemptydirs="true" />			
-	</target>	
 	
 </project>

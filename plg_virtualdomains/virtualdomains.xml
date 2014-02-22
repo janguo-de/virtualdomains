@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension version="1.6" type="plugin" method="upgrade" client="site" group="system">
+<extension version="2.5" type="plugin" method="upgrade" client="site" group="system">
 	<name>System - virtualdomains</name>
 	<creationDate>March 2011</creationDate>	
 	<author>Michael Liebler</author>
