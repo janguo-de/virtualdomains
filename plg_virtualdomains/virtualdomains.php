@@ -143,6 +143,9 @@ class plgSystemVirtualdomains extends JPlugin
 		{
 			$this->setActions();
 		}
+		
+		$this->checkComponent();
+		
 		$this->setJoomfishLang();
 		//set the template
 		if ( $currentDomain->template )
@@ -156,6 +159,40 @@ class plgSystemVirtualdomains extends JPlugin
 
 
 		$this->filterMenus($currentDomain ->menuid);
+		
+	}
+	
+	/**
+	 * Check if a component is denied for current domain
+	 */
+	
+	private function checkComponent() {
+						
+		// get denied components
+		$componentsDenied = (array) $this->_hostparams->get('components');
+		if(!count($componentsDenied)) return;
+		
+		$input = JFactory::getApplication()->input;
+		$option = false;
+
+		//try to get current component from input
+		if (!($option = $input->get('option'))) {
+			
+			//try to get current component from mene
+			$menu = JMenu::getInstance('site',array());
+			$active = $menu->getActive();
+			if ($active && $active->type == 'component') {
+				$option = $active->component;
+			}  
+		}   
+		
+		// check if component is denied
+		if($option && in_array($option, $componentsDenied)) {		
+			JFactory::getLanguage()->load('lib_joomla');	
+			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+		}
+		
+		
 	}
 	
 	/**
