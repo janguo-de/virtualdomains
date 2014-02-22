@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 	<?php $fieldSets = $this->form->getFieldsets( 'params' );
 
 	foreach ( $fieldSets as $name => $fieldset ):
-	if(!in_array($name ,array('menus', 'accesslevels','translation'))) :
+	if(!in_array($name ,array('menus', 'components', 'accesslevels','translation'))) :
 	?>
 	<?php foreach ( $this->form->getFieldset( $name ) as $field ): ?>
 	<?php if ( $field->hidden ): ?>

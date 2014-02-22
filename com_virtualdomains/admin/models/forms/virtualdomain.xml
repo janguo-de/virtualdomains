@@ -121,6 +121,15 @@
 				selfexclude="true" multiple="true" filter="integer" />
 		</fieldset>
 	</fields>
+<fields name="params">
+		<fieldset name="components">
+			<field name="components" type="components" id="components" class="inputbox"
+				labelclass="control-label" label="JFIELD_COMPONENT_LABEL"
+				description="JFIELD_COMPONENT_DESC" default="" size="15"
+				selfexclude="true" multiple="true" filter="string" />
+			/>
+		</fieldset>
+	</fields>	
 	<fields name="params">
 		<fieldset name="menus">
 			<field id="menumode" name="menumode" type="list" class="inputbox"

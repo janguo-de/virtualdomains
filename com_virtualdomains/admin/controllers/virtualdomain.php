@@ -116,6 +116,7 @@ class VirtualdomainsControllerVirtualdomain extends VirtualdomainsController
         $db = JFactory::getDBO();
 
         $post = JRequest::getVar( 'jform', array(), 'post', 'array' );
+
         $cid = JRequest::getVar( 'cid', array( 0 ), 'post', 'array' );
         $post['id'] = ( int )$cid[0];
         $model = $this->getModel( 'virtualdomain' );

@@ -115,6 +115,10 @@ Joomla.submitbutton = function(task) {
 					<?php echo $this->loadTemplate('accesslevels');?>
 				<?php echo $this->endtab ?>
 				
+				<?php echo $this->tabs['components'] ?>
+					<?php echo $this->loadTemplate('components');?>
+				<?php echo $this->endtab ?>
+				
 				<?php echo $this->tabs['translation'] ?>
 					<?php echo $this->loadTemplate('translation');?>         		
          		<?php echo $this->endtab ?>
