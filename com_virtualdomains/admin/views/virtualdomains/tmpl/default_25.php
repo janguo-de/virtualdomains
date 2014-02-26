@@ -49,7 +49,7 @@
 		  <th width="13%">
 					<?php echo JHtml::_('grid.sort', 'Default_Domain', 'a.home', $listDirn, $listOrder ); ?>
 		 </th>          
-          <th width="13%" class="title"><?php echo JHTML::_( 'grid.sort', 'Published', 'a.published', $listDirn, $listOrder ); ?></th>
+          <th width="13%" class="title"><?php echo JHTML::_( 'grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder ); ?></th>
           <th width="13%" class="title"><?php echo JText::_('Preview');?> </th>
           <th width="1%" class="title"><?php echo JHTML::_( 'grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?></th>
         </tr>
