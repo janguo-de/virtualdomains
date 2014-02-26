@@ -28,9 +28,9 @@ class plgSystemVirtualdomains extends JPlugin
 
 	private $_db = null;
 	private $_request = array();
-	private $_hostparams = array();
+	private $_hostparams = null;
 	private $_curhost = array();
-
+	private $input = null;
 
 
 
@@ -40,23 +40,12 @@ class plgSystemVirtualdomains extends JPlugin
 	 * @param	object	$subject The object to observe
 	 * @param 	array   $config  An array that holds the plugin configuration
 	 * @since	1.0
-	*/
+	 */
 	public function plgSystemVirtualdomains( &$subject, $config )
 	{
 		$this->_db = JFactory::getDBO();
+		$this->input = JFactory::getApplication()->input;
 		parent::__construct( $subject, $config );
-	}
-
-	/**
-	 * Method to hide/show Menu items and translate home iiten
-	 *
-	 * @param int $default - Current domains home menu item
-	 */
-	private function filterMenus($default)
-	{
-
-		$menu = new vdMenuFilter();
-		$menu->filterMenues($this->_hostparams, $default);
 	}
 
 	/**
@@ -69,35 +58,34 @@ class plgSystemVirtualdomains extends JPlugin
 		if(version_compare(JVERSION, '3.2', 'lt')) {
 			jimport('joomla.application.router');
 		}
-		$this->_hostparams = null;
 
-
-		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
-		$user = JFactory::getUser();
-
-		$conf = JComponentHelper::getParams('com_virtualdomains');
+		$app 	= JFactory::getApplication();
+		$db 	= JFactory::getDBO();
+		$user 	= JFactory::getUser();
+		$conf 	= JComponentHelper::getParams('com_virtualdomains');
+		$uri = JUri::getInstance();
 		
+		// we just have to give full access for all users in backend - nothing else has to be done
 		if ( $app->isAdmin() )
 		{
 
 			if(!$conf->get('denyadminaccess', 0)) {
 				//Full access for all users in backend
-				$this->_fullAccess();
+				$this->fullAccess();
 			}
 			return; // Dont do anymore in backend
 		}
-
-
-		$uri = JURI::getInstance();
 		
-		if(JRequest::getVar('option') == 'com_virtualdomains') {
+		// this is done when the frontend is called by the ajax check function from VD backend
+		if($this->input->get('option') == 'com_virtualdomains') {
 			$this->hostCheck();
 		}
 
+		// strip the www from hostname
 		$this->_curhost = str_replace( 'www.', '', $uri->getHost() );
 
-		// Cachebuster
+		// Cachebuster - special param for apps registeredurlparams 
+		// prevents getting wrong things from cache store  
 		if (!empty($app->registeredurlparams))
 		{
 			$registeredurlparams = $app->registeredurlparams;
@@ -106,173 +94,255 @@ class plgSystemVirtualdomains extends JPlugin
 		{
 			$registeredurlparams = new stdClass;
 		}
-		
-		$registeredurlparams->vdcachbuster = 'WORD';				
-		$app->registeredurlparams = $registeredurlparams;		
-		$app->input->set('vdcachbuster',$this->_curhost);
-		
-		$currentDomain = $this->_getCurrentDomain();
 
-		//TODO: Since default domain is found in the table, some things are to proceed...
-		//let joomla do its work, if its the main domain
+		$registeredurlparams->vdcachbuster = 'WORD';
+		$app->registeredurlparams = $registeredurlparams;
+		$this->input->set('vdcachbuster',$this->_curhost);
+
+		// get current domains settings 
+		$currentDomain = $this->getCurrentDomain();
+
+		//let joomla do its work, if the domain is not managed by VD
 		if ($currentDomain === null) return;
 
-		$user = JFactory::getUser();
-
-
+		// add viewlevel(s) for the current domain to the user object
 		$vdUser = new vdUser($user->get('id'));
-
+		// there may be viewlevels inherited from other domains 
 		$viewlevels =  (array) $currentDomain ->params->get('access');
-
+		// add current domains viewlevel
 		$viewlevels[] = $currentDomain ->viewlevel;
-
+		// override method addAuthorisedViewLevels 
 		vdJAccess::addAuthorisedViewLevels($user->get('id'), $viewlevels);
-
+		// add viewlevels to the user object
 		$vdUser->addAuthLevel($viewlevels);
 
 
-		// Set Meta Data
+		// Get the params
 		$this->_hostparams = $currentDomain ->params;
 
-		if(isset($currentDomain ->Team_ID) && $currentDomain ->Team_ID) $GLOBALS['Team_ID'] = $currentDomain ->Team_ID;
+		// legacy global var for the developers needs
+		if(isset($currentDomain->Team_ID) && $currentDomain->Team_ID) $GLOBALS['Team_ID'] = $currentDomain->Team_ID;
 
-		$this->_setConfig();
+		// override the original config with domain specific settings
+		$this->setConfig();
 
 		//Set the route, if necessary
-		if ( !$this->_reRoute( $currentDomain , $uri ) )
+		if ( !$this->reRoute( $currentDomain , $uri ) )
 		{
 			$this->setActions();
 		}
-		
+    
+	    // check if admin denied access to some components	
 		$this->checkComponent();
 		
-		$this->setJoomfishLang();
+		// set default languaeg if required
+		$this->setLangVars();
+
 		//set the template
 		if ( $currentDomain->template )
 		{
-			JRequest::setVar( 'template', $currentDomain ->template );
+			$this->addRequest('template' , $currentDomain ->template );
+				
 			if( $currentDomain ->template_style_id ) {
-				JRequest::setVar( 'templateStyle', $currentDomain ->template_style_id );
+				$this->addRequest( 'templateStyle' , $currentDomain ->template_style_id);
 			}
 		}
-
-
-
-		$this->filterMenus($currentDomain ->menuid);
 		
+		// filter menues if required
+		$this->filterMenus($currentDomain ->menuid);
+
+		//set all requests
+		$this->setRequests();
 	}
-	
+
+	/**
+	 *
+	 * Method to add or set a var to the request
+	 */
+	private function addRequest( $var, $value )
+	{
+		$this->_request[$var] = $value;
+	}	
+
 	/**
 	 * Check if a component is denied for current domain
 	 */
-	
 	private function checkComponent() {
-						
+	
 		// get denied components
 		$componentsDenied = (array) $this->_hostparams->get('components');
 		if(!count($componentsDenied)) return;
-		
+	
 		$input = JFactory::getApplication()->input;
 		$option = false;
-
+	
 		//try to get current component from input
 		if (!($option = $input->get('option'))) {
-			
+	
 			//try to get current component from mene
 			$menu = JMenu::getInstance('site',array());
 			$active = $menu->getActive();
 			if ($active && $active->type == 'component') {
 				$option = $active->component;
-			}  
-		}   
-		
+			}
+		}
+	
 		// check if component is denied
-		if($option && in_array($option, $componentsDenied)) {		
-			JFactory::getLanguage()->load('lib_joomla');	
-			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+		if($option && in_array($option, $componentsDenied)) {
+			JFactory::getLanguage()->load('lib_joomla');
+			if (class_exists('Exception')) {
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			} else {
+				JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+			}
 		}
-		
-		
 	}
 	
 	/**
-	 * Return the host check on backend request
+	 *
+	 * Method to check, if current menu item is the domains home
+	 * @param object $curDomain
 	 */
-
-private function hostCheck() {
+	private function checkHome(&$curDomain) {
+	
+		$menu = JMenu::getInstance('site',array());
+		$menuItem = $menu->getItem(( int ) $curDomain->menuid );
+			
 		$app = JFactory::getApplication();
-		// Joomla 3.2 will throw an error, if language filter is set
-		if(method_exists($app, 'setLanguageFilter')) {
-			$app->setLanguageFilter(false);
-		}		
-		$host = $_SERVER['HTTP_HOST'];		
-		$data = json_encode(array('hostname'=>$host));
-		
-		ob_clean();
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-		header('content-type: application/json; charset=utf-8');
-		header("access-control-allow-origin: *");
-		echo json_encode($data);
-		exit;
-	}
+		$router = $app->getRouter();
+		$uri = JURI::getInstance();
+		$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
 	
-	private function _setConfig() {
-		$config = JFactory::getConfig();
-		
-		$options = array('MetaDesc', 'sitename', 'list_limit', 'mailfrom', 'fromname');
-		
-		if ( is_object( $this->_hostparams ) )
+		$origHome = $this->getDefaultmenu();
+		$curDomain->isHome = false;
+		$curDomain->query_link = $router->parse( clone ( $uri ) );
+		$curDomain->activeItemId  = ( int )$curDomain->query_link['Itemid'];
+			
+		//do nothing, if we are not on frontpage
+		if (  ( int )$curDomain->query_link['Itemid'] === ( int )$origHome->id  )
 		{
-			if ( trim( $this->_hostparams->get( 'keywords' ) ) )
-			{
-				$config->set( 'MetaKeys', $this->_hostparams->get( 'keywords' ) );
-			}
-						
-			foreach($options as $option) {
-				if ( trim( $this->_hostparams->get( strtolower($option) ) ) )
-				{
-					$config->set( $option, $this->_hostparams->get( strtolower($option) ) );
-				}
+			$curDomain->isHome = true;
+		}
+	
+		// may be we are routed to a component by a form
+		$option = $app->input->get('option');
+		if($option && ($menuItem->component != $option )) {
+			$curDomain->isHome = false;
+		}
+	
+		//its clear: we are not at home
+		if(!$curDomain->isHome) return;
+	
+		if($mode_sef) {
+			$route	= $uri->getPath();
+			$route_lowercase = JString::strtolower($route);
+	
+			// Handle an empty URL (special case)
+			if (empty($route)) {
+				$curDomain->isHome = false;
+			} elseif($route_lowercase === '/') {
+				$curDomain->isHome = true;
+			} else {
+				$items = array_reverse($menu->getMenu());
+	
+				$found = false;
 					
+				foreach ($items as $item) {
+					$length = strlen($item->route); //get the length of the route
+	
+					if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
+						$route = substr($route, $length);
+						if ($route) {
+							$route = substr($route, 1);
+						}
+						$found = true;
+						break;
+					}
+				}
+	
+				//this is the case, if active menu item has changed before
+				if(!$found) {
+					$curDomain->isHome = false;
+					return;
+				}
 			}
 		}
-		
 	}
-
-	/**
-	 * Give access on all domains
-	 */
 	
-	private function _fullAccess() {
-		
-		// Needed for searching articles on backend, 
+	/**
+	 * Method to hide/show Menu items and translate home item
+	 *
+	 * @param int $default - Current domains home menu item
+	 */
+	private function filterMenus($default)
+	{
+	
+		$menu = new vdMenuFilter();
+		$menu->filterMenues($this->_hostparams, $default);
+	}
+	
+	/**
+	 * Gives the user access on all domains - used for the backend
+	 */
+	private function fullAccess() {
+
+		// Needed for searching articles on backend,
 		// thanks to Javi
 		$db = JFactory::getDbo();
-		$db->setQuery("SELECT * FROM #__virtualdomain");
 		$user = JFactory::getUser();
-		$allDomains = $db->loadObjectList();
 		
+		// get VD domains from db
+		$db->setQuery("SELECT * FROM #__virtualdomain");		
+		$allDomains = $db->loadObjectList();
+
 		if ($error = $db->getErrorMsg())
 		{
-			JError::raiseWarning(500, $error);
+			if(class_exists('Exception')) {
+				throw new Exception($error, 500);
+			} else {
+				JError::raiseWarning(500, $error);
+			}
+				
 			return false;
 		}
 		
+		// current user
 		$vdUser = new vdUser($user->get('id'));
-		
+
+		// assign all viewlevels to user session
 		foreach($allDomains as $domain) {
 			$viewlevels[] = $domain ->viewlevel;
 			$vdUser->addAuthLevel($viewlevels);
 		}
 	}
-	
+
+	/**
+	 * Method to get the uri base path
+	 * we dont need the $path .= '/';
+	 * joomla does this for us
+	 */
+	private function getBase()
+	{
+		$path = '';
+		if ( strpos( php_sapi_name(), 'cgi' ) !== false && !empty( $_SERVER['REQUEST_URI'] ) )
+		{
+			//Apache CGI
+			$path = rtrim( dirname( str_replace( array( '"', '<', '>', "'" ), '', $_SERVER["PHP_SELF"] ) ), '/\\' );
+			# var_dump($path);
+		} else
+		{
+			//Others
+			$path = rtrim( dirname( $_SERVER['SCRIPT_NAME'] ), '/\\' );
+		}
+		/*	$path .= '/';*/
+		return $path;
+	}
+
 	/**
 	 * Get domains data from database
 	 * @return object|NULL <mixed, NULL>
-	 */
-	
-	private function _getCurrentDomain() {
+	 */	
+	private function getCurrentDomain() {
 			
 		static $instance;
 			
@@ -286,7 +356,7 @@ private function hostCheck() {
 				"SELECT * FROM #__virtualdomain
 				WHERE `domain` = ".$db->Quote($this->_curhost )
 		);
-
+	
 		$curDomain = $db->loadObject();
 			
 		if($db->getError() ) {
@@ -296,14 +366,14 @@ private function hostCheck() {
 		if($curDomain === null) {
 			return null;
 		}
-
+	
 		$curDomain->params = new JObject(json_decode($curDomain->params));
-
+	
 		//Set the global override styles settings, if not configured
 		if($curDomain->params->get('override') === '') $curDomain->params->set('override',$vd->params->get('override'));
 			
 		$router = JSite::getRouter();
-
+	
 		$uri = JURI::getInstance();
 			
 		// Standard Domain uses Joomla settings
@@ -311,12 +381,12 @@ private function hostCheck() {
 			$curDomain->template = null;
 			$curDomain->menuid = null;
 		}
-
-		$this->_checkHome($curDomain);
-
+	
+		$this->checkHome($curDomain);
+	
 		//override style?
 		switch($curDomain->params->get('override')) {
-
+	
 			case 1:
 				if(!$curDomain->isHome ) {
 					$curDomain->template = null;
@@ -326,191 +396,136 @@ private function hostCheck() {
 				$curDomain->template = null;
 				break;
 		}
-
+	
 		$instance = $curDomain;
 			
 		return $instance;
-	}
-
+	}	
+	
 	/**
-	 * Get default home menu item 
+	 * Get default home menu item
 	 * @return _defaultmenu <object| NULL>
 	 */
 	private function getDefaultmenu() {
 		static $_defaultmenu;
+		
 		if(!empty($_defaultmenu)) return $_defaultmenu;
+		
 		$menu = JMenu::getInstance('site',array());
 		$_defaultmenu = $menu->getDefault();
-		$db = JFactory::getDbo();
-		//fallback
-			
+
+		//fallback if default home item was not found 			
 		if($_defaultmenu === 0) {
 			$lang = JFactory::getLanguage();
+			$db = JFactory::getDbo();
+			
+			// first try to find a language specific home item
 			$query  = "SELECT * FROM #__menu WHERE home = 1 AND language = ".$db->Quote(JFactory::getLanguage()->getTag())." AND published >0";
 			$db->setQuery($query);
 			$_defaultmenu = $db->loadObject();
+			
+			// language specific home item was not found - get the global one
 			if($_defaultmenu === null) {
 				$query  = "SELECT * FROM #__menu WHERE home = 1 AND language = '*' AND published >0";
 				$db->setQuery($query);
 				$_defaultmenu = $db->loadObject();
 			}
 		}
-
-		return $_defaultmenu;
-
-	}
-
+	
+		return $_defaultmenu;	
+	}	
+	
 	/**
-	 *
-	 * Method to check, if current menu item is the domains home
-	 * @param object $curDomain
-	 */
-	private function _checkHome(&$curDomain) {
-
-		$menu = JMenu::getInstance('site',array());			
-		$menuItem = $menu->getItem(( int ) $curDomain->menuid );
-			
-		$app = JFactory::getApplication();			
-		$router = $app->getRouter();			
-		$uri = JURI::getInstance();
-		$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
-
-		$origHome = $this->getDefaultmenu();			
-		$curDomain->isHome = false;			
-		$curDomain->query_link = $router->parse( clone ( $uri ) );
-		$curDomain->activeItemId  = ( int )$curDomain->query_link['Itemid'];
-			
-		//do nothing, if we are not on frontpage
-		if (  ( int )$curDomain->query_link['Itemid'] === ( int )$origHome->id  )
-		{
-			$curDomain->isHome = true;
+	 * Return the host check on backend request
+	 */	
+	private function hostCheck() {
+		$app = JFactory::getApplication();
+		// Joomla 3.2 will throw an error, if language filter is set
+		if(method_exists($app, 'setLanguageFilter')) {
+			$app->setLanguageFilter(false);
 		}
-
-		// may be we are routed to a component by a form
-		$option = $app->input->get('option');
-		if($option && ($menuItem->component != $option )) {
-			$curDomain->isHome = false;
-		}
-				
-		//its clear: we are not at home
-		if(!$curDomain->isHome) return;
-
-		if($mode_sef) {
-			$route	= $uri->getPath();
-			$route_lowercase = JString::strtolower($route);
-
-			// Handle an empty URL (special case)
-			if (empty($route)) {
-				$curDomain->isHome = false;
-			} elseif($route_lowercase === '/') {
-				$curDomain->isHome = true;
-			} else {
-				$items = array_reverse($menu->getMenu());
-
-				$found = false;
-					
-				foreach ($items as $item) {
-					$length = strlen($item->route); //get the length of the route
-
-					if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
-						$route = substr($route, $length);
-						if ($route) {
-							$route = substr($route, 1);
-						}
-						$found = true;
-						break;
-					}
-				}
-
-				//this is the case, if active menu item has changed before
-				if(!$found) {
-					$curDomain->isHome = false;
-					return;
-				}
-			}
-		}
+		$host = $_SERVER['HTTP_HOST'];
+		$data = json_encode(array('hostname'=>$host));
+	
+		ob_clean();
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+		header('content-type: application/json; charset=utf-8');
+		header("access-control-allow-origin: *");
+		echo json_encode($data);
+		exit;
 	}
-
+	
 	/**
 	 *
 	 *  Routes to VD-Hosts home, if necessery
-	 */
-
-	private function _reRoute($curDomain, &$uri )
+	 */	
+	private function reRoute($curDomain, &$uri )
 	{
-
 		//Is this the default domain?
 		if($curDomain->home == 1) return;
-
+	
 		if ( $this->params->get( 'noreroute' ) )
 		{
 			return false;
 		}
-
-		$menu = JMenu::getInstance('site',array());
-		$menuItem = $menu->getItem(( int )$curDomain->menuid );
-		$rewrite = (str_replace('/','',$_SERVER['REQUEST_URI'] ) == '');
-		
-		$origHome = $this->getDefaultmenu();
-
-
+	
+		// get domains home item
+		$menu = JMenu::getInstance('site', array());
+		$menuItem = $menu->getItem( ( int ) $curDomain->menuid );
 		if ( !$menuItem )
 		{
 			//item is lost
 			return false;
 		}
 
+		// if / is called this should be home and we have to rewrite the request uri
+		$rewrite = (str_replace('/', '', $_SERVER['REQUEST_URI'] ) == '');
+
+		// the menu link
 		$menulink = $menuItem->link;
-
-		$this->_switchMenu( $menu,$menuItem );
-
-		//do nothing, if we are not on frontpage
+	
+		// change menu properties to point to the new home item
+		$this->switchMenu( $menu, $menuItem );
+	
+		//do nothing else, if we are not on frontpage
 		if ( !$curDomain->isHome )
 		{
 			return false;
-		}
-
+		}	
+		
+		// set domains home item as active item
 		$menu->setActive( $curDomain->menuid );
-		$this->setRequest( 'Itemid', $curDomain->menuid );
-
+		// push itemid to the request
+		$this->addRequest( 'Itemid', $curDomain->menuid );
+	
 		//rewrite the uri
 		$link = $menulink . "&Itemid=" . $curDomain->menuid;
-
-		//Parse the new Url
-		//var_dump( $this->_getBase() );
-
-		$parse = parse_url( $this->_getBase() . $link );
-
+	
+		//Parse the new Url	
+		$parse = parse_url( $this->getBase() . $link );
+	
 		//Build the new Query
 		if($rewrite) {
 			$request = array();
 			parse_str( $parse['query'], $request );
-
+	
 			$this->_request = array_merge( $request, $this->_request );
 			$parse['query'] = JURI::buildQuery( $this->_request );
-
+	
 			//rewrite some server environment vars to fool joomla
 			$_SERVER['QUERY_STRING'] = $parse['query'];
 		}
-		$_SERVER['REQUEST_URI'] = $this->_getBase() . $link;
-		$_SERVER['PHP_SELF'] = $this->_getBase() . $parse['path'];
-		$_SERVER['SCRIPT_NAME'] = $this->_getBase() . $parse['path'];
+		$_SERVER['REQUEST_URI'] = $this->getBase() . $link;
+		$_SERVER['PHP_SELF'] = $this->getBase() . $parse['path'];
+		$_SERVER['SCRIPT_NAME'] = $this->getBase() . $parse['path'];
 		$_SERVER['SCRIPT_FILENAME'] = $_SERVER['DOCUMENT_ROOT'] . '/'. preg_replace( '#[/\\\\]+#', '/', $parse['path'] );
-
+	
 		//set userdefined actions
 		$this->setActions( 1 );
-		//return true;
-		//var_dump($this->_request);
-		if(count($this->_request)) {
-			foreach( $this->_request as $key=>$var) {
-				JRequest::setVar($key,$var,'get');
-				JRequest::setVar($key,$var,'post');
-			}
-		}
-
+	
 		return true;
-	}
-
+	}	
 
 	/**
 	 *
@@ -542,13 +557,7 @@ private function hostCheck() {
 								$GLOBALS[$result[$i]->name] = $value;
 								break;
 							case 'request':
-								if ( $home )
-								{
-									$this->setRequest( $result[$i]->name, $value );
-								} else
-								{
-									JRequest::setVar( $result[$i]->name, $value );
-								}
+								$this->addRequest( $result[$i]->name, $value );
 								break;
 						}
 					}
@@ -558,50 +567,35 @@ private function hostCheck() {
 	}
 
 	/**
-	 *
-	 *  Method to switch the menu to the VD-hosts home
+	 * Change the domains global settings
 	 */
-	private function _switchMenu( & $menu, &$newhome )
-	{
-
-		$nohome = $menu->getDefault();
-		if($nohome !== 0)
-			$nohome->home = null;
-		$newhome->home = 1;
-		$menu->setDefault( $newhome->id);
-		//$menu->setActive($newhome);
-	}
-
-	/**
-	 * Method to add or set a var to the request
-	 * we dont need the $path .= '/';
-	 * joomla does this for us
-	 */
-	private function _getBase()
-	{
-		$path = '';
-		if ( strpos( php_sapi_name(), 'cgi' ) !== false && !empty( $_SERVER['REQUEST_URI'] ) )
+	private function setConfig() {
+		$config = JFactory::getConfig();
+		// options that can be changed
+		$options = array('MetaDesc', 'sitename', 'list_limit', 'mailfrom', 'fromname');
+	
+		if ( is_object( $this->_hostparams ) )
 		{
-			//Apache CGI
-			$path = rtrim( dirname( str_replace( array( '"', '<', '>', "'" ), '', $_SERVER["PHP_SELF"] ) ), '/\\' );
-			# var_dump($path);
-		} else
-		{
-			//Others
-			$path = rtrim( dirname( $_SERVER['SCRIPT_NAME'] ), '/\\' );
-		}
-		/*	$path .= '/';*/
-		return $path;
+			// keywords is different fro Joomlas var MetaKeys - set it separately
+			if ( trim( $this->_hostparams->get( 'keywords' ) ) )
+			{
+				$config->set( 'MetaKeys', $this->_hostparams->get( 'keywords' ) );
+			}
+	
+			// Now iter over the available options that can be overrided
+			foreach($options as $option) {
+				if ( trim( $this->_hostparams->get( strtolower($option) ) ) )
+				{
+					$config->set( $option, $this->_hostparams->get( strtolower($option) ) );
+				}					
+			}
+		}	
 	}
-
 	
 	/**
-	 *
-	 * Sets the lang Variable, if not set by Joomfish
-	 * Works now for Joomla language feature too
+	 * Method to set a domain specific default language
 	 */
-
-	private function setJoomfishLang()
+	private function setLangVars()
 	{
 		// default language is not set
 
@@ -609,59 +603,85 @@ private function hostCheck() {
 		{
 			return;
 		}
-		
+
+		$hash = method_exists('JApplicationHelper', 'getHash') ? JApplicationHelper::getHash('language') : JApplication::getHash('language');
+
 		//Joomla Language selection is active?  do nothing
-		$joomlacookie = JRequest::getVar( JApplication::getHash('language'), null, "COOKIE" );
+		$joomlacookie = $this->input->cookie->get($hash);
 		if($joomlacookie) {
 			return;
-		} 
-		
-		
+		}
+
+		// we have to override the joomla method to set the language
 		$lang = new vdLanguage();
 		$lang_code = $this->_hostparams->get( 'language' );
 
 		$lang->setDefault($this->_hostparams->get( 'language' ));
 		$lang = JFactory::getLanguage();
-		$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
-		$default_lang = JComponentHelper::getParams('com_languages')->get('site',$this->_hostparams->get( 'language' ));
-		$sef 	= $lang_codes[$default_lang]->sef;
-		$jfcookie = JRequest::getVar( 'jfcookie', null, "COOKIE" );
+		
+		// don't override Joomfish cookie if present
+		$jfcookie = $this->input->cookie->get('jfcookie');
 		if ( isset( $jfcookie["lang"] ) && $jfcookie["lang"] != "" )
 		{
 			return;
 		}
 		
+		// set Joomfish cookie 
 		$conf = JFactory::getConfig();
 		$cookie_domain 	= $conf->get('config.cookie_domain', '');
 		$cookie_path 	= $conf->get('config.cookie_path', '/');
-		setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
-		// set the request var
-		JRequest::setVar('language',$lang_code,'post');
-		$this->setRequest( 'lang', $lang_code );
+		setcookie($hash , $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+
+		// set the request var Joomla and Joomfish style
+		$this->addRequest( 'lang', $lang_code );
 		$_POST['lang'] = $lang_code ;
-		$this->setRequest( 'language', $this->_hostparams->get( 'language' ));
+		$this->addRequest( 'language', $lang_code);
 	}
-
-
 
 	/**
-	 *
-	 * Method to add or set a var to the request
+	 * Method to set the requests
 	 */
-	private function setRequest( $var, $value )
+	private function setRequests() {
+		if(count($this->_request)) {
+			foreach( $this->_request as $key=>$var) {
+				// set the request
+				$this->input->set($key, $var);
+				// legacy method
+				if (class_exists('JRequest')) {
+					JRequest::setVar($key,$var,'get');
+					JRequest::setVar($key,$var,'post');
+				}
+			}
+		}		
+	}	
+	
+	/**
+	 *
+	 *  Method to switch the menu to the VD-hosts home
+	 */
+	private function switchMenu( & $menu, &$newhome )
 	{
-		$this->_request[$var] = $value;
+	
+		// nohome should be a reference to menu object
+		$nohome = $menu->getDefault();
+		
+		// unset old home item
+		if($nohome !== 0) {
+			$nohome->home = null;
+		}
+		
+		// set new home item
+		$newhome->home = 1;
+		$menu->setDefault( $newhome->id);
 	}
-
+	
 }
 
 /**
  *
  * Dummy JMenu Class
  * @author michel
- *
  */
-
 class vdMenuFilter extends JMenu {
 	/**
 	 *
@@ -675,7 +695,7 @@ class vdMenuFilter extends JMenu {
 		$filter = $params->get( 'menumode' );
 		$items = $params->get( 'menufilter' );
 		$translatations = $params->get( 'translatemenu' );
-		
+
 		$lang =  JFactory::getLanguage()->getTag() ;
 
 		//Get the instance
@@ -697,6 +717,7 @@ class vdMenuFilter extends JMenu {
 					$item->title = $menutranslation;
 				}
 			}
+			
 			switch($filter) {
 				case "hide":
 					//Delete menu item, if the item id  is in the items list
@@ -741,15 +762,8 @@ class vdJAccess extends JAccess {
 	public static function addAuthorisedViewLevels($userId, $viewlevels)
 	{
 
-			
-		if (class_exists('JComponentHelper'))
-		{
-			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-		}
-		else
-		{
-			$guestUsergroup = 1;
-		}
+
+		$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 		// Get a database object.
 		$db = JFactory::getDbo();
@@ -770,11 +784,11 @@ class vdJAccess extends JAccess {
 			//The magic: guest usergroup must never be configured in database and is now added dynamically
 			if(in_array($level['id'], $viewlevels) &! in_array($guestUsergroup, $rules)) {
 				$rules[] = $guestUsergroup;
-
 			}
+			
 			self::$viewLevels[$level['id']] = $rules;
 
-		}			
+		}
 	}
 }
 
@@ -793,8 +807,7 @@ class vdUser extends JUser {
 
 	/**
 	 *
-	 * This method proceeds a pseudo login for guests
-	 * The viewlevel is pushed to the user object
+	 * This method pushs additional auth levels to the user object
 	 *
 	 * @param array $viewlevels
 	 */
@@ -808,21 +821,19 @@ class vdUser extends JUser {
 
 		if(!$this->id) {
 			$user->guest = 1;
-
 		}
+		
 		$user->_authLevels=  $user->getAuthorisedViewLevels();
 
 		//Now add all access levels assigned to this domain
 		foreach($viewlevels as $viewlevel) {
 			if($viewlevel && !in_array($viewlevel, $user->_authLevels)) {
 				$user->_authLevels[] = (int) $viewlevel;
-
 			}
 		}
 			
 		//put this to the session
 		$session = JFactory::getSession();
 		$session->set('user', $user);
-
 	}
 }
