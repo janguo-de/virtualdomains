@@ -1,6 +1,11 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2014, Michael Liebler. All rights reserved.
+ * @license #http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+  defined('_JEXEC') or die('Restricted access');
   
   $user		= JFactory::getUser();
   $userId		= $user->get('id');

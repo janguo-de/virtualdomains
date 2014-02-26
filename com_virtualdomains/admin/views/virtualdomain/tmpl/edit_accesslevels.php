@@ -1,11 +1,11 @@
-<?php 
+<?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_virtualdomains
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @version		$Id$
+ * @copyright	Copyright (C) 2014, Michael Liebler. All rights reserved.
+ * @license #http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
-
-defined('_JEXEC') or die;
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 ?>
 <fieldset class="panelform">
 	<legend>

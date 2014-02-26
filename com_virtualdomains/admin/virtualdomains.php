@@ -4,8 +4,8 @@
  * @package    joomla
  * @subpackage Virtualdomains
  * @author	   	Michael Liebler
- *  @copyright  	Copyright (C) 2014, Michael Liebler. All rights reserved.
- *  @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @copyright  	Copyright (C) 2014, Michael Liebler. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
 //--No direct access

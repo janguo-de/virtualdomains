@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: default_controller.php 136 2013-09-24 14:49:14Z michel $ $Revision$ $DAte$ $Author$ $
+* @version		$Id: virtualdomain.php 136 2013-09-24 14:49:14Z michel $ $Revision$ $DAte$ $Author$ $
 * @package		Virtualdomains
 * @subpackage 	Controllers
 * @copyright	Copyright (C) 2014, Michael Liebler. All rights reserved.

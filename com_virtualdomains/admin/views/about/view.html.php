@@ -1,18 +1,14 @@
-<?php
+ <?php
 /**
-* @version		$Id: view.html.php 10381 2009-10-20 10:15:11Z mliebler $
- * @package		Virtualdomains
- * @subpackage	Virtualdomains
- * @author     	Michael Liebler {@link http://www.janguo.de}
- * @copyright	Copyright (C) 2008 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Virtualdomains is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
- */
+* @version		$Id:view.html.php 1 2014-02-26 11:56:55Z mliebler $
+* @package		Virtualdomains
+* @subpackage 	Views
+* @copyright	Copyright (C) 2014, Michael Liebler. All rights reserved.
+* @license #http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+*/
 
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
 defined('_JEXEC') or die( 'Restricted access' );
 

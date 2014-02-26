@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id:virtualdomain.php 1 2014-02-26 11:56:55Z mliebler $
+ * @version		$Id:view.html.php 1 2014-02-26 11:56:55Z mliebler $
  * @package		Virtualdomains
  * @subpackage 	Views
  * @copyright	Copyright (C) 2014, Michael Liebler. All rights reserved.
