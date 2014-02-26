@@ -1,22 +1,17 @@
-<?php /**
- * @version		$Id:controller.php 1 2010-10-23Z  $
- * @author	   	
+<?php
+/**
+ * @version		$Id:controller.php 1 2014-02-26Z mliebler $
+ * @author	   	Michael Liebler
  * @package    Virtualdomains
  * @subpackage Controllers
-* @author     	Michael Liebler {@link http://www.janguo.de}
-* @copyright	Copyright (C) 2008 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Virtualdomains is free software. This version may have been modified pursuant to the
-* GNU General Public License, and as distributed it includes or is derivative
-* of works licensed under the GNU General Public License or other free or open
-* source software licenses. See COPYRIGHT.php for copyright notices and
-* details.
-*/
+ * @copyright  	Copyright (C) 2014, Michael Liebler. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * Virtualdomains Standard Controller
@@ -26,142 +21,39 @@ jimport( 'joomla.application.component.controller' );
  */
 class VirtualdomainsController extends JControllerLegacy
 {
+	/**
+	 * @var		string	The default view.
+	 * @since   1.6
+	 */
+	protected $default_view = 'virtualdomains';
+	
+	/**
+	 * Method to display a view.
+	 *
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
+	 */
+	public function display($cachable = false, $urlparams = false)
+	{
+	
+		if(version_compare(JVERSION,'3','<')){
+			$view   = JRequest::getVar('view', 'virtualdomains');
+			$layout = JRequest::getVar('layout', 'default');
+			$id     = JRequest::getInt('id');
+		} else {
+			$view   = $this->input->get('view', 'virtualdomains');
+			$layout = $this->input->get('layout', 'default');
+			$id     = $this->input->getInt('id');
+		}
+		
+		parent::display();
+	
+		return $this;
+	}
 
-    protected $_viewname = 'item';
-    protected $_mainmodel = 'item';
-    protected $_itemname = 'Item';
-
-    /**
-     * Constructor
-     */
-
-    public function __construct( $config = array() )
-    {
-
-        parent::__construct( $config );
-
-        if ( isset( $config['viewname'] ) ) $this->_viewname = $config['viewname'];
-        if ( isset( $config['mainmodel'] ) ) $this->_mainmodel = $config['mainmodel'];
-        if ( isset( $config['itemname'] ) ) $this->_itemname = $config['itemname'];
-        JRequest::setVar( 'view', $this->_viewname );
-
-    }
-
-    /*
-    * Overloaded Method display
-    */
-    public function display($cachable = false, $urlparams = array())
-    {
-
-        switch ( $this->getTask() )
-        {
-            case 'add':
-                {
-                    JRequest::setVar( 'hidemainmenu', 1 );
-                    JRequest::setVar( 'layout', 'form' );
-                    JRequest::setVar( 'view', $this->_viewname );
-                    JRequest::setVar( 'edit', false );
-
-                }
-                break;
-            case 'edit':
-                {
-                    JRequest::setVar( 'hidemainmenu', 1 );
-                    JRequest::setVar( 'layout', 'form' );
-                    JRequest::setVar( 'view', $this->_viewname );
-                    JRequest::setVar( 'edit', true );
-
-                }
-                break;
-        }
-        parent::display($cachable, $urlparams);
-    }
-
-    /**
-     *stores the item and returnss to previous page 
-     *
-     */
-
-    public function apply()
-    {
-        $this->save();
-    }
-    /**
-     *store the item and open new page
-     *
-     */
-    
-    public function saveandnew()
-    {
-    	$this->save();
-    }
-    /**
-     * stores the item
-     */
-    function save()
-    {
-        // Check for request forgeries
-        JRequest::checkToken() or jexit( 'Invalid Token' );
-
-        $db = JFactory::getDBO();
-
-        $post = JRequest::getVar( 'jform', array(), 'post', 'array' );
-        $cid = JRequest::getVar( 'cid', array( 0 ), 'post', 'array' );
-        $post['id'] = ( int )$cid[0];
-
-        $model = $this->getModel( $this->_mainmodel );
-        if ( $model->store( $post ) )
-        {
-            $msg = JText::_( $this->_itemname . ' Saved' );
-        } else
-        {
-            $msg = $model->getError();
-        }
-
-        switch ( $this->getTask() )
-        {
-            case 'apply':
-                $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname . '&task=edit&cid[]=' . $model->getId();
-                break;
-            
-            case 'saveandnew':
-                	$link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname . '&task=edit';
-                	break;
-                
-            case 'save':
-            default:
-                $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname;
-                break;
-        }
-
-        $this->setRedirect( $link, $msg );
-    }
-
-    /**
-     * remove an item
-     */
-    function remove()
-    {
-
-        // Check for request forgeries
-        JRequest::checkToken() or jexit( 'Invalid Token' );
-
-        $db = JFactory::getDBO();
-        $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-        JArrayHelper::toInteger( $cid );
-        $msg = JText::_( $this->_itemname . ' deleted' );
-        if ( count( $cid ) < 1 )
-        {
-            JError::raiseError( 500, JText::_( 'Select a ' . $this->_itemname . ' to delete' ) );
-        }
-        $model = $this->getModel( $this->_mainmodel );
-        if ( !$model->delete( $cid ) )
-        {
-            $msg = $model->getError();
-        }
-        $link = 'index.php?option=com_virtualdomains&view=' . $this->_viewname;
-        $this->setRedirect( $link, $msg );
-    }
-
-} // class
- ?>
+}// class
+  
+?>

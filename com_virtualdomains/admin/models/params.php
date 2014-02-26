@@ -1,126 +1,89 @@
-  <?php
- defined('_JEXEC') or die('Restricted access');
-/**
-* @version		$Id:params.php  1 2010-11-14 17:12:07Z  $
-* @package		Virtualdomain
-* @subpackage 	Models
-* @copyright	Copyright (C) 2008 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-*/
- defined('_JEXEC') or die('Restricted access');
-/**
- * VirtualdomainModelParams 
- * @author 
- */
- 
- 
-class VirtualdomainsModelParams  extends VirtualdomainsModel { 
+ <?php
 
+
+jimport('joomla.application.component.modellist');
+jimport('joomla.application.component.helper');
+
+JTable::addIncludePath(JPATH_ROOT.'/administrator/components/com_virtualdomains/tables');
+
+class VirtualdomainsModelparams extends JModelList
+{
+	public function __construct($config = array())
+	{		
 	
-	
-	protected $_default_filter = 'a.name';   
-
-/**
- * Constructor
- */
-	
-	public function __construct()
-	{
-		parent::__construct();
-
-	}
-
-	/**
-	* Method to build the query
-	*
-	* @access private
-	* @return string query	
-	*/
-
-	protected function _buildQuery()
-	{
-		return parent::_buildQuery();
+		parent::__construct($config);		
 	}
 	
-	
-	/**
-	 * Method to store the Item
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	public function store($data)
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$row = $this->getTable();
-		/**
-		 * Example: get text from editor 
-		 * $Text  = JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW );
-		 */
-		 
-		// Bind the form fields to the table
-		if (!$row->bind($data)) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+			parent::populateState();
+			$app = JFactory::getApplication();
+			$id = JRequest::getVar('id', 0, '', 'int');
+			$this->setState('paramlist.id', $id);			
+			
+			// Load the filter state.
+			$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+			$this->setState('filter.search', $search);
 
-		// Make sure the table is valid
-		if (!$row->check()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-		
-		/**
-		 * Clean text for xhtml transitional compliance
-		 * $row->text		= str_replace( '<br>', '<br />', $Text );
-		 */
-	
-		// Store the table to the database
-		if (!$row->store()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-		$this->setId($row->{$row->getKeyName()});
-		return $row->{$row->getKeyName()};
-	}	
+			$app = JFactory::getApplication();
+			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+			$limit = $value;
+			$this->setState('list.limit', $limit);
+			
+			$value = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
+			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
+			$this->setState('list.start', $limitstart);
+			
+			$value = $app->getUserStateFromRequest($this->context.'.ordercol', 'filter_order', $ordering);
+			$this->setState('list.ordering', $value);			
+						$value = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', $direction);
+			$this->setState('list.direction', $value);
 
-	/**
-	* Method to build the Order Clause
-	*
-	* @access private
-	* @return string orderby	
-	*/
-	
-	protected function _buildContentOrderBy() 
-	{
-		$app = JFactory::getApplication('');
-		$context			= $this->option.'.'.strtolower($this->getName()).'.list.';
-		$filter_order = $app ->getUserStateFromRequest($context . 'filter_order', 'filter_order', $this->getDefaultFilter(), 'cmd');
-		$filter_order_Dir = $app ->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '', 'word');
-		$this->_query->order($filter_order . ' ' . $filter_order_Dir );
-	}
-	
-	/**
-	* Method to build the Where Clause 
-	*
-	* @access private
-	* @return string orderby	
-	*/
-	
-	protected function _buildContentWhere() 
-	{
-		
-		$app = JFactory::getApplication('');
-		$context			= $this->option.'.'.strtolower($this->getName()).'.list.';
-		
-		$filter_order = $app ->getUserStateFromRequest($context . 'filter_order', 'filter_order', $this->getDefaultFilter(), 'cmd');
-		$filter_order_Dir = $app ->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'desc', 'word');
-		$search = $app ->getUserStateFromRequest($context . 'search', 'search', '', 'string');
 					
-		if ($search) {
-			$this->_query->where('LOWER(a.name) LIKE ' . $this->_db->Quote('%' . $search . '%'));			
-		}
-		
 	}
+    		
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('paramlist.id');
+						return parent::getStoreId($id);
+	}	
 	
+	/**
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 *
+	 * @return	object	A JDatabaseQuery object to retrieve the data set.
+	 */
+	protected function getListQuery()
+	{
+		
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);		
+		$query->select('a.*');
+		$query->from('#__virtualdomain_params as a');
+	
+		 				// Filter by search in title
+		$search = $this->getState('filter.search');
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$query->where('(a.name LIKE ' . $search . ' )');
+			}
+		}
+				
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'name');
+		$orderDirn = $this->state->get('list.direction', 'ASC');
+		if(empty($orderCol)) $orderCol = 'name';
+		if(empty($orderDirn)) $orderDirn = 'DESC'; 		
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+							
+		return $query;
+	}	
 }
-?>

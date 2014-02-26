@@ -10,8 +10,7 @@
 
 defined('JPATH_BASE') or die;
 
-//jimport('joomla.form.formrule');
-JLoader::import('joomla.form.formrule',$GLOBALS['alt_libdir']);		
+jimport('joomla.form.formrule');		
 /**
  * Form Rule class for the Joomla Framework.
  *
@@ -37,8 +36,10 @@ class JFormRuleHost extends JFormRule
 	 * @return	mixed		JException on invalid rule, true if the value is valid, false otherwise.
 	 * @since	1.6
 	 */
-	public function test(&$field, &$values)
+	
+	public function test(SimpleXMLElement $field, $values, $group = null, JRegistry $input = null, JForm $form = null)	
 	{
+		
 		$return = false;
 		$name	= $field->attributes('name');
     		if(stristr($values,'http://')) return false;

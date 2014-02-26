@@ -17,6 +17,17 @@ defined('_JEXEC') or die( 'Restricted access' );
 	 	$lang = 'en-GB';
 	 }
 ?>
+<form action="<?php echo JRoute::_('index.php?option=com_virtualdomains&view=virtualdomains');?>"
+	method="post" name="adminForm" id="adminForm">
+
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
+	<div id="j-main-container">
+	<?php endif;?>
 <fieldset class="adminform">
 <legend>About</legend>
 <table class="admintable" width="100%">
@@ -69,3 +80,6 @@ defined('_JEXEC') or die( 'Restricted access' );
 		</tr>
 	</table>
 </fieldset>
+</div>
+</div>
+</form>

@@ -4,6 +4,7 @@ $lang = JFactory::getLanguage()->getTag();
 if($lang != 'de-DE') {
 	$lang = 'en-GB';
 }
+
 $help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Virtualdomains-Manager';
 JToolBarHelper::title( JText::_( 'Virtual Domains' ), 'generic.png' );
 JToolBarHelper::addNew();
@@ -107,7 +108,7 @@ if ( count( $this->items ) > 0 ):
 			</td>            
           <td style="text-align:center"><?php echo $published ?></td>
           <?php $preViewModalHandlerLink= "http://". $this->escape( $row->domain );?>
-          <td style="text-align:center"><a class="modal" title="<?php JText::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x: <?php echo $cParam->get('framewidth',400) ?>, y:<?php echo $cParam->get('frameheight',400) ?>}}"><?php echo JText::_('Preview')?></a></td>
+          <td style="text-align:center"><a class="modal" title="<?php JText::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x: <?php echo $cParam->get('framewidth',400) ?>, y:<?php echo $this->params->get('frameheight',400) ?>}}"><?php echo JText::_('Preview')?></a></td>
           <td><?php echo $row->id ?></td>
         </tr>
         <?php $k = 1 - $k;
