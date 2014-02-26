@@ -19,7 +19,7 @@ if (!$edit) {
 	JToolBarHelper::cancel('param.cancel');
 } else {
 	// for existing items the button is renamed `close`
-	JToolBarHelper::cancel( 'param.cancel', 'Close' );
+	JToolBarHelper::cancel( 'param.cancel');
 }
 ?>
 
