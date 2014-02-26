@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields>
+	
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"/>							
+															
+		<field
+			id="name"
+			name="name"
+			type="text"
+			required="true"
+			label="Name"
+			description="name_Desc"
+			class="inputbox"
+			labelclass="control-label"
+			size="40"/>						
+
+		<field
+			id="home"
+			name="home"
+			type="radio"			
+			label="PARAMS_HOME_ONLY"
+			description="PARAMS_HOME_ONLY_DESC"
+			labelclass="control-label"
+			class="inputbox">
+			<option
+				value="0">
+				JNO</option>
+			<option
+				value="1">
+				JYES</option>			
+		</field>												
+														
+		<field
+			id="action"
+			name="action"
+			type="list"
+			class="inputbox"
+			labelclass="control-label"
+			default="1"
+			size="1"
+			label="JField_Action_Label"
+			description="JField_Action_Desc">
+			<option
+				value="none">
+				JOption_Action_None</option>
+			<option
+				value="request">
+				JOption_Action_Request</option>
+			<option
+				value="globals">
+				JOption_Action_Globals</option>
+		</field>
+								
+								
+	</fields>	
+		
+</form>	

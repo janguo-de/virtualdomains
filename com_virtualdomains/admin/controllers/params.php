@@ -1,47 +1,101 @@
 <?php
 /**
-* @version		$Id$
-* @package		Virtualdomain
+* @version		$Id$ $Revision$ $Date$ $Author$ $
+* @package		Virtualdomains
 * @subpackage 	Controllers
-* @copyright	Copyright (C) 2010, . All rights reserved.
-* @author     	Michael Liebler {@link http://www.janguo.de}
-* @copyright	Copyright (C) 2008 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Virtualdomains is free software. This version may have been modified pursuant to the
-* GNU General Public License, and as distributed it includes or is derivative
-* of works licensed under the GNU General Public License or other free or open
-* source software licenses. See COPYRIGHT.php for copyright notices and
-* details.
+* @copyright	Copyright (C) 2014, Michael Liebler.
+* @license #http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
 */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+// 
 
-jimport('joomla.application.component.controller');
+defined('_JEXEC') or die;
 
+jimport('joomla.application.component.controlleradmin');
 /**
- * VirtualdomainParams Controller
+ * Param list controller class.
  *
- * @package    Virtualdomain
- * @subpackage Controllers
+ * @package     Joomla.Administrator
+ * @subpackage  Virtualdomains
  */
-class VirtualdomainsControllerParams extends VirtualdomainsController
+class VirtualdomainsControllerParams extends JControllerAdmin
 {
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param   array  $config	An optional associative array of configuration settings.
+	 *
+	 * @return  VirtualdomainsControllerparams
+	 * @see     JController
 	 */
-	protected $_viewname = 'params'; 
-	 
-	public function __construct($config = array ()) 
+	public function __construct($config = array())
 	{
-		VirtualdomainsHelper::addSubmenu($this->_viewname );
-		parent :: __construct($config);
-		JRequest :: setVar('view', $this->_viewname);
-
+		$this->view_list = 'params';
+		parent::__construct($config);
+		
 	}
-	
 
 	
-	
-}// class
-?>
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string	$name	The name of the model.
+	 * @param   string	$prefix	The prefix for the PHP class name.
+	 *
+	 * @return  JModel
+	 * @since   1.6
+	 */
+	public function getModel($name = 'Param', $prefix = 'VirtualdomainsModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
+
+	/**
+	 * Method to save the submitted ordering values for records via AJAX.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function saveOrderAjax()
+	{
+		// Get the input
+		$pks   = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
+
+		// Sanitize the input
+		JArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($order);
+
+		// Get the model
+		$model = $this->getModel();
+
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+
+		if ($return)
+		{
+			echo "1";
+		}
+
+		// Close the application
+		JFactory::getApplication()->close();
+	}
+	/**
+	 * Function that allows child controller access to model data
+	 * after the item has been deleted.
+	 *
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   integer       $ids    The array of ids for items being deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
+	}
+
+}

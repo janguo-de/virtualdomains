@@ -118,7 +118,7 @@
 			<field name="access" type="vdaccesslevel" id="access" class="inputbox"
 				labelclass="control-label" label="JFIELD_VDACCESS_LABEL"
 				description="JFIELD_VDACCESS_DESC" default="1" size="15"
-				selfexclude="true" multiple="true" filter="integer" />
+				selfexclude="true" multiple="true" />
 		</fieldset>
 	</fields>
 <fields name="params">
@@ -126,7 +126,7 @@
 			<field name="components" type="components" id="components" class="inputbox"
 				labelclass="control-label" label="JFIELD_COMPONENT_LABEL"
 				description="JFIELD_COMPONENT_DESC" default="" size="15"
-				selfexclude="true" multiple="true" filter="string" />
+				selfexclude="true" multiple="true"  />
 			/>
 		</fieldset>
 	</fields>	

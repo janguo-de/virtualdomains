@@ -1,15 +1,11 @@
 <?php
-defined('_JEXEC') or die( 'Restricted access' );
 /**
-* @author     	Michael Liebler {@link http://www.janguo.de}
-* @copyright	Copyright (C) 2008 - 2013 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Virtualdomains is free software. This version may have been modified pursuant to the
-* GNU General Public License, and as distributed it includes or is derivative
-* of works licensed under the GNU General Public License or other free or open
-* source software licenses. See COPYRIGHT.php for copyright notices and
-* details.
-*/
+ * @version		$Id: default.php 147 2013-10-06 08:58:34Z michel $
+ * @copyright	Copyright (C) 2014, Michael Liebler. All rights reserved.
+ * @license #http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 	JToolBarHelper::title(   JText::_( 'About' ), 'generic.png' );
 	 VirtualdomainsHelper::helpIcon('About');
 	 $lang = JFactory::getLanguage()->getTag();
@@ -17,6 +13,17 @@ defined('_JEXEC') or die( 'Restricted access' );
 	 	$lang = 'en-GB';
 	 }
 ?>
+<form action="<?php echo JRoute::_('index.php?option=com_virtualdomains&view=virtualdomains');?>"
+	method="post" name="adminForm" id="adminForm">
+
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
+	<div id="j-main-container">
+	<?php endif;?>
 <fieldset class="adminform">
 <legend>About</legend>
 <table class="admintable" width="100%">
@@ -69,3 +76,6 @@ defined('_JEXEC') or die( 'Restricted access' );
 		</tr>
 	</table>
 </fieldset>
+</div>
+</div>
+</form>

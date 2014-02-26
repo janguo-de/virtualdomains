@@ -6,7 +6,7 @@ jimport('joomla.application.component.helper');
 
 JTable::addIncludePath(JPATH_ROOT.'/administrator/components/com_virtualdomains/tables');
 
-class VirtualdomainsModelparams extends JModelList
+class VirtualdomainsModelvirtualdomains extends JModelList
 {
 	public function __construct($config = array())
 	{		
@@ -19,7 +19,7 @@ class VirtualdomainsModelparams extends JModelList
 			parent::populateState();
 			$app = JFactory::getApplication();
 			$id = JRequest::getVar('id', 0, '', 'int');
-			$this->setState('paramlist.id', $id);			
+			$this->setState('virtualdomainlist.id', $id);			
 			
 			// Load the filter state.
 			$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -39,14 +39,17 @@ class VirtualdomainsModelparams extends JModelList
 						$value = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', $direction);
 			$this->setState('list.direction', $value);
 
+					$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
+			$this->setState('filter.state', $state);
 					
 	}
     		
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('paramlist.id');
-						return parent::getStoreId($id);
+		$id	.= ':'.$this->getState('virtualdomainlist.id');
+						$id .= ':' . $this->getState('filter.state');
+				return parent::getStoreId($id);
 	}	
 	
 	/**
@@ -60,7 +63,7 @@ class VirtualdomainsModelparams extends JModelList
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);		
 		$query->select('a.*');
-		$query->from('#__virtualdomain_params as a');
+		$query->from('#__virtualdomain as a');
 	
 		 				// Filter by search in title
 		$search = $this->getState('filter.search');
@@ -73,14 +76,25 @@ class VirtualdomainsModelparams extends JModelList
 			else
 			{
 				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(a.name LIKE ' . $search . ' )');
+				$query->where('(a.domain LIKE ' . $search . '  OR a.template LIKE ' . $search . ' )');
 			}
 		}
 				
+		$published = $this->getState('filter.state');
+		
+		if (is_numeric($published))
+		{
+			$query->where('a.published = ' . (int) $published);
+		}
+		elseif ($published === '')
+		{
+			$query->where('(a.published IN (0, 1))');
+		}
+		
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'name');
+		$orderCol = $this->state->get('list.ordering', 'ordering');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
-		if(empty($orderCol)) $orderCol = 'name';
+		if(empty($orderCol)) $orderCol = 'ordering';
 		if(empty($orderDirn)) $orderDirn = 'DESC'; 		
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 							

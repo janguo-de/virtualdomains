@@ -1,6 +1,6 @@
  <?php
 /**
-* @version		$Id:virtualdomain.php  1 2014-02-26 11:56:55Z mliebler $
+* @version		$Id:param.php  1 2014-02-26 11:56:55Z mliebler $
 * @package		Virtualdomains
 * @subpackage 	Tables
 * @copyright	Copyright (C) 2014, Michael Liebler. All rights reserved.
@@ -11,12 +11,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
-* Jimtawl TableVirtualdomain class
+* Jimtawl TableParam class
 *
 * @package		Virtualdomains
 * @subpackage	Tables
 */
-class TableVirtualdomain extends JTable
+class TableParam extends JTable
 {
 
 	/**
@@ -27,7 +27,7 @@ class TableVirtualdomain extends JTable
 	 */
 	public function __construct(& $db) 
 	{
-		parent::__construct('#__virtualdomain', 'id', $db);
+		parent::__construct('#__virtualdomain_params', 'id', $db);
 	}
 
 	/**
@@ -40,13 +40,8 @@ class TableVirtualdomain extends JTable
 	* @since 1.5
 	*/
 	public function bind($array, $ignore = '')
-	{
-		if ( isset( $array['params'] ) && is_array( $array['params'] ) )
-        {
-            $registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
-        }		
+	{ 
+		
 		return parent::bind($array, $ignore);		
 	}
 
@@ -59,26 +54,14 @@ class TableVirtualdomain extends JTable
 	 */
 	public function check()
 	{
-		if ($this->id === 0) {
-			//get next ordering
 
-			$this->ordering = $this->getNextOrder();
-		}
-		
-		/** No www */		
-		if (strpos($this->domain,'www.') ===0) {
-			$this->domain = substr($this->domain,4);			
-		}
-		
-	    /** check for valid name */
-
-		if (trim($this->domain) == '') {
-			$this->setError(JText::_('Your Domain must have a name.'));
+		if (trim($this->name) == '') {
+			$this->setError(JText::_('Your Param must contain a name.')); 
 			return false;
 		}
+	
 
 		return true;
 	}
-		
 }
  

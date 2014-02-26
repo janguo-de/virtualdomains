@@ -19,32 +19,88 @@ defined('_JEXEC') or die;
 class VirtualdomainsHelper
 {
 	
-	/*
-	 * Submenu for Joomla 1.6
-	 */
- public static function addSubmenu($vName = 'virtualdomain')
 
+    /*
+     * Submenu for Joomla 3.x
+    */
+    public static function addSubmenu($vName = 'virtualdomains')
     {
-
-           JSubMenuHelper::addEntry(
-                JText::_('virtualdomains'),
-                'index.php?option=com_virtualdomains&view=virtualdomain',
-                $vName == 'virtualdomain'
-            );
-
-          JSubMenuHelper::addEntry(
-                JText::_('Params'),
-                'index.php?option=com_virtualdomains&view=params',
-                $vName == 'params'
-            );
-
-          JSubMenuHelper::addEntry(
-                JText::_('about'),
-                'index.php?option=com_virtualdomains&view=about',
-                $vName == 'about'
-            );          
+    	if(version_compare(JVERSION,'3','<')){
+    		JSubMenuHelper::addEntry(
+    		JText::_('Virtualdomains'),
+    		'index.php?option=com_virtualdomains&view=virtualdomains',
+    		($vName == 'virtualdomains')
+    		);
+    	} else {
+    		JHtmlSidebar::addEntry(
+    		JText::_('Virtualdomains'),
+    		'index.php?option=com_virtualdomains&view=virtualdomains',
+    		($vName == 'virtualdomains')
+    		);
+    	}
+    	if(version_compare(JVERSION,'3','<')){
+    		JSubMenuHelper::addEntry(
+    		JText::_('Params'),
+    		'index.php?option=com_virtualdomains&view=params',
+    		($vName == 'params')
+    		);
+    	} else {
+    		JHtmlSidebar::addEntry(
+    		JText::_('Params'),
+    		'index.php?option=com_virtualdomains&view=params',
+    		($vName == 'params')
+    		);
+    	}
+    	if(version_compare(JVERSION,'3','<')){
+    		JSubMenuHelper::addEntry(
+    		JText::_('About'),
+    		'index.php?option=com_virtualdomains&view=about',
+    		($vName == 'about')
+    		);
+    	} else {
+    		JHtmlSidebar::addEntry(
+    		JText::_('About'),
+    		'index.php?option=com_virtualdomains&view=about',
+    		($vName == 'about')
+    		);
+    	}
+    
     }
-	
+    
+    /**
+     * Gets a list of the actions that can be performed.
+     *
+     * @param   integer  The category ID.
+     *
+     * @return  JObject
+     * @since   1.6
+     */
+    public static function getActions($categoryId = 0)
+    {
+    	$user	= JFactory::getUser();
+    	$result	= new JObject;
+    
+    	if (empty($categoryId))
+    	{
+    		$assetName = 'com_virtualdomains';
+    		$level = 'component';
+    	}
+    	else
+    	{
+    		$assetName = 'com_virtualdomains.category.'.(int) $categoryId;
+    		$level = 'category';
+    	}
+    
+    	$actions = JAccess::getActions('com_virtualdomains', $level);
+    
+    	foreach ($actions as $action)
+    	{
+    		$result->set($action->name,	$user->authorise($action->name, $assetName));
+    	}
+    
+    	return $result;
+    }
+    	
 	/**
 	 * 
 	 * Show the Helpicon

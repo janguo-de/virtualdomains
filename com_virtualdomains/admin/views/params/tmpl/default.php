@@ -1,132 +1,187 @@
 <?php
-// no direct access
 /**
-* @author     	Michael Liebler {@link http://www.janguo.de}
-* @copyright	Copyright (C) 2008 - 2013 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Virtualdomains is free software. This version may have been modified pursuant to the
-* GNU General Public License, and as distributed it includes or is derivative
-* of works licensed under the GNU General Public License or other free or open
-* source software licenses. See COPYRIGHT.php for copyright notices and
-* details.
-*/
-
+ * @version		$Id: default.php 147 2013-10-06 08:58:34Z michel $
+ * @copyright	Copyright (C) 2014, Michael Liebler. All rights reserved.
+ * @license #http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
-  JToolBarHelper::title( JText::_( 'Params' ), 'generic.png' );
-  JToolBarHelper::deleteList();
-  JToolBarHelper::editList();
-  JToolBarHelper::addNew();
-  VirtualdomainsHelper::helpIcon('Parameters-Manager');
+JHtml::_('bootstrap.tooltip');
+JHtml::_('behavior.multiselect');
+JHtml::_('dropdown.init');
+JHtml::_('formbehavior.chosen', 'select');
+
+$user		= JFactory::getUser();
+$userId		= $user->get('id');
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
+$archived	= $this->state->get('filter.published') == 2 ? true : false;
+$trashed	= $this->state->get('filter.published') == -2 ? true : false;
+$params		= (isset($this->state->params)) ? $this->state->params : new JObject;
+$saveOrder	= $listOrder == 'ordering';
+if ($saveOrder)
+{
+	$saveOrderingUrl = 'index.php?option=com_virtualdomains&task=params.saveOrderAjax&tmpl=component';
+	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+}
+$sortFields = $this->getSortFields();
 ?>
 
-<form action="index.php?option=com_virtualdomains&amp;view=params" method="post" id="adminForm" name="adminForm">
-		<div id="filter-bar" class="btn-toolbar">
-		<table class="table">
-			<tr>
-				<td align="left" width="100%">
-					<div class="filter-search btn-group pull-left">
-						<label for="filter_search" class="element-invisible"><?php echo JText::_( 'Filter' ); ?>:</label>
-						<input type="text" name="search" id="search"
-							value="<?php echo $this->lists['search']; ?>" class="text_area"
-							onchange="document.adminForm.submit();" />
-						</div>	
-						<div class="btn-group pull-left">	
-						<button class="btn" onclick="this.form.submit();">
-							<?php echo JText::_( 'Go' ); ?>
-							<i class="icon-search"></i>
-						</button>
-						<button class="btn"
-							onclick="document.getElementById('search').value='';this.form.submit();">
-							<?php echo JText::_( 'Reset' ); ?>
-							<i class="icon-remove"></i>
-						</button>
-					</div>
-				</td>
+<script type="text/javascript">
+	Joomla.orderTable = function()
+	{
+		table = document.getElementById("sortTable");
+		direction = document.getElementById("directionTable");
+		order = table.options[table.selectedIndex].value;
+		if (order != '<?php echo $listOrder; ?>')
+		{
+			dirn = 'asc';
+		}
+		else
+		{
+			dirn = direction.options[direction.selectedIndex].value;
+		}
+		Joomla.tableOrdering(order, dirn, '');
+	}
+</script>
 
-			</tr>
-		</table>
+<form action="index.php?option=com_virtualdomains&view=param"
+	method="post" name="adminForm" id="adminForm">
+
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
 	</div>
+	<div id="j-main-container" class="span10">
+		<?php else : ?>
+		<div id="j-main-container">
+			<?php endif;?>
+			<div id="filter-bar" class="btn-toolbar">
+				<div class="filter-search btn-group pull-left">
+					<input type="text" name="filter_search" id="filter_search"
+						value="<?php echo $this->escape($this->state->get('filter.search')); ?>" />
+				</div>
+				<div class="btn-group pull-left">
+					<button type="submit" class="btn hasTooltip"
+						title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
+						<i class="icon-search"></i>
+					</button>
+					<button type="button" class="btn hasTooltip"
+						title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"
+						onclick="document.id('filter_search').value='';this.form.submit();">
+						<i class="icon-remove"></i>
+					</button>
+				</div>
+				<div class="btn-group pull-right hidden-phone">
+					<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?>
+					</label>
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
 	
-<div id="editcell">
-	<table class="adminlist table table-striped">
-		<thead>
-			<tr>
-				<th width="5">
-					<?php echo JText::_( 'NUM' ); ?>
-				</th>
-				<th width="20">				
-					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
-				</th>			
+				<div class="btn-group pull-right">
+					<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY');?>
+					</label> <select name="sortTable" id="sortTable"
+						class="input-medium" onchange="Joomla.orderTable()">
+						<option value="">
+							<?php echo JText::_('JGLOBAL_SORT_BY');?>
+						</option>
+						<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
+					</select>
+				</div>
+			</div>
+			<div class="clearfix"></div>
 
-				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'Name', 'a.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-				</th>								
-				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'Id', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-				</th>				
-			</tr>
-		</thead>
-		<tfoot>
-		<tr>
-			<td colspan="12">
-				<?php echo $this->pagination->getListFooter(); ?>
-			</td>
-		</tr>
-	</tfoot>
-	<tbody>
-<?php
-  $k = 0;
-  if (count( $this->items ) > 0 ):
-  
-  for ($i=0, $n=count( $this->items ); $i < $n; $i++):
-  
-  	$row = &$this->items[$i];
- 	$onclick = "";
-  	
-    if (JRequest::getVar('function', null)) {
-    	$onclick= "onclick=\"window.parent.jSelectParams_id('".$row->id."', '".$this->escape($row->name)."', '','id')\" ";
-    }  	
-    
- 	$link = JRoute::_( 'index.php?option=com_virtualdomains&view=params&task=edit&cid[]='. $row->id );
- 	$row->id = $row->id; 	
- 	$checked = JHTML::_('grid.id', $i, $row->id); 
- 	
-  ?>
-	<tr class="<?php echo "row$k"; ?>">
-		
-		<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>.</td>
-        
-        <td><?php echo $checked  ?></td>	
 
-        <td>
+			<div id="editcell">
+				<table class="adminlist table table-striped" id="articleList">
+					<thead>
+						<tr>
+							<th width="20"><input type="checkbox" name="checkall-toggle"
+								value="" title="(<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>"
+								onclick="Joomla.checkAll(this)" />
+							</th>
+							<th class="title"><?php echo JHTML::_('grid.sort', 'Name', 'a.name', $listDirn, $listOrder ); ?>
+							</th>
+							<th class="title"><?php echo JHTML::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
+							</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<td colspan="4"><?php echo $this->pagination->getListFooter(); ?>
+							</td>
+						</tr>
+					</tfoot>
+					<tbody>
+					<?php
+						if (count($this->items)) :
+						foreach ($this->items as $i => $item) :
+												
+							$canCreate  = $user->authorise('core.create');
+							$canEdit    = $user->authorise('core.edit');
+							$canChange  = $user->authorise('core.edit.state');
 							
-							<a <?php echo $onclick; ?>href="<?php echo $link; ?>"><?php echo $row->name; ?></a>
- 									
-		</td>
-        <td><?php echo $row->id ?></td>		
-	</tr>
-<?php
-  $k = 1 - $k;
-  endfor;
-  else:
-  ?>
-	<tr>
-		<td colspan="12">
-			<?php echo JText::_( 'There_are_no_items_present' ); ?>
-		</td>
-	</tr>
-	<?php
-  endif;
-  ?>
-</tbody>
-</table>
-</div>
-<input type="hidden" name="option" value="com_virtualdomains" />
-<input type="hidden" name="task" value="params" />
-<input type="hidden" name="view" value="params" />
-<input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-<input type="hidden" name="filter_order_Dir" value="" />
-<?php echo JHTML::_( 'form.token' ); ?>
-</form>  	
+							$disableClassName = '';
+							$disabledLabel	  = '';
+							if (!$saveOrder) {
+								$disabledLabel    = JText::_('JORDERINGDISABLED');
+								$disableClassName = 'inactive tip-top';
+							}
+
+				
+    						$link = JRoute::_( 'index.php?option=com_virtualdomains&view=param&task=param.edit&id='. $item->id );
+    						$checked = JHTML::_('grid.id', $i, $item->id);
+
+    				?>
+						<tr class="row<?php echo $i % 2; ?>"">
+
+							<td><?php echo $checked;  ?></td>
+
+							<td class="nowrap has-context">
+								<div class="pull-left">
+									<?php if ($canEdit) : ?>
+									<a href="<?php  echo $link; ?>"> <?php  echo $this->escape($item->name); ?>
+									</a>
+									<?php  else : ?>
+									<?php  echo $this->escape($item->name); ?>
+									<?php  endif; ?>
+
+								</div>
+								<div class="pull-left">
+									<?php
+									// Create dropdown items
+									JHtml::_('dropdown.edit', $item->id, 'param.');
+
+									// render dropdown list
+									echo JHtml::_('dropdown.render');
+									?>
+								</div>
+							</td>
+
+							<td><?php echo $item->id; ?></td>
+						</tr>
+						<?php
+
+						endforeach;
+						else:
+						?>
+						<tr>
+							<td colspan="12"><?php echo JText::_( 'There are no items present' ); ?>
+							</td>
+						</tr>
+						<?php
+						endif;
+						?>
+					</tbody>
+				</table>
+			</div>
+			<input type="hidden" name="option" value="com_virtualdomains" /> <input
+				type="hidden" name="task" value="param" /> <input type="hidden"
+				name="view" value="params" /> <input type="hidden" name="boxchecked"
+				value="0" /> <input type="hidden" name="filter_order"
+				value="<?php echo $listOrder; ?>" /> <input type="hidden"
+				name="filter_order_Dir" value="" />
+			<?php echo JHTML::_( 'form.token' ); ?>
+
+</form>
