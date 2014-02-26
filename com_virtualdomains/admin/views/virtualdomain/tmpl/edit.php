@@ -15,6 +15,8 @@ $text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
 JToolBarHelper::title(   JText::_( 'Virtualdomain' ).': <small><small>[ ' . $text.' ]</small></small>' );
 JToolBarHelper::apply('virtualdomain.apply');
 JToolBarHelper::save('virtualdomain.save');
+JToolbarHelper::save2new('virtualdomain.save2new');
+JToolbarHelper::save2copy('virtualdomain.save2copy');
 if (!$edit) {
 	JToolBarHelper::cancel('virtualdomain.cancel');
 } else {

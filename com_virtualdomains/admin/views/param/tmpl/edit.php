@@ -15,6 +15,8 @@ $text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
 JToolBarHelper::title(   JText::_( 'Params' ).': <small><small>[ ' . $text.' ]</small></small>' );
 JToolBarHelper::apply('param.apply');
 JToolBarHelper::save('param.save');
+JToolbarHelper::save2new('param.save2new');
+JToolbarHelper::save2copy('param.save2copy');
 if (!$edit) {
 	JToolBarHelper::cancel('param.cancel');
 } else {
