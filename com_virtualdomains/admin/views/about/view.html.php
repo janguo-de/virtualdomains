@@ -26,10 +26,12 @@ class virtualdomainsViewAbout extends JViewLegacy
 {
 	function display($tpl = null)
 	{
+		VirtualdomainsHelper::addSubmenu('about');
+		
 		if(!version_compare(JVERSION,'3','<')){
-			VirtualdomainsHelper::addSubmenu('about');
 			$this->sidebar = JHtmlSidebar::render();
 		}
+		
 		parent::display($tpl);
 	}
 }

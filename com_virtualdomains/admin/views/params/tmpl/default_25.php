@@ -81,8 +81,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
     $link = JRoute::_( 'index.php?option=com_virtualdomains&view=param&task=param.edit&id='. $row->id );
     $row->id = $row->id;
     $checked = JHTML::_('grid.id', $i, $row->id);
-
-    $published = JHTML::_('jgrid.published', $row->published, $i, 'params.');
      
 
     ?>

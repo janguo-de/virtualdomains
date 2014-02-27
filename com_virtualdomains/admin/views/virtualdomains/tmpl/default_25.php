@@ -68,9 +68,9 @@ if ( count( $this->items ) > 0 ):
     for ( $i = 0, $n = count( $this->items ); $i < $n; $i++ ):
 
         $row = &$this->items[$i];
-     
-        $link = JRoute::_( 'index.php?option=com_virtualdomains&view=virtualdomain&task=edit&cid[]=' . $row->id );
-        $row->id = $row->id;
+
+        $link = JRoute::_( 'index.php?option=com_virtualdomains&view=virtualdomain&task=virtualdomain.edit&id='. $row->id );
+
         $checked = JHTML::_( 'grid.checkedout', $row, $i );
 
         $published = JHTML::_( 'grid.published', $row, $i ); ?>

@@ -86,7 +86,7 @@ class VirtualdomainsViewparams  extends JViewLegacy {
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'params.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('', 'params.delete');
 		}
 				
 		
@@ -94,8 +94,7 @@ class VirtualdomainsViewparams  extends JViewLegacy {
 		if(!version_compare(JVERSION,'3','<')){		
 			JHtmlSidebar::setAction('index.php?option=com_virtualdomains&view=params');
 		}
-		VirtualdomainsHelper::helpIcon('Parameters-Manager');
-					
+							
 	}	
 	
 

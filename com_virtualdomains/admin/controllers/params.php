@@ -30,6 +30,7 @@ class VirtualdomainsControllerParams extends JControllerAdmin
 	 */
 	public function __construct($config = array())
 	{
+		$this->input = JFactory::getApplication()->input;		
 		$this->view_list = 'params';
 		parent::__construct($config);
 		

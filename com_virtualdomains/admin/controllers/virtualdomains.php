@@ -30,7 +30,7 @@ class VirtualdomainsControllerVirtualdomains extends JControllerAdmin
 	 */
 	public function __construct($config = array())
 	{
-
+		$this->input = JFactory::getApplication()->input;
 		$this->view_list = 'virtualdomains';
 		parent::__construct($config);
 		$this->registerTask('unsetDefault',	'setDefault');

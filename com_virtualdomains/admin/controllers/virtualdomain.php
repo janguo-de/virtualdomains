@@ -23,6 +23,7 @@ class VirtualdomainsControllerVirtualdomain extends JControllerForm
 {
 	public function __construct($config = array())
 	{		
+		$this->input = JFactory::getApplication()->input;
 		$this->view_item = 'virtualdomain';
 		$this->view_list = 'virtualdomains';
 		parent::__construct($config);
@@ -33,7 +34,11 @@ class VirtualdomainsControllerVirtualdomain extends JControllerForm
 		
 		$model = $this->getModel();
 		$data = $model->beforeSave($data);
-		$this->input->post->set('jform', $data);				
+		$this->input->post->set('jform', $data);	
+		// we have to add data to the request
+		if (class_exists('JRequest')) {
+			JRequest::setVar('jform', $data, 'post');
+		}					
 		return parent::save($key, $urlVar);
  
 	}

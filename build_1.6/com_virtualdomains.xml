@@ -40,10 +40,10 @@
 			<filename>config.xml</filename>
 			<filename>virtualdomains.php</filename>
 			<filename>controller.php</filename>
+			<filename>access.xml</filename>
 			<filename>index.html</filename>
 			<folder>assets</folder>
-			<folder>sql</folder>
-			<folder>joomla</folder>						
+			<folder>sql</folder>			
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>language</folder>

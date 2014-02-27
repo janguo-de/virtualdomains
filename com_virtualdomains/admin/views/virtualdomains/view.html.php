@@ -84,7 +84,7 @@ class VirtualdomainsViewvirtualdomains  extends JViewLegacy {
 		JToolBarHelper::title( JText::_( 'Virtual Domains' ), 'generic.png' );
 
 		JToolBarHelper::help('#', false, $help_url);
-		VirtualdomainsHelper::helpIcon('Virtualdomains-Manager');
+
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('virtualdomain.add');
 		}
