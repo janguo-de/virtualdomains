@@ -2,7 +2,7 @@
 <extension type="package" method="upgrade" version="1.6">
 	<name>Virtual Domains</name>
 	<packagename>virtualdomains</packagename>
-	<version>1.2.3-mccoy</version>
+	<version>1.3.0-mccoy</version>
 	<url>http://www.janguo.de</url>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<packager>Michael Liebler</packager>
