@@ -32,7 +32,7 @@
 	<administration>
 		<menu link="index.php?option=com_virtualdomains">Virtualdomains</menu>
 		<submenu>
-			<menu link="option=com_virtualdomains&amp;view=virtualdomain">Virtualdomains</menu>
+			<menu link="option=com_virtualdomains&amp;view=virtualdomains">Virtualdomains</menu>
 		  	<menu link="option=com_virtualdomains&amp;view=params">Params</menu>
 		  	<menu link="option=com_virtualdomains&amp;view=about">About</menu>
 		</submenu>

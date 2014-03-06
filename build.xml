@@ -11,6 +11,9 @@
 			<fileset dir=".">
     			<include name="*.zip" />
   			</fileset>
+			<fileset dir="./mod_vdlanguage">
+				<include name="*.zip" />
+			</fileset>
   		</delete>
 	</target>
 

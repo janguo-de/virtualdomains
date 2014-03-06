@@ -53,7 +53,10 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-
+		jimport('joomla.filesystem.folder');
+		if(!JFolder::exists(JPATH_ADMINISTRATOR.'/components/com_virtualdomains')) {
+			return false;
+		}
 		jimport('joomla.user.authentication');
 		if(version_compare(JVERSION, '3.2', 'lt')) {
 			jimport('joomla.application.router');
@@ -292,7 +295,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$user = JFactory::getUser();
 		
 		// get VD domains from db
-		$db->setQuery("SELECT * FROM #__virtualdomain");		
+		$db->setQuery("SELECT * FROM #__virtualdomain WHERE published > 0");		
 		$allDomains = $db->loadObjectList();
 
 		if ($error = $db->getErrorMsg())
@@ -354,7 +357,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$db = JFactory::getDbo();
 		$db->setQuery(
 				"SELECT * FROM #__virtualdomain
-				WHERE `domain` = ".$db->Quote($this->_curhost )
+				WHERE `domain` = ".$db->Quote($this->_curhost ). " AND published > 0"
 		);
 	
 		$curDomain = $db->loadObject();

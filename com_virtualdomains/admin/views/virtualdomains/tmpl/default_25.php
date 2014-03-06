@@ -73,7 +73,7 @@ if ( count( $this->items ) > 0 ):
 
         $checked = JHTML::_( 'grid.checkedout', $row, $i );
 
-        $published = JHTML::_( 'grid.published', $row, $i ); ?>
+        $published = JHTML::_( 'grid.published', $row, $i, 'tick.png', 'publish_x.png','virtualdomains.' ); ?>
         <tr class="<?php echo "row$k"; ?>">
           <td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?>.</td>
           <td><?php echo $checked ?></td>
