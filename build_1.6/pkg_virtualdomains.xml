@@ -2,7 +2,7 @@
 <extension type="package" method="upgrade" version="1.6">
 	<name>Virtual Domains</name>
 	<packagename>virtualdomains</packagename>
-	<version>1.3.0-mccoy</version>
+	<version>1.3.1</version>
 	<url>http://www.janguo.de</url>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<packager>Michael Liebler</packager>
@@ -43,7 +43,10 @@
 	<div>For Multilanguage Sites it is required to replace Joomlas Language switcher module with &quot;VD Language switcher&quot;.</div>
 	<br />
 		]]></description>
-	<update>http://janguo.de/vd/update/vd-update.xml</update>
+	
+	<updateservers>
+		<server type="extension" priority="1" name="Virtualdomains Updates">http://janguo.de/lang-en/updates?id=2</server>
+	</updateservers>
 	<files folder="packages">
 		<file type="plugin" id="virtualdomains" group="system">plg_virtualdomains.zip</file>
 		<file type="component" id="com_virtualdomains" >com_virtualdomains.zip</file>
