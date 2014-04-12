@@ -101,7 +101,6 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
  */
 	public function preDelete($cid) {
 		$db = JFactory::getDbo();
-		var_dump($cid);		
 		if(is_array($cid)) {
 			foreach($cid as $id) {
 				$row = $this->getTable();
@@ -125,7 +124,21 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 		return true;	
 	}
 	
+	/**
+	 * Override parent method validate
+	 * @param JForm $form
+	 * @param array $data
+	 * @param string $group
+	 * @return array
+	 */
+	public function validate($form, $data, $group = null) {
 	
+	
+		$origparams = isset($data['params']) ? $data['params'] : array();
+		$data = parent::validate($form, $data, $group);
+		$data['params'] = isset($data['params']) ? array_merge($data['params'], $origparams) : $origparams;
+		return $data;
+	}	
 	
 	/**
 	 * Method to set a template style as home.
