@@ -108,6 +108,8 @@ class plgSystemVirtualdomains extends JPlugin
 		//let joomla do its work, if the domain is not managed by VD
 		if ($currentDomain === null) return;
 
+		// set the vd id to users session
+		$user->set('virtualdomain_id', $currentDomain->id);
 		// add viewlevel(s) for the current domain to the user object
 		$vdUser = new vdUser($user->get('id'));
 		// there may be viewlevels inherited from other domains 
