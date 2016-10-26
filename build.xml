@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="package_vd_build" default="build-all">
-	<property name="revisionx" value="x" override="true"/>
+	<property name="revisionx" value="206" override="true"/>
 	 <property name="package" value="pkg_virtualdomains" override="true"/>	
 	 <php expression="trim(file_get_contents('version'))" returnProperty="vd.version" />  
-	 <exec returnProperty="revision"	outputProperty="revisionx" command="svn info | grep Revision | awk '{print $2}'" dir="." />	 
+	 	 
 	<target name="clean">
 		<echo msg="Cleaning directories" />
 		<delete dir="packages" includeemptydirs="true" />
@@ -35,7 +35,7 @@
 
 		<copy file="build_1.6/pkg_virtualdomains.xml" tofile="pkg_virtualdomains.xml" overwrite="true"/>
 		
-		<zip destfile="${package}-${vd.version}-j2.5-r${revisionx}.zip">
+		<zip destfile="${package}-${vd.version}-j3-r${revisionx}.zip">
 			<fileset dir=".">
 				<include name="packages/**" />
 				<include name="pkg_virtualdomains.xml" />
