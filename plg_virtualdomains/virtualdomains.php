@@ -191,7 +191,7 @@ class plgSystemVirtualdomains extends JPlugin
 		if (!($option = $input->get('option'))) {
 
 			//try to get current component from mene
-			$menu = JMenu::getInstance('site',array());
+			$menu = JFactory::getApplication()->getMenu('site',array());
 			$active = $menu->getActive();
 			if ($active && $active->type == 'component') {
 				$option = $active->component;
@@ -216,12 +216,13 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	private function checkHome(&$curDomain) {
 
-		$menu = JMenu::getInstance('site',array());
+	    $app = JFactory::getApplication();
+
+	    $menu = $app->getMenu('site',array());
 		$menuItem = $menu->getItem(( int ) $curDomain->menuid );
 
-		$app = JFactory::getApplication();
 		$router = $app->getRouter();
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
 
 		$origHome = $this->getDefaultmenu();
@@ -384,9 +385,7 @@ class plgSystemVirtualdomains extends JPlugin
 		//Set the global override styles settings, if not configured
 		if($curDomain->params->get('override') === '') $curDomain->params->set('override',$vd->params->get('override'));
 
-		$router = JSite::getRouter();
-
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 
 		// Standard Domain uses Joomla settings
 		if($curDomain->home == 1) {
@@ -423,7 +422,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		if(!empty($_defaultmenu)) return $_defaultmenu;
 
-		$menu = JMenu::getInstance('site',array());
+		$menu = JFactory::getApplication()->getMenu('site',array());
 		$_defaultmenu = $menu->getDefault();
 
 		//fallback if default home item was not found
@@ -483,7 +482,7 @@ class plgSystemVirtualdomains extends JPlugin
 		}
 
 		// get domains home item
-		$menu = JMenu::getInstance('site', array());
+		$menu = JFactory::getApplication()->getMenu('site', array());
 		$menuItem = $menu->getItem( ( int ) $curDomain->menuid );
 		if ( !$menuItem )
 		{
@@ -523,7 +522,7 @@ class plgSystemVirtualdomains extends JPlugin
 			parse_str( $parse['query'], $request );
 
 			$this->_request = array_merge( $request, $this->_request );
-			$parse['query'] = JURI::buildQuery( $this->_request );
+			$parse['query'] = JUri::buildQuery( $this->_request );
 
 			//rewrite some server environment vars to fool joomla
 			$_SERVER['QUERY_STRING'] = $parse['query'];
